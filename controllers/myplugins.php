@@ -26,6 +26,10 @@ class MypluginsController extends PluginController {
 
     public function edit_action($plugin_id) {
         $this->marketplugin = new MarketPlugin($plugin_id);
+        if (Request::isXhr()) {
+            $this->response->add_header('X-Title', _("Plugin bearbeiten"));
+            $this->set_layout(null);
+        }
     }
 
     public function save_action() {
@@ -38,6 +42,15 @@ class MypluginsController extends PluginController {
             $this->marketplugin['user_id'] = $GLOBALS['user']->id;
         }
         $this->marketplugin->store();
+        $release_data = Request::getArray("release");
+        if ($release_data['type']) {
+            $release = new MarketRelease();
+            $release->setData($release_data);
+            $release['plugin_id'] = $this->marketplugin->getId();
+            $release['user_id'] = $GLOBALS['user']->id;
+            $release->installFile();
+            $release->store();
+        }
         PageLayout::postMessage(MessageBox::success(_("Plugin wurde gespeichert.")));
         $this->redirect("pluginmarket/presenting/details/".$this->marketplugin->getId());
     }

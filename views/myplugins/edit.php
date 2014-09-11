@@ -1,4 +1,4 @@
-<form action="<?= PluginEngine::getLink($plugin, array(), "myplugins/save") ?>" method="post" class="studip_form">
+<form action="<?= PluginEngine::getLink($plugin, array(), "myplugins/save") ?>" method="post" class="studip_form" enctype="multipart/form-data">
     <input type="hidden" name="id" value="<?= $marketplugin->getId() ?>">
     <fieldset>
         <legend>
@@ -44,7 +44,7 @@
 
         <label>
             <?= _("Releasebezeichnung") ?>
-            <input type="text" name="release[name]" placeholder="<?= _("z.B. Rocky Raccoon 3.0.1") ?>">
+            <input type="text" name="release[version]" placeholder="<?= _("z.B. Rocky Raccoon 3.0.1") ?>">
         </label>
 
         <div>
@@ -56,6 +56,10 @@
                 <input type="radio" name="release[type]" value="git">
                 <?= _("Als Git-Branch") ?>
             </label>
+            <label>
+                <input type="radio" name="release[type]" value="">
+                <?= _("Kein Release hinzufügen") ?>
+            </label>
         </div>
 
         <fieldset>
@@ -65,7 +69,7 @@
             <label>
                 <a style="cursor: pointer">
                     <?= Assets::img("icons/20/blue/upload") ?>
-                    <input type="file" name="release[file]">
+                    <input type="file" name="release_file">
                 </a>
             </label>
         </fieldset>
@@ -77,10 +81,10 @@
 
             <label>
                 <?= _("Download-URL des Branches oder des Tags") ?>
-                <input type="release[git_download]">
+                <input type="text" name="release[repository_download_url]">
             </label>
             <p class="info">
-                <?= _("Github und gitlab bieten zu jedem Branch und Tag den Download als ZIP-Datei an. Klicken Sie dort mit rechter Maustaste auf den Downloadbutton und kopieren Sie die URL, um sie hier einzufügen. Nach dem Speichern hier können Sie auf github bzw. gitlab Webhooks einrichten, damit der Marktplatz sich automatisch die neuste Version des Plugins vom Repository holt.") ?>
+                <?= _("Github.com und gitlab bieten zu jedem Branch und Tag den Download als ZIP-Datei an. Klicken Sie dort mit rechter Maustaste auf den Downloadbutton und kopieren Sie die URL, um sie hier einzufügen. Nach dem Speichern hier können Sie auf github bzw. gitlab Webhooks einrichten, damit der Marktplatz sich automatisch die neuste Version des Plugins vom Repository holt. Damit ist das Plugin auf dem Pluginmarktplatz immer brandaktuell.") ?>
             </p>
 
         </fieldset>

@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__."/classes/MarketPlugin.class.php";
+require_once __DIR__."/classes/MarketRelease.class.php";
 
 class PluginMarket extends StudIPPlugin implements SystemPlugin {
 
