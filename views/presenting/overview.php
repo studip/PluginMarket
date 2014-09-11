@@ -31,10 +31,10 @@
         width: calc(100% + 8px);
         height: 150px;
         background-position: center center;
-        background-size: auto 100%;
+        background-size: auto calc(100% - 6px);
         background-repeat: no-repeat;
         background-color: white;
-        box-shadow: inset 0px 0px 3px rgba(0,0,0,0.3);
+        box-shadow: inset 0px 0px 4px rgba(0,0,0,0.3);
     }
     .plugins_shortview > article > .shortdescription {
         font-size: 0.9em;
@@ -57,12 +57,12 @@
             Zentrale Archivierung/Löschung von Veranstaltungen durch Admins. Die Veranstaltungen können nach verschiedenen Kriterien eingeschränkt werden.
         </p>
     </article>
-    <? foreach ($plugins as $plugin) : ?>
+    <? foreach ($plugins as $marketplugin) : ?>
         <article>
-            <h1><a href=""><?= htmlReady($plugin['name']) ?></a></h1>
+            <h1><a href="<?= PluginEngine::getLink($plugin, array(), "presenting/details/".$marketplugin->getId()) ?>"><?= htmlReady($marketplugin['name']) ?></a></h1>
             <div class="image" style="background-image: url(http://plugins.studip.de/content/screenshots/a1d85f695cfe506241d398d272ae43f0_thumb);"></div>
             <p class="shortdescription">
-                <?= htmlReady($plugin['short_description']) ?>
+                <?= htmlReady($marketplugin['short_description']) ?>
             </p>
         </article>
     <? endforeach ?>

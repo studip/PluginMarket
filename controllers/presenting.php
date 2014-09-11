@@ -14,4 +14,8 @@ class PresentingController extends PluginController {
         $this->plugins = MarketPlugin::findBySQL("1=1");
     }
 
+    public function details_action($plugin_id) {
+        $this->marketplugin = new MarketPlugin($plugin_id);
+    }
+
 }

@@ -13,6 +13,10 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin {
             $top->addSubNavigation("myplugins", new Navigation(_("Meine Plugins"), PluginEngine::getURL($this, array(), "myplugins/overview")));
         }
         Navigation::addItem("/pluginmarket", $top);
+
+        $loginlink = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview"));
+        $loginlink->setDescription(_("Laden Sie hier Plugins für Ihr Stud.IP herunter"));
+        Navigation::addItem("/login/pluginmarket",$loginlink);
     }
 
     public function getDisplayTitle() {
