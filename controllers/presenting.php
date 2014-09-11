@@ -18,4 +18,12 @@ class PresentingController extends PluginController {
         $this->marketplugin = new MarketPlugin($plugin_id);
     }
 
+    public function download_action($release) {
+        $release = new MarketRelease($release);
+        $release->outputZip();
+        $release['downloads'] += 1;
+        $release->store();
+        $this->render_nothing();
+    }
+
 }

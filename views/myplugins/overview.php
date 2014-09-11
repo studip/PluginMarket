@@ -7,6 +7,7 @@
         </tr>
     </thead>
     <tbody>
+        <? if (count($plugins)) : ?>
         <? foreach ($plugins as $marketplugin) : ?>
         <tr>
             <td><?= htmlReady($marketplugin['name']) ?></td>
@@ -15,6 +16,11 @@
             </td>
         </tr>
         <? endforeach ?>
+        <? else : ?>
+        <tr>
+            <td colspan="2" style="text-align: center;"><?= _("Sie haben noch kein Plugin eingestellt.") ?></td>
+        </tr>
+        <? endif ?>
     </tbody>
 </table>
 

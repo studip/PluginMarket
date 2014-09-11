@@ -47,6 +47,27 @@ class MarketRelease extends SimpleORMap {
         unlink($file);
     }
 
+    protected function getFilePath() {
+        if (!file_exists(self::getReleaseDataPath())) {
+            mkdir(self::getReleaseDataPath());
+        }
+        if (!$this->getId()) {
+            $this->setId($this->getNewId());
+        }
+        return self::getReleaseDataPath()."/".$this->getId();
+    }
+
+    public function outputZip() {
+        $path = self::getReleaseDataPath()."/".$this->getId();
+        header("Content-Type: application/zip");
+        header("Content-Disposition: attachment; filename=".$this->plugin['name'].".zip");
+        echo file_get_contents($path);
+    }
+
+    public function getChecksum() {
+        return md5_file($this->getFilePath());
+    }
+
     protected function installFromDirectory($dir) {
         $manifest = PluginManager::getInstance()->getPluginManifest($dir);
         $this['studip_min_version'] = $manifest['studipMinVersion'];
@@ -55,19 +76,11 @@ class MarketRelease extends SimpleORMap {
             $this['version'] = $manifest['version'];
         }
         $hash = md5(uniqid());
-        $plugin = $GLOBALS['TMP_PATH']."/plugin_$hash.zip";
-        create_zip_from_directory($dir, $plugin);
+        $plugin_raw = $GLOBALS['TMP_PATH']."/plugin_$hash.zip";
+        create_zip_from_directory($dir, $plugin_raw);
 
-        $RELEASE_DATA_PATH = self::getReleaseDataPath();
-        if (!file_exists($RELEASE_DATA_PATH)) {
-            mkdir($RELEASE_DATA_PATH);
-        }
-        if (!$this->getId()) {
-            $this->setId($this->getNewId());
-        }
-
-        copy($plugin, $RELEASE_DATA_PATH."/".$this->getId());
-        unlink($plugin);
+        copy($plugin_raw, $this->getFilePath());
+        unlink($plugin_raw);
         return true;
     }
 
