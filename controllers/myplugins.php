@@ -51,7 +51,7 @@ class MypluginsController extends PluginController {
         }
         $this->marketplugin->store();
         $release_data = Request::getArray("release");
-        if ($release_data['type']) {
+        if ($release_data['type'] !== "zipfile" || $_FILES['release_file']['tmp_path']) {
             $release = new MarketRelease();
             $release->setData($release_data);
             $release['plugin_id'] = $this->marketplugin->getId();
