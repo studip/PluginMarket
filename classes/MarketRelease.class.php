@@ -68,6 +68,10 @@ class MarketRelease extends SimpleORMap {
         return md5_file($this->getFilePath());
     }
 
+    public function getSecurityHash() {
+        return md5($this->getId()."-".$this['mkdate']);
+    }
+
     protected function installFromDirectory($dir) {
         $manifest = PluginManager::getInstance()->getPluginManifest($dir);
         $this['studip_min_version'] = $manifest['studipMinVersion'];

@@ -29,7 +29,11 @@
             <td><?= htmlReady($release->getChecksum()) ?></td>
             <td><?= htmlReady($release['downloads']) ?></td>
             <td>
-                
+                <? if ($marketplugin['user_id'] === $GLOBALS['user']->id) : ?>
+                    <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit_release/".$release->getId()) ?>" data-dialog>
+                        <?= Assets::img("icons/20/blue/edit", array('class' => "text-bottom")) ?>
+                    </a>
+                <? endif ?>
             </td>
         </tr>
     <? endforeach ?>
@@ -37,5 +41,5 @@
 </table>
 
 <div style="text-align: center">
-    <?= \Studip\LinkButton::create(_("bearbeiten"), PluginEngine::getURL($plugin, array(), "myplugins/edit/".$marketplugin->getId())) ?>
+    <?= \Studip\LinkButton::create(_("bearbeiten"), PluginEngine::getURL($plugin, array(), "myplugins/edit/".$marketplugin->getId()), array('data-dialog' => 1)) ?>
 </div>

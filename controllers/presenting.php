@@ -8,10 +8,21 @@ class PresentingController extends PluginController {
         parent::before_filter($action, $args);
 
         Navigation::activateItem("/pluginmarket/presenting");
+        if ($GLOBALS['perm']->have_perm("user")) {
+            object_set_visit(get_class($this->plugin), "plugin");
+        }
     }
 
     public function overview_action() {
-        $this->plugins = MarketPlugin::findBySQL("1=1");
+
+        if ($GLOBALS['perm']->have_perm("user")) {
+            $last_visit = object_get_visit(get_class($this->plugin), "plugin");
+            if ($last_visit !== false) {
+                $this->new_plugins = MarketPlugin::findBySql("mkdate > ? ORDER BY mkdate DESC", array($last_visit));
+            }
+        }
+
+        $this->plugins = MarketPlugin::findBySQL("1=1 ORDER BY name ASC");
     }
 
     public function details_action($plugin_id) {

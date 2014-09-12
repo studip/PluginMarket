@@ -42,21 +42,23 @@
     }
 </style>
 
+<? if (isset($new_plugins) && count($new_plugins)) : ?>
+    <h2><?= _("Neue Plugins seit Ihrem letzten Besuch") ?></h2>
+    <div class="plugins_shortview">
+        <? foreach ($new_plugins as $marketplugin) : ?>
+            <article>
+                <h1><a href="<?= PluginEngine::getLink($plugin, array(), "presenting/details/".$marketplugin->getId()) ?>"><?= htmlReady($marketplugin['name']) ?></a></h1>
+                <div class="image" style="background-image: url(http://plugins.studip.de/content/screenshots/a1d85f695cfe506241d398d272ae43f0_thumb);"></div>
+                <p class="shortdescription">
+                    <?= htmlReady($marketplugin['short_description']) ?>
+                </p>
+            </article>
+        <? endforeach ?>
+    </div>
+<? endif ?>
+
+
 <div class="plugins_shortview">
-    <article>
-        <h1><a href="">BlubberMail</a></h1>
-        <div class="image" style="background-image: url(http://plugins.studip.de/content/screenshots/a1d85f695cfe506241d398d272ae43f0_thumb);"></div>
-        <p class="shortdescription">
-            Blubbern über Email. Man bekommt Mails, wenn die Diskussion weiter geht, man kann per Mail darauf antworten und man kann Blubberstreams per Mail abonnieren.
-        </p>
-    </article>
-    <article>
-        <h1>ArchivierungsPlugin</h1>
-        <div class="image" style="background-image: url(http://plugins.studip.de/content/screenshots/5c6b989378b09deb4b5a79b32a0aa0bc);"></div>
-        <p class="shortdescription">
-            Zentrale Archivierung/Löschung von Veranstaltungen durch Admins. Die Veranstaltungen können nach verschiedenen Kriterien eingeschränkt werden.
-        </p>
-    </article>
     <? foreach ($plugins as $marketplugin) : ?>
         <article>
             <h1><a href="<?= PluginEngine::getLink($plugin, array(), "presenting/details/".$marketplugin->getId()) ?>"><?= htmlReady($marketplugin['name']) ?></a></h1>

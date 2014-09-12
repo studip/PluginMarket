@@ -13,6 +13,9 @@ class UpdateController extends PluginController {
             echo "OK";
             die();
         }
+        if ($release->getSecurityHash() === Request::get("s")) {
+            $release->installFile();
+        }
     }
 
 }

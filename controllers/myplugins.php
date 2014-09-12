@@ -32,6 +32,14 @@ class MypluginsController extends PluginController {
         }
     }
 
+    public function edit_release_action($release_id) {
+        $this->release = new MarketRelease($release_id);
+        if (Request::isXhr()) {
+            $this->response->add_header('X-Title', _("Plugin bearbeiten"));
+            $this->set_layout(null);
+        }
+    }
+
     public function save_action() {
         if (!Request::isPost()) {
             throw new Exception("Method not allowed. Try a POST request.");
@@ -53,6 +61,23 @@ class MypluginsController extends PluginController {
         }
         PageLayout::postMessage(MessageBox::success(_("Plugin wurde gespeichert.")));
         $this->redirect("pluginmarket/presenting/details/".$this->marketplugin->getId());
+    }
+
+    public function save_release_action() {
+        if (!Request::isPost()) {
+            throw new Exception("Method not allowed. Try a POST request.");
+        }
+        $this->release = new MarketRelease(Request::option("id"));
+        $release_data = Request::getArray("release");
+        $this->release->setData($release_data);
+        if ($release_data['type'] === "zipfile") {
+            $this->release['repository_download_url'] = null;
+        }
+        $this->release->installFile();
+        $this->release->store();
+
+        PageLayout::postMessage(MessageBox::success(_("Release wurde gespeichert.")));
+        $this->redirect("pluginmarket/presenting/details/".$this->release->plugin->getId());
     }
 
 }
