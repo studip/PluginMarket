@@ -8,6 +8,10 @@ class MarketRelease extends SimpleORMap {
         return $GLOBALS['STUDIP_BASE_PATH'] . "/data/pluginmarket_releases";
     }
 
+    static public function findByPlugin_id($plugin_id) {
+        return self::findBySQL("plugin_id = ? ORDER BY version DESC", array($plugin_id));
+    }
+
     protected static function configure($config = array())
     {
         $config['db_table'] = 'pluginmarket_releases';
@@ -45,6 +49,7 @@ class MarketRelease extends SimpleORMap {
 
         rmdirr($tmp_folder);
         unlink($file);
+        $this['chdate'] = time();
     }
 
     protected function getFilePath() {

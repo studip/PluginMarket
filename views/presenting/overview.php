@@ -15,6 +15,9 @@
         max-height: 250px;
         max-width: 250px;
         overflow: hidden;
+        -webkit-animation: scaling 700ms ease-out;
+        -ms-animation: scaling 700ms ease-out;
+        animation: scaling 700ms ease-out;
     }
     .plugins_shortview > article > h1 {
         margin: 0px;
@@ -39,6 +42,54 @@
     .plugins_shortview > article > .shortdescription {
         font-size: 0.9em;
         color: #879199;
+    }
+
+
+    @keyframes scaling {
+        from {
+            opacity: 0.8;
+            transform: scale(0.8,0.8) rotate(-3deg);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1,1) rotate(0deg);
+        }
+    }
+
+    /* Safari, Chrome and Opera > 12.1 */
+    @-webkit-keyframes scaling {
+        from {
+            opacity: 0.8;
+            transform: scale(0.8,0.8) rotate(-3deg);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1,1) rotate(0deg);
+        }
+    }
+
+    /* Internet Explorer */
+    @-ms-keyframes scaling {
+        from {
+            opacity: 0.8;
+            transform: scale(0.8,0.8) rotate(-3deg);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1,1) rotate(0deg);
+        }
+    }
+
+    /* Opera < 12.1 */
+    @-o-keyframes scaling {
+        from {
+            opacity: 0.8;
+            transform: scale(0.8,0.8) rotate(-3deg);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1,1) rotate(0deg);
+        }
     }
 </style>
 

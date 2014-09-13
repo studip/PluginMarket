@@ -3,6 +3,7 @@
     <thead>
         <tr>
             <th><?= _("Name") ?></th>
+            <th><?= _("Letztes Update") ?></th>
             <th></th>
         </tr>
     </thead>
@@ -10,7 +11,20 @@
         <? if (count($plugins)) : ?>
         <? foreach ($plugins as $marketplugin) : ?>
         <tr>
-            <td><?= htmlReady($marketplugin['name']) ?></td>
+            <td>
+                <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/details/".$marketplugin->getId()) ?>">
+                    <?= htmlReady($marketplugin['name']) ?>
+                </a>
+            </td>
+            <td>
+                <?
+                $chdate = $marketplugin['chdate'];
+                foreach ($marketplugin->releases as $release) {
+                    $chdate = max($chdate, $release['chdate']);
+                }
+                ?>
+                <?= date("j.n.Y, G:i", $chdate) ?> <?= _("Uhr") ?>
+            </td>
             <td>
                 <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit/".$marketplugin->getId()) ?>" data-dialog><?= Assets::img("icons/20/blue/edit") ?></a>
             </td>

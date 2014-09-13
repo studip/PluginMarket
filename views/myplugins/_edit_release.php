@@ -63,7 +63,7 @@ if ($_SERVER['HTTPS'] == 'on' && $_SERVER['SERVER_PORT'] != 443 ||
         <? if (!$release->isNew()) : ?>
         <p class="info">
             <?= _("Webhook-URL zum Einfügen in github oder gitlab:") ?>
-            <input type="text" style="border: thin solid #cccccc; background-color: #eeeeee;" value="<?= $DOMAIN_STUDIP.URLHelper::getLink("plugins.php/pluginmarket/update/release/".$release->getId(), array('s' => $release->getSecurityHash()), true) ?>">
+            <input type="text" style="border: thin solid #cccccc; background-color: #eeeeee; width:100%;" value="<?= $DOMAIN_STUDIP.URLHelper::getLink("plugins.php/pluginmarket/upate/".$release->getId(), array('s' => $release->getSecurityHash()), true) ?>">
         </p>
             <? if ($domain_warning) : ?>
             <p class="info"><?= htmlReady($domain_warning)  ?></p>
