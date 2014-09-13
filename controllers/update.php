@@ -16,6 +16,7 @@ class UpdateController extends PluginController {
         if ($release->getSecurityHash() === Request::get("s")) {
             $release->installFile();
         }
+        $this->render_text("OK");
     }
 
 }

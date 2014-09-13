@@ -35,7 +35,7 @@ class MypluginsController extends PluginController {
     public function edit_release_action($release_id) {
         $this->release = new MarketRelease($release_id);
         if (Request::isXhr()) {
-            $this->response->add_header('X-Title', _("Plugin bearbeiten"));
+            $this->response->add_header('X-Title', _("Release bearbeiten"));
             $this->set_layout(null);
         }
     }

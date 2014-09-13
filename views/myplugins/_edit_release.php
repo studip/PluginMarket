@@ -3,7 +3,9 @@ if (strpos($_SERVER['SERVER_NAME'], ':') !== false) {
     list($_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT']) =
         explode(':', $_SERVER['SERVER_NAME']);
 }
-
+if ($_SERVER['SERVER_NAME'] === "localhost" || $_SERVER['SERVER_NAME'] = "127.0.0.1") {
+    $domain_warning = sprintf(_("Achtung, mit %s als Domain kann der Webhook-Aufruf von github nicht funktionieren."), $_SERVER['SERVER_NAME']);
+}
 $DOMAIN_STUDIP = $_SERVER['HTTPS'] == 'on' ? 'https' : 'http';
 $DOMAIN_STUDIP .= '://'.$_SERVER['SERVER_NAME'];
 
@@ -16,7 +18,11 @@ if ($_SERVER['HTTPS'] == 'on' && $_SERVER['SERVER_PORT'] != 443 ||
 
 <fieldset>
     <legend>
-        <?= _("Release hinzufügen") ?>
+        <? if ($release->isNew()) : ?>
+            <?= _("Release hinzufügen") ?>
+        <? else : ?>
+            <?= sprintf(_("Release %s bearbeiten"), htmlReady($release['version'])) ?>
+        <? endif ?>
     </legend>
 
     <div>
@@ -57,8 +63,11 @@ if ($_SERVER['HTTPS'] == 'on' && $_SERVER['SERVER_PORT'] != 443 ||
         <? if (!$release->isNew()) : ?>
         <p class="info">
             <?= _("Webhook-URL zum Einfügen in github oder gitlab:") ?>
-            <input type="text" style="border: thin solid #cccccc; background-color: #eeeeee;" value="<?= $DOMAIN_STUDIP.URLHelper::getLink("plugins.php/pluginmarket/upate/".$release->getId(), array('s' => $release->getSecurityHash()), true) ?>">
+            <input type="text" style="border: thin solid #cccccc; background-color: #eeeeee;" value="<?= $DOMAIN_STUDIP.URLHelper::getLink("plugins.php/pluginmarket/update/release/".$release->getId(), array('s' => $release->getSecurityHash()), true) ?>">
         </p>
+            <? if ($domain_warning) : ?>
+            <p class="info"><?= htmlReady($domain_warning)  ?></p>
+            <? endif ?>
         <? endif ?>
 
     </fieldset>
