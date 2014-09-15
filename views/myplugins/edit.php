@@ -42,7 +42,11 @@
         </div>
     </fieldset>
 
+    <?= $this->render_partial("myplugins/_edit_images.php", compact("marketplugin")) ?>
+
+    <? if ($marketplugin->isNew()) : ?>
     <?= $this->render_partial("myplugins/_edit_release.php", array('release' => new MarketRelease())) ?>
+    <? endif ?>
 
     <div data-dialog-button>
         <?= \Studip\Button::create(_("speichern")) ?>

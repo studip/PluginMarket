@@ -37,4 +37,10 @@ class PresentingController extends PluginController {
         $this->render_nothing();
     }
 
+    public function image_action($image_id) {
+        $this->image = new MarketImage($image_id);
+        $this->image->outputImage();
+        $this->render_nothing();
+    }
+
 }

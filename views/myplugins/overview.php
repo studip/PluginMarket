@@ -13,6 +13,9 @@
         <? foreach ($plugins as $marketplugin) : ?>
         <tr>
             <td>
+                <? if ($marketplugin['publiclyvisible'] && !$marketplugin['approved']) : ?>
+                    <?= Assets::img("icons/20/red/exclaim-circle", array('title' => _("Plugin wurde noch nicht von einem Administrator freigeschaltet."), 'class' => "text-bottom")) ?>
+                <? endif ?>
                 <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/details/".$marketplugin->getId()) ?>">
                     <?= htmlReady($marketplugin['name']) ?>
                 </a>
@@ -32,7 +35,8 @@
                 <? endif ?>
             </td>
             <td>
-                <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit/".$marketplugin->getId()) ?>" data-dialog><?= Assets::img("icons/20/blue/edit") ?></a>
+                <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit/".$marketplugin->getId()) ?>" data-dialog title="<?= _("Plugin-Info bearbeiten") ?>"><?= Assets::img("icons/20/blue/edit") ?></a>
+                <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/add_release/".$marketplugin->getId()) ?>" data-dialog title="<?= _("Neues Release hinzufügen") ?>"><?= Assets::img("icons/20/blue/add") ?></a>
             </td>
         </tr>
         <? endforeach ?>

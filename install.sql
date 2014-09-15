@@ -61,3 +61,11 @@ CREATE TABLE IF NOT EXISTS `pluginmarket_tags` (
     KEY `plugin_id` (`plugin_id`)
 ) ENGINE=MyISAM;
 
+CREATE TABLE IF NOT EXISTS `pluginmarket_rezension` (
+  `rezension_id` varchar(32) NOT NULL,
+  `rezension_txt` text NOT NULL,
+  `user_id` varchar(32) NOT NULL,
+  `mkdate` int(20) NOT NULL,
+  `plugin_id` varchar(32) NOT NULL,
+  KEY `plugin_id` (`plugin_id`)
+) ENGINE=MyISAM;

@@ -99,7 +99,7 @@
         <? foreach ($new_plugins as $marketplugin) : ?>
             <article>
                 <h1><a href="<?= PluginEngine::getLink($plugin, array(), "presenting/details/".$marketplugin->getId()) ?>"><?= htmlReady($marketplugin['name']) ?></a></h1>
-                <div class="image" style="background-image: url(http://plugins.studip.de/content/screenshots/a1d85f695cfe506241d398d272ae43f0_thumb);"></div>
+                <div class="image" style="background-image: url(<?= $marketplugin->getLogoURL() ?>);"></div>
                 <p class="shortdescription">
                     <?= htmlReady($marketplugin['short_description']) ?>
                 </p>
@@ -113,7 +113,7 @@
     <? foreach ($plugins as $marketplugin) : ?>
         <article>
             <h1><a href="<?= PluginEngine::getLink($plugin, array(), "presenting/details/".$marketplugin->getId()) ?>"><?= htmlReady($marketplugin['name']) ?></a></h1>
-            <div class="image" style="background-image: url(http://plugins.studip.de/content/screenshots/a1d85f695cfe506241d398d272ae43f0_thumb);"></div>
+            <div class="image" style="background-image: url(<?= $marketplugin->getLogoURL() ?>);"></div>
             <p class="shortdescription">
                 <?= htmlReady($marketplugin['short_description']) ?>
             </p>

@@ -1,3 +1,15 @@
+<?
+//OpenGraph attributes
+PageLayout::addHeadElement("meta", array('property' => "og:site_name", 'content' => _("Stud.IP Plugin-Marktplatz")));
+PageLayout::addHeadElement("meta", array('property' => "og:type", 'content' => "article"));
+PageLayout::addHeadElement("meta", array('property' => "og:title", 'content' => $marketplugin['name']));
+PageLayout::addHeadElement("meta", array('property' => "og:description", 'content' => $marketplugin['short_description']));
+$icon = $marketplugin->images->first();
+if ($icon) {
+    PageLayout::addHeadElement("meta", array('property' => "og:image", 'content' => $icon->getURL()));
+}
+?>
+
 <? if (!$marketplugin['publiclyvisible']) : ?>
     <?= PageLayout::postMessage(MessageBox::info(_("Dieses Plugin ist nicht öffentlich."))) ?>
 <? endif ?>
@@ -10,8 +22,13 @@
 <h2><?= _("Galerie") ?></h2>
 
 <div>
-    <? if ($marketplugin['user_id'] === $GLOBALS['user']->id) : ?>
-    <div><a href=""><?= Assets::img("icons/20/blue/add") ?></a></div>
+    <? foreach ($marketplugin->images as $image) : ?>
+    <div>
+        <img src="<?= htmlReady($image->getURL()) ?>" style="max-height: 150px;">
+    </div>
+    <? endforeach ?>
+    <? if ($marketplugin->isWritable()) : ?>
+    <div><a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit_images/".$marketplugin->getId()) ?>" data-dialog><?= Assets::img("icons/20/blue/add") ?></a></div>
     <? endif ?>
 </div>
 
@@ -97,8 +114,9 @@ $bitcoin_datafield = $author['datafields']->findBy("name", "Bitcoin-Wallet")->va
 
 
 
-<? if ($marketplugin['user_id'] === $GLOBALS['user']->id) : ?>
+<? if ($marketplugin->isWritable()) : ?>
 <div style="text-align: center">
     <?= \Studip\LinkButton::create(_("bearbeiten"), PluginEngine::getURL($plugin, array(), "myplugins/edit/".$marketplugin->getId()), array('data-dialog' => 1)) ?>
+    <?= \Studip\LinkButton::create(_("Release hinzufügen"), PluginEngine::getURL($plugin, array(), "myplugins/add_release/".$marketplugin->getId()), array('data-dialog' => 1)) ?>
 </div>
 <? endif ?>

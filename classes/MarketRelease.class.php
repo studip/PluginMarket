@@ -22,6 +22,11 @@ class MarketRelease extends SimpleORMap {
         parent::configure($config);
     }
 
+    public function delete() {
+        parent::delete();
+        unlink($this->getFilePath());
+    }
+
     public function installFile() {
         $hash = md5(uniqid());
         $tmp_folder = $GLOBALS['TMP_PATH']."/temp_plugin_".$hash;
