@@ -28,6 +28,11 @@
             <textarea class="add_toolbar" name="data[description]"><?= htmlReady($marketplugin['description']) ?></textarea>
         </label>
 
+        <label>
+            <?= _("Sichtbar für alle") ?>
+            <input type="checkbox" name="data[publiclyvisible]" value="1"<?= $marketplugin->isNew() || $marketplugin['publiclyvisible'] ? " checked" : "" ?>>
+        </label>
+
         <div>
             <?= _("Lizenz") ?>
             <input type="hidden" name="data[license]" value="GPL 2 or later">

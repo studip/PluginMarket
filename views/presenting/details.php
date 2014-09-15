@@ -1,3 +1,7 @@
+<? if (!$marketplugin['publiclyvisible']) : ?>
+    <?= PageLayout::postMessage(MessageBox::info(_("Dieses Plugin ist nicht öffentlich."))) ?>
+<? endif ?>
+
 <h1><?= htmlReady($marketplugin['name']) ?></h1>
 <div>
     <?= formatReady($marketplugin['description']) ?>
@@ -5,7 +9,11 @@
 
 <h2><?= _("Galerie") ?></h2>
 
-<div></div>
+<div>
+    <? if ($marketplugin['user_id'] === $GLOBALS['user']->id) : ?>
+    <div><a href=""><?= Assets::img("icons/20/blue/add") ?></a></div>
+    <? endif ?>
+</div>
 
 <h2><?= _("Releases") ?></h2>
 <table class="default">

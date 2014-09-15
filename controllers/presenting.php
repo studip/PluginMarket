@@ -22,7 +22,7 @@ class PresentingController extends PluginController {
             }
         }
 
-        $this->plugins = MarketPlugin::findBySQL("1=1 ORDER BY name ASC");
+        $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
     }
 
     public function details_action($plugin_id) {

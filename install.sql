@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `pluginmarket_plugins` (
     `short_description` text NOT NULL,
     `release_type` varchar(255) default NULL,
     `approved` tinyint(2) NOT NULL default '0',
-    `public` tinyint(2) NOT NULL default '1',
+    `publiclyvisible` TINYINT NOT NULL DEFAULT '1'
     `url` varchar(2000) default NULL,
     `classification` enum('firstclass','secondclass','none') NOT NULL default 'none',
     `language` enum('de','en','de_en') NOT NULL default 'de',

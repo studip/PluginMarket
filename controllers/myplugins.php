@@ -44,8 +44,12 @@ class MypluginsController extends PluginController {
         if (!Request::isPost()) {
             throw new Exception("Method not allowed. Try a POST request.");
         }
+        $data = Request::getArray("data");
+        if (!isset($data["publiclyvisible"])) {
+            $data['publiclyvisible'] = 0;
+        }
         $this->marketplugin = new MarketPlugin(Request::option("id") ?: null);
-        $this->marketplugin->setData(Request::getArray("data"));
+        $this->marketplugin->setData($data);
         if ($this->marketplugin->isNew()) {
             $this->marketplugin['user_id'] = $GLOBALS['user']->id;
         }

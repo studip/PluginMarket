@@ -5,6 +5,7 @@
             <th><?= _("Name") ?></th>
             <th><?= _("Letztes Update") ?></th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -24,6 +25,11 @@
                 }
                 ?>
                 <?= date("j.n.Y, G:i", $chdate) ?> <?= _("Uhr") ?>
+            </td>
+            <td>
+                <? if (!$marketplugin['publiclyvisible']) :  ?>
+                    <?= Assets::img("icons/20/grey/lock-locked.png.png", array('title' => _("Plugin ist nicht öffentlich"))) ?>
+                <? endif ?>
             </td>
             <td>
                 <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit/".$marketplugin->getId()) ?>" data-dialog><?= Assets::img("icons/20/blue/edit") ?></a>
