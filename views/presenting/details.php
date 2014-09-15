@@ -21,16 +21,16 @@ if ($icon) {
 
 <h2><?= _("Galerie") ?></h2>
 
-<div>
+<ol id="pluginmarket_galery_view" class="pluginmarket_galery">
     <? foreach ($marketplugin->images as $image) : ?>
-    <div>
-        <img src="<?= htmlReady($image->getURL()) ?>" style="max-height: 150px;">
+    <div class="image">
+        <img src="<?= htmlReady($image->getURL()) ?>" style="max-height: 180px;">
     </div>
     <? endforeach ?>
     <? if ($marketplugin->isWritable()) : ?>
     <div><a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit_images/".$marketplugin->getId()) ?>" data-dialog><?= Assets::img("icons/20/blue/add") ?></a></div>
     <? endif ?>
-</div>
+</ol>
 
 <h2><?= _("Releases") ?></h2>
 <table class="default">

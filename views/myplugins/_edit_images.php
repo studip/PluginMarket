@@ -4,12 +4,12 @@
         <?= _("Galerie") ?>
     </legend>
 
-    <ol id="galery_edit">
+    <ol id="galery_edit" class="pluginmarket_galery">
     <? foreach ($marketplugin->images as $image) : ?>
-        <li>
+        <li class="image">
             <input type="checkbox" name="delete_image[]" value="<?= htmlReady($image->getId()) ?>" id="delete_image_<?= htmlReady($image->getId()) ?>">
             <div>
-                <img src="<?= htmlReady($image->getURL()) ?>" style="max-height: 200px;">
+                <img src="<?= htmlReady($image->getURL()) ?>" style="max-height: 150px;">
                 <input type="hidden" name="image_order[]" value="<?= htmlReady($image->getId()) ?>">
                 <label for="delete_image_<?= htmlReady($image->getId()) ?>">
                     <?= Assets::img("icons/20/blue/delete") ?>

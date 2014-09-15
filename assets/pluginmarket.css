@@ -1,0 +1,19 @@
+.pluginmarket_galery {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.pluginmarket_galery > .image {
+    padding: 5px;
+    border: 5px solid #eeeeee;
+    margin: 5px;
+}
+.pluginmarket_galery > .image input[type=checkbox] {
+    display: none;
+}
+.pluginmarket_galery > .image input[type=checkbox]:checked + * {
+    opacity: 0.2;
+}

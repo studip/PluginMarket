@@ -9,6 +9,7 @@ class MypluginsController extends PluginController {
 
         Navigation::activateItem("/pluginmarket/myplugins");
         $this->set_content_type('text/html;charset=windows-1252');
+        PageLayout::addStylesheet($this->plugin->getPluginURL()."/assets/pluginmarket.css");
     }
 
     public function overview_action()

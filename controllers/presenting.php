@@ -11,6 +11,7 @@ class PresentingController extends PluginController {
         if ($GLOBALS['perm']->have_perm("user")) {
             object_set_visit(get_class($this->plugin), "plugin");
         }
+        PageLayout::addStylesheet($this->plugin->getPluginURL()."/assets/pluginmarket.css");
     }
 
     public function overview_action() {
