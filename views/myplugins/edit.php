@@ -33,6 +33,16 @@
             <input type="checkbox" name="data[publiclyvisible]" value="1"<?= $marketplugin->isNew() || $marketplugin['publiclyvisible'] ? " checked" : "" ?>>
         </label>
 
+        <label>
+            <?= _("In Benutzung bei") ?>
+            <textarea name="data[in_use]"><?= htmlReady($marketplugin['in_use']) ?></textarea>
+        </label>
+
+        <label>
+            <?= _("Projekthomepage") ?>
+            <input type="text" name="data[url]" value="<?= htmlReady($marketplugin['url']) ?>">
+        </label>
+
         <div>
             <?= _("Lizenz") ?>
             <input type="hidden" name="data[license]" value="GPL 2 or later">
@@ -40,6 +50,13 @@
                 <?= _("Stud.IP-Plugins müssen immer mindestens GPL 2 lizensiert sein. Durch das Hochladen erklären Sie, dass auch Ihr Plugin unter der GPL liegt und liegen darf. Wenn Sie nicht das Recht haben, das zu entscheiden, laden Sie jetzt bitte nichts hoch.") ?>
             </p>
         </div>
+
+        <label>
+            <?= _("Möglichkeit zum Spenden einblenden") ?>
+            <input type="checkbox" name="data[donationsaccepted]" value="1"<?= $marketplugin->isNew() || $marketplugin['donationsaccepted'] ? " checked" : "" ?>>
+        </label>
+
+
     </fieldset>
 
     <?= $this->render_partial("myplugins/_edit_images.php", compact("marketplugin")) ?>

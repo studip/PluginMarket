@@ -1,6 +1,7 @@
 <?php
 
 require_once 'lib/datei.inc.php';
+require_once __DIR__."/../vendor/Parsedown.php";
 
 class MarketRelease extends SimpleORMap {
 
@@ -88,6 +89,20 @@ class MarketRelease extends SimpleORMap {
         $this['studip_max_version'] = $manifest['studipMaxVersion'];
         if (!$this['version']) {
             $this['version'] = $manifest['version'];
+        }
+        if ($this['repository_overwrites_descriptionfrom']) {
+            $readme = "";
+            $scanner = scandir($dir);
+            foreach ($scanner as $file) {
+                if (strtolower($file) === "readme.md" || strtolower($file) === "readme.markdown") {
+                    $readme = file_get_contents($dir."/".$file);
+                }
+            }
+            if ($readme) {
+                $html = Parsedown::instance()->text($readme);
+                $this->plugin['description'] = "<div>".$html."</div>";
+                $this->plugin->store();
+            }
         }
         $hash = md5(uniqid());
         $plugin_raw = $GLOBALS['TMP_PATH']."/plugin_$hash.zip";

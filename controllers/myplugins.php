@@ -73,6 +73,9 @@ class MypluginsController extends PluginController {
             if (!isset($data["publiclyvisible"])) {
                 $data['publiclyvisible'] = 0;
             }
+            if (!isset($data["donationsaccepted"])) {
+                $data['donationsaccepted'] = 0;
+            }
             $this->marketplugin->setData($data);
             if ($this->marketplugin->isNew()) {
                 $this->marketplugin['user_id'] = $GLOBALS['user']->id;
@@ -116,6 +119,9 @@ class MypluginsController extends PluginController {
             $release_data = Request::getArray("release");
             if ($release_data['type'] !== "zipfile" || $_FILES['release_file']['tmp_path']) {
                 $release = new MarketRelease();
+                if (!isset($release_data['repository_overwrites_descriptionfrom'])) {
+                    $release_data['repository_overwrites_descriptionfrom'] = 0;
+                }
                 $release->setData($release_data);
                 $release['plugin_id'] = $this->marketplugin->getId();
                 $release['user_id'] = $GLOBALS['user']->id;
