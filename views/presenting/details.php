@@ -19,18 +19,33 @@ if ($icon) {
     <?= formatReady($marketplugin['description']) ?>
 </div>
 
+<? if (count($marketplugin->images) > 0 || $marketplugin->isWritable()) : ?>
 <h2><?= _("Galerie") ?></h2>
 
 <ol id="pluginmarket_galery_view" class="pluginmarket_galery">
     <? foreach ($marketplugin->images as $image) : ?>
     <div class="image">
-        <img src="<?= htmlReady($image->getURL()) ?>" style="max-height: 180px;">
+        <img src="<?= htmlReady($image->getURL()) ?>">
     </div>
     <? endforeach ?>
     <? if ($marketplugin->isWritable()) : ?>
-    <div><a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit_images/".$marketplugin->getId()) ?>" data-dialog><?= Assets::img("icons/20/blue/add") ?></a></div>
+    <div><a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit_images/".$marketplugin->getId()) ?>" data-dialog title="<?= _("Galerie bearbeiten / neue Bilder hinzufügen") ?>"><?= Assets::img("icons/20/blue/add") ?></a></div>
     <? endif ?>
 </ol>
+<? endif ?>
+
+<h2><?= _("Zum Autor") ?></h2>
+<ul class="clean">
+    <li>
+        <? $author = User::find($marketplugin['user_id']) ?>
+        <div>
+            <a href="<?= URLHelper::getLink("dispatch.php/profile", array('username' => $author['username'])) ?>" style="text-align: center; display: inline-block; vertical-align: top;">
+                <?= Avatar::getAvatar($marketplugin['user_id'])->getImageTag(Avatar::MEDIUM, array('style' => "display: block;")) ?>
+                <?= htmlReady($author->getFullName()) ?>
+            </a>
+        </div>
+    </li>
+</ul>
 
 <h2><?= _("Releases") ?></h2>
 <table class="default">
@@ -78,9 +93,10 @@ if ($icon) {
 $author = User::find($marketplugin['user_id']);
 $flattr_username = $author['datafields']->findBy("name", "Flattr")->val("content");
 $bitcoin_datafield = $author['datafields']->findBy("name", "Bitcoin-Wallet")->val("content");
+$paypal_datafield = $author['datafields']->findBy("name", "Paypal-Account (Email)")->val("content");
 ?>
 
-<? if ($flattr_username || $bitcoin_wallet) : ?>
+<? if ($flattr_username || $bitcoin_wallet || $paypal_datafield) : ?>
     <h2><?= _("Spenden") ?></h2>
     <p class="info">
         <?= _("Der Download ist kostenlos, aber man kann dem Autor mit einer Spende danken und zukünftige Entwicklungen anregen.") ?>
@@ -108,6 +124,21 @@ $bitcoin_datafield = $author['datafields']->findBy("name", "Bitcoin-Wallet")->va
                 , lbl_amount: "BTC"
             });
         </script>
+    <? endif ?>
+
+    <? if ($paypal_datafield) : ?>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="display: inline-block;">
+            <div><strong><img src="http://pics.ebaystatic.com/aw/pics/logos/logoPayPal_51x14.gif"></strong></div>
+            <input type="hidden" name="cmd" value="_donations">
+            <input type="hidden" name="business" value="<?= htmlReady($paypal_datafield) ?>">
+            <input type="hidden" name="lc" value="DE">
+            <input type="hidden" name="no_note" value="0">
+            <input type="hidden" name="currency_code" value="USD">
+            <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">
+            <input type="image" src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
+            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+
     <? endif ?>
 </div>
 

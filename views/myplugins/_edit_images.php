@@ -12,7 +12,7 @@
                 <img src="<?= htmlReady($image->getURL()) ?>" style="max-height: 150px;">
                 <input type="hidden" name="image_order[]" value="<?= htmlReady($image->getId()) ?>">
                 <label for="delete_image_<?= htmlReady($image->getId()) ?>">
-                    <?= Assets::img("icons/20/blue/delete") ?>
+                    <?= Assets::img("icons/20/blue/trash", array('style' => "cursor: pointer;")) ?>
                 </label>
             </div>
         </li>
