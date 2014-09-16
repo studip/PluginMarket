@@ -23,6 +23,10 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin {
                 }
             }
         }
+        if ($GLOBALS['perm']->have_perm("root")) {
+            $approving = new Navigation(_("Qualitätssicherung"), PluginEngine::getURL($this, array(), "approving/overview"));
+            $top->addSubNavigation("approving", $approving);
+        }
         Navigation::addItem("/pluginmarket", $top);
 
         $loginlink = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview"));
