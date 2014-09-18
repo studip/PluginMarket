@@ -11,9 +11,9 @@
         box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
         color: white;
         width: 250px;
-        height: 250px;
-        max-height: 250px;
+        height: 260px;
         max-width: 250px;
+        max-height: 260px;
         overflow: hidden;
         -webkit-animation: scaling 700ms ease-out;
         -ms-animation: scaling 700ms ease-out;
@@ -42,6 +42,13 @@
     .plugins_shortview > article > .shortdescription {
         font-size: 0.9em;
         color: #879199;
+    }
+    .plugins_shortview > article > .tags a {
+        color: white;
+        opacity: 0.8;
+    }
+    .plugins_shortview > article > .tags a:hover {
+        opacity: 1;
     }
 
 
@@ -97,26 +104,21 @@
     <h2><?= _("Neue Plugins seit Ihrem letzten Besuch") ?></h2>
     <div class="plugins_shortview">
         <? foreach ($new_plugins as $marketplugin) : ?>
-            <article>
-                <h1><a href="<?= PluginEngine::getLink($plugin, array(), "presenting/details/".$marketplugin->getId()) ?>"><?= htmlReady($marketplugin['name']) ?></a></h1>
-                <div class="image" style="background-image: url(<?= $marketplugin->getLogoURL() ?>);"></div>
-                <p class="shortdescription">
-                    <?= htmlReady($marketplugin['short_description']) ?>
-                </p>
-            </article>
+            <?= $this->render_partial("presenting/_plugin_short.php", compact("marketplugin", "plugin")) ?>
         <? endforeach ?>
     </div>
 <? endif ?>
 
+<div style="text-align: center;">
+    <div>
+        <form class="studip_form">
+            <input type="text" name="search" placeholder="<?= _("Suche") ?>">
+        </form>
+    </div>
+</div>
 
 <div class="plugins_shortview">
     <? foreach ($plugins as $marketplugin) : ?>
-        <article>
-            <h1><a href="<?= PluginEngine::getLink($plugin, array(), "presenting/details/".$marketplugin->getId()) ?>"><?= htmlReady($marketplugin['name']) ?></a></h1>
-            <div class="image" style="background-image: url(<?= $marketplugin->getLogoURL() ?>);"></div>
-            <p class="shortdescription">
-                <?= htmlReady($marketplugin['short_description']) ?>
-            </p>
-        </article>
+        <?= $this->render_partial("presenting/_plugin_short.php", compact("marketplugin", "plugin")) ?>
     <? endforeach ?>
 </div>

@@ -19,7 +19,7 @@ class PresentingController extends PluginController {
         if ($GLOBALS['perm']->have_perm("user")) {
             $last_visit = object_get_visit(get_class($this->plugin), "plugin");
             if ($last_visit !== false) {
-                $this->new_plugins = MarketPlugin::findBySql("mkdate > ? ORDER BY mkdate DESC", array($last_visit));
+                $this->new_plugins = MarketPlugin::findBySql("publiclyvisible = 1 AND approved = 1 AND mkdate > ? ORDER BY mkdate DESC", array($last_visit));
             }
         }
 
