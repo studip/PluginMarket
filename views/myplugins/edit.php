@@ -43,6 +43,11 @@
             <input type="text" name="data[url]" value="<?= htmlReady($marketplugin['url']) ?>">
         </label>
 
+        <label>
+            <?= _("Schlagworte") ?>
+            <input type="text" name="tags" value="<?= htmlReady(ucwords(implode(", ", $marketplugin->getTags()))) ?>">
+        </label>
+
         <div>
             <?= _("Lizenz") ?>
             <input type="hidden" name="data[license]" value="GPL 2 or later">

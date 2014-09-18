@@ -44,6 +44,14 @@ if ($icon) {
     <div><?= formatLinks($marketplugin['url']) ?></div>
 <? endif ?>
 
+<? $tags = $marketplugin->getTags() ?>
+<? if (count($tags)) : ?>
+    <h2><?= _("Schlagworte") ?></h2>
+    <div>
+        <?= htmlReady(ucwords(implode(", ", $tags))) ?>
+    </div>
+<? endif ?>
+
 <h2><?= _("Zum Autor") ?></h2>
 <ul class="clean">
     <li>

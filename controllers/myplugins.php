@@ -14,7 +14,7 @@ class MypluginsController extends PluginController {
 
     public function overview_action()
     {
-        $this->plugins = MarketPlugin::findBySQL("1=1");
+        $this->plugins = MarketPlugin::findBySQL("user_id = ?", array($GLOBALS['user']->id));
     }
 
     public function add_action() {
@@ -83,6 +83,7 @@ class MypluginsController extends PluginController {
         }
 
         $this->marketplugin->store();
+        $this->marketplugin->setTags(array_map("trim", explode(",", Request::get("tags"))));
 
         if (Request::submitted("image_order")) {
             $order = array_flip(Request::getArray("image_order"));

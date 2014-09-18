@@ -54,4 +54,44 @@ class MarketPlugin extends SimpleORMap {
         $firstimage = $this->images->first();
         return $firstimage ? $firstimage->getURL() : null;
     }
+
+    public function setTags($tags) {
+        if (!$this->getId()) {
+            return false;
+        }
+        $tags = array_map("strtolower", $tags);
+        $old_tags = $this->getTags();
+        $insert = DBManager::get()->prepare("
+            INSERT IGNORE INTO pluginmarket_tags
+            SET plugin_id = :plugin_id,
+                tag = :tag,
+                user_id = :user_id
+        ");
+        $delete = DBManager::get()->prepare("
+            DELETE FROM pluginmarket_tags
+            WHERE plugin_id = :plugin_id,
+              AND tag = :tag
+        ");
+        foreach (array_diff($old_tags, $tags) as $tag_to_delete) {
+            $delete->execute(array(
+                'plugin_id' => $this->getId(),
+                'tag' => $tag_to_delete
+            ));
+        }
+        foreach ($tags as $tag) {
+            $insert->execute(array(
+                'plugin_id' => $this->getId(),
+                'tag' => $tag,
+                'user_id' => $GLOBALS['user']->id
+            ));
+        }
+    }
+
+    public function getTags() {
+        $statement = DBManager::get()->prepare("
+            SELECT tag FROM pluginmarket_tags WHERE plugin_id = ? ORDER BY tag ASC
+        ");
+        $statement->execute(array($this->getId()));
+        return $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
 }

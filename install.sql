@@ -56,10 +56,13 @@ CREATE TABLE IF NOT EXISTS `pluginmarket_rezension` (
 
 
 CREATE TABLE IF NOT EXISTS `pluginmarket_tags` (
-    `plugin_id` varchar(32) NOT NULL,
-    `tag` varchar(255) NOT NULL,
-    KEY (`tag_id`),
-    KEY `plugin_id` (`plugin_id`)
+  `tag` varchar(64) NOT NULL,
+  `plugin_id` varchar(32) NOT NULL,
+  `proposal` tinyint(4) NOT NULL DEFAULT '0',
+  `user_id` varchar(32) NOT NULL,
+  PRIMARY KEY (`tag`,`plugin_id`),
+  KEY `plugin_id` (`plugin_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS `pluginmarket_rezension` (
