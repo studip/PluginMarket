@@ -30,6 +30,10 @@ class PresentingController extends PluginController {
         $this->marketplugin = new MarketPlugin($plugin_id);
     }
 
+    public function review_action($vote_id = null) {
+        $this->review = new MarketReview($vote_id);
+    }
+
     public function download_action($release) {
         $release = new MarketRelease($release);
         $release->outputZip();
@@ -43,5 +47,6 @@ class PresentingController extends PluginController {
         $this->image->outputImage();
         $this->render_nothing();
     }
+
 
 }

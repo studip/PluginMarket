@@ -161,7 +161,62 @@ if ($icon) {
     </div>
 <? endif ?>
 
+<? if (($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) || $marketplugin->getRating()) : ?>
+    <h2><?= _("Bewertungen") ?></h2>
+    <div>
+        <div style="text-align: center;">
+            <? $score = $marketplugin->getRating() ?>
+            <? if (!$score) : ?>
+                <a style="opacity: 0.3;" title="<?= _("Noch keine Bewertung abgegeben.") ?>">
+                    <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
+                    <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
+                    <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
+                    <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
+                    <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
+                </a>
+            <? else : ?>
+                <a <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="'.PluginEngine::getLink($plugin, array(), "presenting/review").'"' : "" ?>data-dialog>
+                    <? $v = $score >= 2 ? 3 : ($score >= 1 ? 2 : "") ?>
+                    <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
+                    <? $v = $score >= 4 ? 3 : ($score >= 3 ? 2 : "") ?>
+                    <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
+                    <? $v = $score >= 6 ? 3 : ($score >= 5 ? 2 : "") ?>
+                    <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
+                    <? $v = $score >= 8 ? 3 : ($score >= 7 ? 2 : "") ?>
+                    <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
+                    <? $v = $score >= 9.5 ? 3 : ($score >= 9 ? 2 : "") ?>
+                    <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
+                </a>
+            <? endif ?>
+        </div>
 
+        <ol style="list-style-type: none; padding: none; margin: none;">
+        <? foreach ($marketplugin->reviews as $review) : ?>
+            <? if ($review['review']) : ?>
+            <li style="padding: none; margin: none;">
+                <blockquote class="quote">
+                    <div class="author"><?= sprintf(_("Rezension von %s"), $GLOBALS['user']->id !== "nobody" ? '<a style="color: white;" href="'.URLHelper::getLink("dispatch.php/profile", array('username' => get_username($review['user_id']))).'">'.Assets::img("icons/16/white/link-intern", array('class' => "text-bottom"))." ".htmlReady(get_fullname($review['user_id'])).'</a>' : htmlReady(get_fullname($review['user_id'])) ) ?>:</div>
+                    <div>
+                        <? $v = $review['rating'] >= 1 ? 3 : "" ?>
+                        <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "20px")) ?>
+                        <? $v = $review['rating'] >= 2 ? 3 : "" ?>
+                        <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "20px")) ?>
+                        <? $v = $review['rating'] >= 3 ? 3 : "" ?>
+                        <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "20px")) ?>
+                        <? $v = $review['rating'] >= 4 ? 3 : "" ?>
+                        <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "20px")) ?>
+                        <? $v = $review['rating'] >= 5 ? 3 : "" ?>
+                        <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "20px")) ?>
+                    </div>
+                    <?= htmlReady($review['review']) ?>
+                </blockquote>
+            </li>
+            <? endif ?>
+        <? endforeach ?>
+        </ol>
+
+    </div>
+<? endif ?>
 
 <? if ($marketplugin->isWritable()) : ?>
 <div style="text-align: center">

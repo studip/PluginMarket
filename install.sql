@@ -45,31 +45,26 @@ CREATE TABLE IF NOT EXISTS `pluginmarket_user_plugins` (
     PRIMARY KEY (`user_id`,`plugin_id`)
 ) ENGINE=MyISAM;
 
-CREATE TABLE IF NOT EXISTS `pluginmarket_rezension` (
-    `rezension_id` varchar(32) NOT NULL,
-    `rezension_txt` text NOT NULL,
-    `user_id` varchar(32) NOT NULL,
-    `mkdate` int(20) NOT NULL,
-    `plugin_id` varchar(32) NOT NULL,
-    KEY `plugin_id` (`plugin_id`)
-) ENGINE=MyISAM;
-
-
 CREATE TABLE IF NOT EXISTS `pluginmarket_tags` (
-  `tag` varchar(64) NOT NULL,
-  `plugin_id` varchar(32) NOT NULL,
-  `proposal` tinyint(4) NOT NULL DEFAULT '0',
-  `user_id` varchar(32) NOT NULL,
-  PRIMARY KEY (`tag`,`plugin_id`),
-  KEY `plugin_id` (`plugin_id`),
-  KEY `user_id` (`user_id`)
+    `tag` varchar(64) NOT NULL,
+    `plugin_id` varchar(32) NOT NULL,
+    `proposal` tinyint(4) NOT NULL DEFAULT '0',
+    `user_id` varchar(32) NOT NULL,
+    PRIMARY KEY (`tag`,`plugin_id`),
+    KEY `plugin_id` (`plugin_id`),
+    KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM;
 
-CREATE TABLE IF NOT EXISTS `pluginmarket_rezension` (
-  `rezension_id` varchar(32) NOT NULL,
-  `rezension_txt` text NOT NULL,
-  `user_id` varchar(32) NOT NULL,
-  `mkdate` int(20) NOT NULL,
-  `plugin_id` varchar(32) NOT NULL,
-  KEY `plugin_id` (`plugin_id`)
-) ENGINE=MyISAM;
+CREATE TABLE IF NOT EXISTS `pluginmarket_reviews` (
+    `review_id` varchar(32) NOT NULL,
+    `plugin_id` varchar(32) NOT NULL,
+    `user_id` varchar(32) NOT NULL,
+    `rating` int(11) NOT NULL,
+    `review` TEXT NULL,
+    `chdate` int(11) NOT NULL,
+    `mkdate` int(11) NOT NULL,
+    PRIMARY KEY (`vote_id`),
+    UNIQUE KEY `unique_votes` (`plugin_id`,`user_id`),
+    KEY `plugin_id` (`plugin_id`)
+    KEY `user_id` (`user_id`)
+) ENGINE=MyISAM

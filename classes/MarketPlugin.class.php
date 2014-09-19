@@ -14,6 +14,11 @@ class MarketPlugin extends SimpleORMap {
             'on_delete' => 'delete',
             'on_store' => 'store',
         );
+        $config['has_many']['reviews'] = array(
+            'class_name' => 'MarketReview',
+            'on_delete' => 'delete',
+            'on_store' => 'store',
+        );
         $config['belongs_to']['user'] = array(
             'class_name' => 'User',
             'foreign_key' => 'user_id',
@@ -93,5 +98,36 @@ class MarketPlugin extends SimpleORMap {
         ");
         $statement->execute(array($this->getId()));
         return $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
+
+    public function getRating() {
+        $cache = StudipCacheFactory::getCache();
+        $cache_key = 'pluginmarket_rating/'.$this->getId();
+        $rating = $cache->read($cache_key);
+
+        if ($rating === false) {
+            $latest_release_date = $this->releases[0]->mkdate;
+            $rating = 0;
+            $factors = 0;
+            foreach ($this->reviews as $review) {
+                $factor = (120 * 86400) / ($latest_release_date - $review['chdate']);
+                if ($factor < 0) {
+                    $factor = 1;
+                }
+                if ($factor > 1) {
+                    $factor = 1;
+                }
+                $rating += $review['rating'] * $factor * 2;
+                $factors += $factor;
+            }
+            if ($factors > 0) {
+                $rating /= $factors;
+            } else {
+                return $rating = null;
+            }
+
+            $cache->write($cache_key, $rating, 60 * 5);
+        }
+        return $rating;
     }
 }

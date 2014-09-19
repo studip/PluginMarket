@@ -3,8 +3,11 @@
 require_once __DIR__."/classes/MarketPlugin.class.php";
 require_once __DIR__."/classes/MarketRelease.class.php";
 require_once __DIR__."/classes/MarketImage.class.php";
+require_once __DIR__."/classes/MarketVote.class.php";
 
 class PluginMarket extends StudIPPlugin implements SystemPlugin {
+
+    static protected $studip_domain = null;
 
     public function __construct() {
         parent::__construct();
@@ -36,6 +39,27 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin {
 
     public function getDisplayTitle() {
         return _("PluginMarktplatz");
+    }
+
+    public function getStudipDomain() {
+        if (self::$studip_domain) {
+            return self::$studip_domain;
+        }
+        if (strpos($_SERVER['SERVER_NAME'], ':') !== false) {
+            list($_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT']) =
+                explode(':', $_SERVER['SERVER_NAME']);
+        }
+        if ($_SERVER['SERVER_NAME'] === "localhost" || $_SERVER['SERVER_NAME'] = "127.0.0.1") {
+            $domain_warning = sprintf(_("Achtung, mit %s als Domain kann der Webhook-Aufruf von github nicht funktionieren."), $_SERVER['SERVER_NAME']);
+        }
+        $DOMAIN_STUDIP = $_SERVER['HTTPS'] == 'on' ? 'https' : 'http';
+        $DOMAIN_STUDIP .= '://'.$_SERVER['SERVER_NAME'];
+
+        if ($_SERVER['HTTPS'] == 'on' && $_SERVER['SERVER_PORT'] != 443 ||
+            $_SERVER['HTTPS'] != 'on' && $_SERVER['SERVER_PORT'] != 80) {
+            $DOMAIN_STUDIP .= ':'.$_SERVER['SERVER_PORT'];
+        }
+        return self::$studip_domain = $DOMAIN_STUDIP;
     }
 
 }
