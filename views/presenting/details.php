@@ -48,7 +48,12 @@ if ($icon) {
 <? if (count($tags)) : ?>
     <h2><?= _("Schlagworte") ?></h2>
     <div>
-        <?= htmlReady(ucwords(implode(", ", $tags))) ?>
+        <? foreach ($tags as $key => $tag) : ?>
+            <?= $key > 0 ? "," : "" ?>
+            <?= Assets::img("icons/16/black/tag", array('class' => "text-bottom")) ?>
+            <?= htmlReady(ucwords($tag)) ?>
+        <? endforeach ?>
+
     </div>
 <? endif ?>
 
@@ -166,8 +171,8 @@ if ($icon) {
     <div>
         <div style="text-align: center;">
             <? $score = $marketplugin->getRating() ?>
-            <? if (!$score) : ?>
-                <a style="opacity: 0.3;" title="<?= _("Noch keine Bewertung abgegeben.") ?>">
+            <? if ($score === null) : ?>
+                <a style="opacity: 0.3;" title="<?= $GLOBALS['perm']->have_perm("autor") ? _("Geben Sie die erste Bewertung ab.") : _("Noch keine bewertung abgegeben.") ?>" <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="'.PluginEngine::getLink($plugin, array(), "presenting/review/".$marketplugin->getId()).'"' : "" ?>data-dialog>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
@@ -175,7 +180,7 @@ if ($icon) {
                     <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
                 </a>
             <? else : ?>
-                <a <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="'.PluginEngine::getLink($plugin, array(), "presenting/review").'"' : "" ?>data-dialog>
+                <a <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="'.PluginEngine::getLink($plugin, array(), "presenting/review/".$marketplugin->getId()).'"' : "" ?>data-dialog>
                     <? $v = $score >= 2 ? 3 : ($score >= 1 ? 2 : "") ?>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
                     <? $v = $score >= 4 ? 3 : ($score >= 3 ? 2 : "") ?>

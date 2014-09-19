@@ -30,8 +30,43 @@ class PresentingController extends PluginController {
         $this->marketplugin = new MarketPlugin($plugin_id);
     }
 
-    public function review_action($vote_id = null) {
-        $this->review = new MarketReview($vote_id);
+    public function review_action($plugin_id) {
+        $reviews = MarketReview::findBySQL("plugin_id = ? AND user_id = ?", array($plugin_id, $GLOBALS['user']->id));
+        if (count($reviews)) {
+            $this->review = $reviews[0];
+        } else {
+            $this->review = new MarketReview();
+            $this->review['plugin_id'] = $plugin_id;
+            $this->review['user_id'] = $GLOBALS['user']->id;
+        }
+        if (Request::isXhr()) {
+            $this->response->add_header('X-Title', $this->review->isNew() ? _("Plugin reviewen") : _("Review bearbeiten"));
+            $this->set_layout(null);
+        }
+    }
+
+    public function save_review_action($plugin_id) {
+        if (!Request::isPost()) {
+            throw new Exception("Wrong method, use POST.");
+        }
+        $reviews = MarketReview::findBySQL("plugin_id = ? AND user_id = ?", array($plugin_id, $GLOBALS['user']->id));
+        if (count($reviews)) {
+            $this->review = $reviews[0];
+        } else {
+            $this->review = new MarketReview();
+            $this->review['plugin_id'] = $plugin_id;
+            $this->review['user_id'] = $GLOBALS['user']->id;
+        }
+        $data = Request::getArray("data");
+        $this->review['review'] = trim($data['review']) ?: null;
+        if ($data['rating'] <= 5 && $data['rating'] >= 0) {
+            $this->review['rating'] = $data['rating'];
+        } else {
+            throw new Exception("Rating is not in accepted range.");
+        }
+        $this->review->store();
+        PageLayout::postMessage(MessageBox::success(_("Review/Bewertung wurde gespeichert.")));
+        $this->redirect("pluginmarket/presenting/details/".$plugin_id);
     }
 
     public function download_action($release) {

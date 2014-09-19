@@ -63,8 +63,8 @@ CREATE TABLE IF NOT EXISTS `pluginmarket_reviews` (
     `review` TEXT NULL,
     `chdate` int(11) NOT NULL,
     `mkdate` int(11) NOT NULL,
-    PRIMARY KEY (`vote_id`),
+    PRIMARY KEY (`review_id`),
     UNIQUE KEY `unique_votes` (`plugin_id`,`user_id`),
-    KEY `plugin_id` (`plugin_id`)
+    KEY `plugin_id` (`plugin_id`),
     KEY `user_id` (`user_id`)
-) ENGINE=MyISAM
+) ENGINE=MyISAM;
