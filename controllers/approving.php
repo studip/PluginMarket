@@ -40,6 +40,9 @@ class ApprovingController extends PluginController {
         if (!$this->marketplugin['approved']) {
             $this->marketplugin['publiclyvisible'] = 0;
         }
+        if ($this->marketplugin['approved'] && $this->marketplugin['publiclyvisible']) {
+            $this->marketplugin['published'] = time();
+        }
         $this->marketplugin->store();
 
         $messaging = new messaging();

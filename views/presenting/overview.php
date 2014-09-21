@@ -112,7 +112,7 @@
 <div style="text-align: center;">
     <div>
         <form class="studip_form">
-            <input type="text" name="search" placeholder="<?= _("Suche") ?>">
+            <input type="text" name="search" placeholder="<?= _("Suche") ?>" value="<?= htmlReady(Request::get("search")) ?>">
         </form>
     </div>
 </div>

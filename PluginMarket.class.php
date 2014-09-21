@@ -18,9 +18,9 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin {
             $top->addSubNavigation("myplugins", new Navigation(_("Meine Plugins"), PluginEngine::getURL($this, array(), "myplugins/overview")));
         }
         if ($GLOBALS['perm']->have_perm("user")) {
-            $last_visit = object_get_visit(get_class($this), "plugin");
-            if ($last_visit !== false) {
-                $badge_number = MarketPlugin::countBySql("mkdate > ?", array($last_visit));
+            $last_visit = UserConfig::get($GLOBALS['user']->id)->getValue("last_pluginmarket_visit");
+            if ($last_visit) {
+                $badge_number = MarketPlugin::countBySql("publiclyvisible = 1 AND approved = 1 AND published > ?", array($last_visit));
                 if ($badge_number > 0) {
                     $top->setBadgeNumber($badge_number);
                 }

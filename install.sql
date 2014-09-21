@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `pluginmarket_plugins` (
     `short_description` text NOT NULL,
     `release_type` varchar(255) default NULL,
     `approved` tinyint(2) NOT NULL default '0',
+    `published` BIGINT NULL,
     `publiclyvisible` TINYINT NOT NULL DEFAULT '1',
     `donationsaccepted` TINYINT NOT NULL DEFAULT '1',
     `url` varchar(2000) default NULL,
@@ -16,7 +17,8 @@ CREATE TABLE IF NOT EXISTS `pluginmarket_plugins` (
     `chdate` int(20) NOT NULL,
     `mkdate` int(20) NOT NULL,
     PRIMARY KEY (`plugin_id`),
-    KEY `user_id` (`user_id`)
+    KEY `user_id` (`user_id`),
+    FULLTEXT KEY `searchdescription` (`description`,`short_description`)
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS `pluginmarket_releases` (

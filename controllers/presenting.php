@@ -3,27 +3,45 @@ require_once 'app/controllers/plugin_controller.php';
 
 class PresentingController extends PluginController {
 
+    protected $last_pluginmarket_visit = null;
+
     function before_filter(&$action, &$args)
     {
         parent::before_filter($action, $args);
 
         Navigation::activateItem("/pluginmarket/presenting");
         if ($GLOBALS['perm']->have_perm("user")) {
-            object_set_visit(get_class($this->plugin), "plugin");
+            $config = UserConfig::get($GLOBALS['user']->id);
+            $this->last_pluginmarket_visit = $config->getValue("last_pluginmarket_visit") ?: time();
+            $_SESSION['last_pluginmarket_visit'] = time();
+            $config->store("last_pluginmarket_visit", $_SESSION['last_pluginmarket_visit']);
         }
         PageLayout::addStylesheet($this->plugin->getPluginURL()."/assets/pluginmarket.css");
     }
 
     public function overview_action() {
-
         if ($GLOBALS['perm']->have_perm("user")) {
-            $last_visit = object_get_visit(get_class($this->plugin), "plugin");
-            if ($last_visit !== false) {
-                $this->new_plugins = MarketPlugin::findBySql("publiclyvisible = 1 AND approved = 1 AND mkdate > ? ORDER BY mkdate DESC", array($last_visit));
+            if ($this->last_pluginmarket_visit !== time()) {
+                $this->new_plugins = MarketPlugin::findBySql("publiclyvisible = 1 AND approved = 1 AND published > ? ORDER BY mkdate DESC", array($this->last_pluginmarket_visit));
             }
         }
 
-        $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
+        if (Request::get("search")) {
+            $this->plugins = MarketPlugin::findBySQL("
+                    (
+                        name LIKE :likesearch
+                        OR MATCH (short_description, description) AGAINST (:search IN BOOLEAN MODE)
+                    )
+                    AND publiclyvisible = 1
+                    AND approved = 1
+                ORDER BY (IF(name LIKE :likesearch, 6, 0) + MATCH (short_description, description) AGAINST (:search)) ", array(
+                    'likesearch' => "%".Request::get("search")."%",
+                    'search' => Request::get("search")
+                )
+            );
+        } else {
+            $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
+        }
     }
 
     public function details_action($plugin_id) {
