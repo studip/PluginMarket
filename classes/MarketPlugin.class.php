@@ -57,7 +57,7 @@ class MarketPlugin extends SimpleORMap {
 
     public function getLogoURL() {
         $firstimage = $this->images->first();
-        return $firstimage ? $firstimage->getURL() : null;
+        return $firstimage ? $firstimage->getURL() : Assets::image_path("icons/blue/plugin.svg");
     }
 
     public function setTags($tags) {
