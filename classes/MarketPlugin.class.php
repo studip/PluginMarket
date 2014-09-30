@@ -23,6 +23,12 @@ class MarketPlugin extends SimpleORMap {
             'class_name' => 'User',
             'foreign_key' => 'user_id',
         );
+        $config['has_and_belongs_to_many']['more_users'] = array(
+            'class_name' => "User",
+            'thru_table' => 'themen_termine',
+            'on_delete' => 'delete',
+            'on_store' => 'store'
+        );
         parent::configure($config);
     }
 

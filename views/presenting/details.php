@@ -68,6 +68,16 @@ if ($icon) {
             </a>
         </div>
     </li>
+    <? foreach ($marketplugin->more_users as $user) : ?>
+        <li>
+            <div>
+                <a href="<?= URLHelper::getLink("dispatch.php/profile", array('username' => $user['username'])) ?>" style="text-align: center; display: inline-block; vertical-align: top;">
+                    <?= Avatar::getAvatar($user->getId())->getImageTag(Avatar::MEDIUM, array('style' => "display: block;")) ?>
+                    <?= htmlReady($user->getFullName()) ?>
+                </a>
+            </div>
+        </li>
+    <? endforeach ?>
 </ul>
 
 <h2><?= _("Releases") ?></h2>
