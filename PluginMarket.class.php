@@ -12,7 +12,7 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin {
     public function __construct() {
         parent::__construct();
         $top = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview"));
-        $top->setImage($this->getPluginURL()."/assets/topicon_".($GLOBALS['auth']->auth['devicePixelRatio'] ? 84 : 42).".png");
+        $top->setImage($this->getPluginURL()."/assets/topicon.svg");
         $top->addSubNavigation("presenting", new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview")));
         if ($GLOBALS['perm']->have_perm("autor")) {
             $top->addSubNavigation("myplugins", new Navigation(_("Meine Plugins"), PluginEngine::getURL($this, array(), "myplugins/overview")));
@@ -35,6 +35,8 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin {
         $loginlink = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview"));
         $loginlink->setDescription(_("Laden Sie hier Plugins für Ihr Stud.IP herunter"));
         Navigation::addItem("/login/pluginmarket",$loginlink);
+
+        NotificationCenter::addObserver($this, "triggerFollowingStudips", "PluginReleaseDidUpdateCode");
     }
 
     public function getDisplayTitle() {
@@ -62,4 +64,25 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin {
         return self::$studip_domain = $DOMAIN_STUDIP;
     }
 
+    static public function triggerFollowingStudips($eventname, $release) {
+        $output = array();
+        $payload = json_encode(studip_utf8encode($output));
+
+        foreach ($release->followers as $follower) {
+            $header = array();
+
+            if ($follower['secret']) {
+                $calculatedHash = hash_hmac("sha1", $payload, $follower['secret']);
+                $header[] = "HTTP_X_HUB_SIGNATURE: ".$calculatedHash;
+            }
+
+            $r = curl_init();
+            curl_setopt($r, CURLOPT_URL, $follower['url']);
+            curl_setopt($r, CURLOPT_POST, true);
+            curl_setopt($r, CURLOPT_HTTPHEADER, $header);
+
+            $result = curl_exec($r);
+            curl_close($r);
+        }
+    }
 }

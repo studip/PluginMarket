@@ -56,6 +56,8 @@ class MarketRelease extends SimpleORMap {
         rmdirr($tmp_folder);
         unlink($file);
         $this['chdate'] = time();
+
+        NotificationCenter::postNotification("PluginReleaseDidUpdateCode", $this);
     }
 
     protected function getFilePath() {
