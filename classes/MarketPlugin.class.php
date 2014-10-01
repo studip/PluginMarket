@@ -80,7 +80,7 @@ class MarketPlugin extends SimpleORMap {
         ");
         $delete = DBManager::get()->prepare("
             DELETE FROM pluginmarket_tags
-            WHERE plugin_id = :plugin_id,
+            WHERE plugin_id = :plugin_id
               AND tag = :tag
         ");
         foreach (array_diff($old_tags, $tags) as $tag_to_delete) {
