@@ -129,3 +129,11 @@
         transform: scale(1,1) rotate(0deg);
     }
 }
+
+#tagcloud td {
+    transition: font-size 0.5s;
+}
+#tagcloud td:hover {
+    font-size: 1.2em;
+    transition: font-size 0.5s;
+}

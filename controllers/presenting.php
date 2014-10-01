@@ -26,6 +26,21 @@ class PresentingController extends PluginController {
             }
         }
 
+        $statement = DBManager::get()->prepare("
+            SELECT tag, COUNT(*) AS number
+            FROM pluginmarket_tags
+            WHERE proposal = '0'
+            GROUP BY tag
+            ORDER BY number DESC
+            LIMIT 25
+        ");
+        $statement->execute();
+        $this->tags = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC LIMIT 6");
+    }
+
+    public function all_action() {
         if (Request::get("search")) {
             $this->plugins = MarketPlugin::findBySQL("
                     (
@@ -39,6 +54,22 @@ class PresentingController extends PluginController {
                     'search' => Request::get("search")
                 )
             );
+        } elseif(Request::get("tag")) {
+            $statement = DBManager::get()->prepare("
+                SELECT pluginmarket_plugins.*
+                FROM pluginmarket_plugins
+                    INNER JOIN pluginmarket_tags ON (pluginmarket_plugins.plugin_id = pluginmarket_tags.plugin_id)
+                WHERE pluginmarket_tags.tag = :tag
+            ");
+            $statement->execute(array('tag' => Request::get("tag")));
+            $plugin_data = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $this->plugins = array();
+            foreach ($plugin_data as $data) {
+                $plugin = new MarketPlugin();
+                $plugin->setData($data);
+                $plugin->setNew(false);
+                $this->plugins[] = $plugin;
+            }
         } else {
             $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
         }
