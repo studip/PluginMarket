@@ -62,10 +62,14 @@ if ($icon) {
     <li>
         <? $author = User::find($marketplugin['user_id']) ?>
         <div>
+            <? if ($author) : ?>
             <a href="<?= URLHelper::getLink("dispatch.php/profile", array('username' => $author['username'])) ?>" style="text-align: center; display: inline-block; vertical-align: top;">
                 <?= Avatar::getAvatar($marketplugin['user_id'])->getImageTag(Avatar::MEDIUM, array('style' => "display: block;")) ?>
                 <?= htmlReady($author->getFullName()) ?>
             </a>
+            <? else : ?>
+                <?= _("unbekannt") ?>
+            <? endif ?>
         </div>
     </li>
     <? foreach ($marketplugin->more_users as $user) : ?>

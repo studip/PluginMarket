@@ -25,7 +25,7 @@ class MarketPlugin extends SimpleORMap {
         );
         $config['has_and_belongs_to_many']['more_users'] = array(
             'class_name' => "User",
-            'thru_table' => 'themen_termine',
+            'thru_table' => 'pluginmarket_user_plugins',
             'on_delete' => 'delete',
             'on_store' => 'store'
         );
