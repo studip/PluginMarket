@@ -31,13 +31,13 @@ class PresentingController extends PluginController {
             FROM pluginmarket_tags
             WHERE proposal = '0'
             GROUP BY tag
-            ORDER BY number DESC
+            ORDER BY number DESC, RAND()
             LIMIT 25
         ");
         $statement->execute();
         $this->tags = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC LIMIT 6");
+        $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY RAND() LIMIT 6");
     }
 
     public function all_action() {

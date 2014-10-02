@@ -8,7 +8,7 @@
     </div>
 <? endif ?>
 
-<div style="text-align: center;">
+<div style="text-align: center; margin-bottom: 30px;">
     <div>
         <form action="<?= PluginEngine::getLink($plugin, array(), "presenting/all") ?>" method="get">
             <input
@@ -71,3 +71,9 @@
         </tbody>
     </table>
 <? endif ?>
+
+
+<h2><?= _("Noch mehr Plugins?") ?></h2>
+<div style="text-align: center;">
+    <?= \Studip\LinkButton::create(_("Alle Plugins anzeigen ..."), PluginEngine::getLink($plugin, array(), "presenting/all"))?>
+</div>
