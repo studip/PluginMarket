@@ -4,6 +4,7 @@ require_once __DIR__."/classes/MarketPlugin.class.php";
 require_once __DIR__."/classes/MarketRelease.class.php";
 require_once __DIR__."/classes/MarketImage.class.php";
 require_once __DIR__."/classes/MarketVote.class.php";
+require_once __DIR__."/classes/MarketReleaseFollower.class.php";
 
 class PluginMarket extends StudIPPlugin implements SystemPlugin {
 
@@ -71,8 +72,8 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin {
         foreach ($release->followers as $follower) {
             $header = array();
 
-            if ($follower['secret']) {
-                $calculatedHash = hash_hmac("sha1", $payload, $follower['secret']);
+            if ($follower['security_token']) {
+                $calculatedHash = hash_hmac("sha1", $payload, $follower['security_token']);
                 $header[] = "HTTP_X_HUB_SIGNATURE: ".$calculatedHash;
             }
 

@@ -17,6 +17,7 @@ class ImportOldData extends Migration {
             CREATE TABLE IF NOT EXISTS `pluginmarket_plugins` (
                 `plugin_id` varchar(32) NOT NULL,
                 `name` varchar(255) NOT NULL,
+                `pluginclassname` varchar(64) DEFAULT NULL,
                 `description` text,
                 `user_id` varchar(32) NOT NULL,
                 `in_use` text,
@@ -31,6 +32,7 @@ class ImportOldData extends Migration {
                 `mkdate` int(20) NOT NULL,
                 PRIMARY KEY (`plugin_id`),
                 KEY `user_id` (`user_id`),
+                KEY `pluginclassname` (`pluginclassname`)
                 FULLTEXT KEY `searchdescription` (`description`,`short_description`)
             ) ENGINE=MyISAM;
         ");
@@ -46,6 +48,7 @@ class ImportOldData extends Migration {
                 `downloads` int(20) NOT NULL default '0',
                 `origin` varchar(255) NULL,
                 `repository_download_url` VARCHAR( 128 ) NULL,
+                `repository_overwrites_descriptionfrom` TINYINT NOT NULL DEFAULT '0',
                 `chdate` int(20) NOT NULL,
                 `mkdate` int(20) NOT NULL,
                 PRIMARY KEY (`release_id`),
@@ -99,6 +102,19 @@ class ImportOldData extends Migration {
                 KEY `plugin_id` (`plugin_id`)
             ) ENGINE=MyISAM
         ");
+        $db->exec("
+            CREATE TABLE IF NOT EXISTS `pluginmarket_release_followers` (
+                `releasefollower_id` varchar(32) NOT NULL,
+                `user_id` varchar(32) NOT NULL,
+                `release_id` varchar(32) NOT NULL,
+                `url` varchar(128) NOT NULL,
+                `security_token` varchar(64) NULL,
+                `chdate` bigint(20) NOT NULL,
+                `mkdate` bigint(20) NOT NULL,
+                PRIMARY KEY (`releasefollower_id`),
+                UNIQUE KEY `unique_users` (`user_id`,`release_id`)
+            ) ENGINE=MyISAM
+        ");
 
 
         //import plugins
@@ -142,6 +158,30 @@ class ImportOldData extends Migration {
             SELECT user_id, plugin_id FROM mp_user_plugins
         ");
 
+        //move categories to tags
+        $categories = $db->query("SELECT category_id, name FROM mp_categories")->fetchAll(PDO::FETCH_KEY_PAIR);
+        foreach ($categories as $category_id => $name) {
+            if ($category_id === "c64a9665ce7a1d06732d8ed38df24cb5") {
+                $name = "elearning";
+            }
+            if ($category_id === "ef0508ebf53d95c1e9f0afcbb75de3cf") {
+                $name = "spaß";
+            }
+            $name = strtolower($name);
+            $plugin_ids = $db->query("
+                SELECT plugin_id FROM mp_category_plugins WHERE category_id = ".$db->quote($category_id)."
+            ")->fetchAll(PDO::FETCH_COLUMN, 0);
+            foreach ($plugin_ids as $plugin_id) {
+                $db->query("
+                    INSERT IGNORE INTO pluginmarket_tags
+                    SET tag = ".$db->quote($name).",
+                        plugin_id = ".$db->quote($plugin_id).",
+                        proposal = '0'
+                        user_id = (SELECT user_id FROM pluginmarket_plugins WHERE pluginmarket_plugins.plugin_id = plugin_id LIMIT 1)
+                ");
+            }
+        }
+
         //move user_ids for the powerusers
         $user_mappings = array(
             '9790cb9e745cb7d85d3bc5a00141c851' => "2be5757744a32e6fe9a591f628f85ae8", //Jan Kulmann
@@ -165,7 +205,7 @@ class ImportOldData extends Migration {
             '8f803630b5fa7756d1b2431436c4baff' => "3f1503ee51b2a326fec61efa35839fc2", //Arne Schröder
             '49d15355f3fbe8b15c59f949d362747d' => "4abd1b0ca7fd763016316bec212e3866", //Stefan Osterloh
             'c28b58bbe8e0755b5b6e2784160aa35b' => "84476bf266debf59c34f76ac82f59a03", //Lennart G
-            '64cba677908f2a058d20c67a5ada7663' => "ba850607ce72dd2d2cbe46361c91ecab", //Olga Mertsalova
+            '64cba677908f2a058d20c67a5ada7663' => "ba850607ce72dd2d2cbe46361c91ecab", //Olga Mertsalova (?)
         );
         $change_plugin_user = $db->prepare("
             UPDATE pluginmarket_plugins SET user_id = :new WHERE user_id = :old

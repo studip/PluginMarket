@@ -91,6 +91,7 @@ class PresentingController extends PluginController {
         if (Request::isXhr()) {
             $this->response->add_header('X-Title', $this->review->isNew() ? _("Plugin reviewen") : _("Review bearbeiten"));
             $this->set_layout(null);
+            $this->set_content_type('text/html;charset=windows-1252');
         }
     }
 
@@ -130,6 +131,29 @@ class PresentingController extends PluginController {
         $this->image = new MarketImage($image_id);
         $this->image->outputImage();
         $this->render_nothing();
+    }
+
+    public function follow_release_action($release_id) {
+        $this->release = new MarketRelease($release_id);
+        $this->following = MarketReleaseFollower::findByUserAndRelease($GLOBALS['user']->id, $release_id);
+
+        if (Request::isPost()) {
+            if (!$this->following) {
+                $this->following = new MarketReleaseFollower();
+                $this->following['user_id'] = $GLOBALS['user']->id;
+                $this->following['release_id'] = $release_id;
+            }
+            $this->following['url'] = Request::get("url");
+            $this->following['security_token'] = Request::get("security_token") ? Request::get("security_token") : null;
+            $this->following->store();
+            PageLayout::postMessage(MessageBox::success(_("Daten wurden gespeichert.")));
+        }
+
+        if (Request::isXhr()) {
+            $this->response->add_header('X-Title', sprintf(_('Automatisches Update für "%s" einrichten'), $this->release->plugin['name']." ".$this->release['version']));
+            $this->set_layout(null);
+            $this->set_content_type('text/html;charset=windows-1252');
+        }
     }
 
 

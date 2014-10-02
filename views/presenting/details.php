@@ -115,6 +115,11 @@ if ($icon) {
                         <?= Assets::img("icons/20/blue/edit", array('class' => "text-bottom")) ?>
                     </a>
                 <? endif ?>
+                <? if ($GLOBALS['perm']->have_perm("autor")) : ?>
+                    <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/follow_release/".$release->getId()) ?>" title="<?= _("Für automatische Updates registrieren.") ?>" data-dialog>
+                        <?= Assets::img("icons/20/blue/rss", array('class' => "text-bottom")) ?>
+                    </a>
+                <? endif ?>
             </td>
         </tr>
     <? endforeach ?>
