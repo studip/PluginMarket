@@ -20,6 +20,11 @@ class MarketRelease extends SimpleORMap {
             'class_name' => 'MarketPlugin',
             'foreign_key' => 'plugin_id',
         );
+        $config['has_many']['followers'] = array(
+            'class_name' => 'MarketReleaseFollower',
+            'on_delete' => 'delete',
+            'on_store' => 'store',
+        );
         parent::configure($config);
     }
 
@@ -87,6 +92,10 @@ class MarketRelease extends SimpleORMap {
 
     protected function installFromDirectory($dir) {
         $manifest = PluginManager::getInstance()->getPluginManifest($dir);
+        if ($manifest['pluginclassname']) {
+            $this->plugin['pluginclassname'] = $manifest['pluginclassname'];
+            $this->plugin->store();
+        }
         $this['studip_min_version'] = $manifest['studipMinVersion'];
         $this['studip_max_version'] = $manifest['studipMaxVersion'];
         if (!$this['version']) {
