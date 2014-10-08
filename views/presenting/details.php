@@ -219,7 +219,10 @@ if ($icon) {
             <? if ($review['review']) : ?>
             <li style="padding: none; margin: none;">
                 <blockquote class="quote">
-                    <div class="author"><?= sprintf(_("Rezension von %s"), $GLOBALS['user']->id !== "nobody" ? '<a style="color: white;" href="'.URLHelper::getLink("dispatch.php/profile", array('username' => get_username($review['user_id']))).'">'.Assets::img("icons/16/white/link-intern", array('class' => "text-bottom"))." ".htmlReady(get_fullname($review['user_id'])).'</a>' : htmlReady(get_fullname($review['user_id'])) ) ?>:</div>
+                    <div class="author">
+                        <div style="float: right;"><?= date("j.n.Y", $review['chdate']) ?></div>
+                        <?= sprintf(_("Rezension von %s"), $GLOBALS['user']->id !== "nobody" ? '<a style="color: white;" href="'.URLHelper::getLink("dispatch.php/profile", array('username' => get_username($review['user_id']))).'">'.Assets::img("icons/16/white/link-intern", array('class' => "text-bottom"))." ".htmlReady(get_fullname($review['user_id'])).'</a>' : htmlReady(get_fullname($review['user_id'])) ) ?>:
+                    </div>
                     <div>
                         <? $v = $review['rating'] >= 1 ? 3 : "" ?>
                         <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "20px")) ?>
