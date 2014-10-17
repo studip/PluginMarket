@@ -27,7 +27,7 @@ class InitPluginMigration extends Migration {
                 `mkdate` int(20) NOT NULL,
                 PRIMARY KEY (`plugin_id`),
                 KEY `user_id` (`user_id`),
-                KEY `pluginclassname` (`pluginclassname`)
+                KEY `pluginclassname` (`pluginclassname`),
                 FULLTEXT KEY `searchdescription` (`description`,`short_description`)
             ) ENGINE=MyISAM;
         ");
