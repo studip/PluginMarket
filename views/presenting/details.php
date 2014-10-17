@@ -199,16 +199,17 @@ if ($icon) {
                     <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
                 </a>
             <? else : ?>
-                <a <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="'.PluginEngine::getLink($plugin, array(), "presenting/review/".$marketplugin->getId()).'" data-dialog' : "" ?>>
-                    <? $v = $score >= 2 ? 3 : ($score >= 1 ? 2 : "") ?>
+                <a <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="'.PluginEngine::getLink($plugin, array(), "presenting/review/".$marketplugin->getId()).'" data-dialog' : "" ?> title="<?= sprintf(_("%s von 5 Sternen"), round($score / 2, 1)) ?>">
+                    <? $score = round($score, 1) / 2 ?>
+                    <? $v = $score >= 1 ? 3 : ($score >= 0.5 ? 2 : "") ?>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                    <? $v = $score >= 4 ? 3 : ($score >= 3 ? 2 : "") ?>
+                    <? $v = $score >= 2 ? 3 : ($score >= 1.5 ? 2 : "") ?>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                    <? $v = $score >= 6 ? 3 : ($score >= 5 ? 2 : "") ?>
+                    <? $v = $score >= 3 ? 3 : ($score >= 2.5 ? 2 : "") ?>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                    <? $v = $score >= 8 ? 3 : ($score >= 7 ? 2 : "") ?>
+                    <? $v = $score >= 4 ? 3 : ($score >= 3.5 ? 2 : "") ?>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                    <? $v = $score >= 9.5 ? 3 : ($score >= 9 ? 2 : "") ?>
+                    <? $v = $score > 4.5 ? 3 : ($score >= 4.5 ? 2 : "") ?>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
                 </a>
             <? endif ?>

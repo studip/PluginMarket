@@ -99,6 +99,10 @@ class PresentingController extends PluginController {
         if (!Request::isPost()) {
             throw new Exception("Wrong method, use POST.");
         }
+        $this->marketplugin = MarketPlugin::find($plugin_id);
+        if (!$this->marketplugin) {
+            throw new Exception("Unknown plugin.");
+        }
         $reviews = MarketReview::findBySQL("plugin_id = ? AND user_id = ?", array($plugin_id, $GLOBALS['user']->id));
         if (count($reviews)) {
             $this->review = $reviews[0];
@@ -115,6 +119,15 @@ class PresentingController extends PluginController {
             throw new Exception("Rating is not in accepted range.");
         }
         $this->review->store();
+
+        PersonalNotification::add(
+            $this->plugin['user_id'],
+            PluginEngine::getURL($this->plugin, array(). "presenting/details/".$plugin_id),
+            sprintf(_("Ihr Plugin %s wurde bewertet."), $this->marketplugin['name']),
+            null,
+            Assets::image_path("icons/blue/plugin")
+        );
+
         PageLayout::postMessage(MessageBox::success(_("Review/Bewertung wurde gespeichert.")));
         $this->redirect("pluginmarket/presenting/details/".$plugin_id);
     }
