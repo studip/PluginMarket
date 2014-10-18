@@ -1,9 +1,11 @@
 <article>
-    <h1><a href="<?= PluginEngine::getLink($plugin, array(), "presenting/details/".$marketplugin->getId()) ?>"><?= htmlReady($marketplugin['name']) ?></a></h1>
-    <div class="image" style="background-image: url(<?= $marketplugin->getLogoURL() ?>);"></div>
-    <p class="shortdescription">
-        <?= htmlReady($marketplugin['short_description']) ?>
-    </p>
+    <div class="headerimagedescription">
+        <h1><a href="<?= PluginEngine::getLink($plugin, array(), "presenting/details/".$marketplugin->getId()) ?>"><?= htmlReady($marketplugin['name']) ?></a></h1>
+        <div class="image" style="background-image: url(<?= $marketplugin->getLogoURL() ?>);"></div>
+        <p class="shortdescription">
+            <?= htmlReady($marketplugin['short_description']) ?>
+        </p>
+    </div>
     <? $tags = $marketplugin->getTags() ?>
     <? if (count($tags)) : ?>
         <div class="tags">

@@ -46,15 +46,19 @@
     -ms-animation: scaling 700ms ease-out;
     animation: scaling 700ms ease-out;
 }
-.plugins_shortview > article > h1 {
+.plugins_shortview > article .headerimagedescription {
+    max-height: 250px;
+    overflow: hidden;
+}
+.plugins_shortview > article h1 {
     margin: 0px;
     border: none;
     color: white;
 }
-.plugins_shortview > article > h1 > a, .plugins_shortview > article > h1 > a:hover {
+.plugins_shortview > article h1 > a, .plugins_shortview > article > h1 > a:hover {
     color: white;
 }
-.plugins_shortview > article > .image {
+.plugins_shortview > article .image {
     margin: 4px;
     margin-left: -4px;
     margin-right: -4px;
@@ -66,19 +70,19 @@
     background-color: white;
     box-shadow: inset 0px 0px 4px rgba(0,0,0,0.3);
 }
-.plugins_shortview > article > .shortdescription {
+.plugins_shortview > article .shortdescription {
     font-size: 0.9em;
     color: #879199;
     height: 70px;
-    max-height: 70px;
+    /*max-height: 70px; */
     overflow: hidden;
     margin-bottom: 0px;
 }
-.plugins_shortview > article > .tags a {
+.plugins_shortview > article .tags a {
     color: white;
     opacity: 0.8;
 }
-.plugins_shortview > article > .tags a:hover {
+.plugins_shortview > article .tags a:hover {
     opacity: 1;
 }
 
