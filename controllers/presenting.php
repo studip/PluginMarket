@@ -125,7 +125,7 @@ class PresentingController extends PluginController {
         }
         $this->review->store();
 
-        PersonalNotification::add(
+        PersonalNotifications::add(
             $this->plugin['user_id'],
             PluginEngine::getURL($this->plugin, array(). "presenting/details/".$plugin_id),
             sprintf(_("Ihr Plugin %s wurde bewertet."), $this->marketplugin['name']),
