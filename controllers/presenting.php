@@ -127,7 +127,7 @@ class PresentingController extends PluginController {
 
         PersonalNotifications::add(
             $this->marketplugin['user_id'],
-            PluginEngine::getURL($this->plugin, array(). "presenting/details/".$plugin_id),
+            PluginEngine::getURL($this->plugin, array(), "presenting/details/".$plugin_id),
             sprintf(_("Ihr Plugin %s wurde bewertet."), $this->marketplugin['name']),
             null,
             Assets::image_path("icons/blue/plugin")
