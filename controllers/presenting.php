@@ -27,10 +27,13 @@ class PresentingController extends PluginController {
         }
 
         $statement = DBManager::get()->prepare("
-            SELECT tag, COUNT(*) AS number
+            SELECT pluginmarket_tags.tag, COUNT(*) AS number
             FROM pluginmarket_tags
-            WHERE proposal = '0'
-            GROUP BY tag
+                INNER JOIN pluginmarket_plugins ON (pluginmarket_plugins.plugin_id = pluginmarket_tags.plugin_id)
+            WHERE pluginmarket_tags. proposal = '0'
+                AND pluginmarket_plugins.approved = 1
+                AND pluginmarket_plugins.publiclyvisible = 1
+            GROUP BY pluginmarket_tags.tag
             ORDER BY number DESC, RAND()
             LIMIT 25
         ");

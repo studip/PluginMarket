@@ -51,7 +51,7 @@ if ($icon) {
         <? foreach ($tags as $key => $tag) : ?>
             <?= $key > 0 ? "," : "" ?>
             <a href="<?= URLHelper::getLink("plugins.php/pluginmarket/presenting/all", array('tag' => $tag['tag'])) ?>">
-                <?= Assets::img("icons/16/black/tag", array('class' => "text-bottom")) ?>
+                <?= Assets::img("icons/16/blue/tag", array('class' => "text-bottom")) ?>
                 <?= htmlReady(ucwords($tag)) ?>
             </a>
         <? endforeach ?>
