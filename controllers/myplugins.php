@@ -45,6 +45,10 @@ class MypluginsController extends PluginController {
 
     public function edit_release_action($release_id) {
         $this->release = new MarketRelease($release_id);
+        $this->marketplugin = new MarketPlugin(Request::option("plugin_id") ?: null);
+        if (!$this->marketplugin->isNew() && !$this->marketplugin->isWritable()) {
+            throw new AccessDeniedException("Kein Zugriff");
+        }
         if (Request::isXhr()) {
             $this->response->add_header('X-Title', _("Release bearbeiten"));
             $this->set_layout(null);
@@ -139,6 +143,12 @@ class MypluginsController extends PluginController {
             throw new Exception("Method not allowed. Try a POST request.");
         }
         $this->release = new MarketRelease(Request::option("id"));
+        $this->release['plugin_id'] = Request::option("plugin_id");
+        $this->release['user_id'] = $GLOBALS['user']->id;
+        $this->marketplugin = new MarketPlugin(Request::option("plugin_id") ?: null);
+        if (!$this->marketplugin->isNew() && !$this->marketplugin->isWritable()) {
+            throw new AccessDeniedException("Kein Zugriff");
+        }
         $release_data = Request::getArray("release");
         $this->release->setData($release_data);
         if ($release_data['type'] === "zipfile") {

@@ -110,7 +110,7 @@ if ($icon) {
             <td><?= htmlReady($release->getChecksum()) ?></td>
             <td><?= htmlReady($release['downloads']) ?></td>
             <td>
-                <? if ($marketplugin['user_id'] === $GLOBALS['user']->id) : ?>
+                <? if ($marketplugin->isWritable()) : ?>
                     <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit_release/".$release->getId()) ?>" data-dialog>
                         <?= Assets::img("icons/20/blue/edit", array('class' => "text-bottom")) ?>
                     </a>
@@ -124,6 +124,17 @@ if ($icon) {
         </tr>
     <? endforeach ?>
     </tbody>
+    <? if ($marketplugin->isWritable()) : ?>
+        <tfoot>
+        <tr>
+            <td colspan="6">
+                <a href="<?= PluginEngine::getLink($plugin, array('plugin_id' => $marketplugin->getId()), "myplugins/add_release/".$marketplugin->getId()) ?>" data-dialog>
+                    <?= Assets::img("icons/20/blue/add") ?>
+                </a>
+            </td>
+        </tr>
+        </tfoot>
+    <? endif ?>
 </table>
 
 
@@ -249,6 +260,6 @@ if ($icon) {
 <? if ($marketplugin->isWritable()) : ?>
 <div style="text-align: center">
     <?= \Studip\LinkButton::create(_("bearbeiten"), PluginEngine::getURL($plugin, array(), "myplugins/edit/".$marketplugin->getId()), array('data-dialog' => 1)) ?>
-    <?= \Studip\LinkButton::create(_("Release hinzufügen"), PluginEngine::getURL($plugin, array(), "myplugins/add_release/".$marketplugin->getId()), array('data-dialog' => 1)) ?>
+    <?= \Studip\LinkButton::create(_("Release hinzufügen"), PluginEngine::getURL($plugin, array('plugin_id' => $marketplugin->getId()), "myplugins/add_release/".$marketplugin->getId()), array('data-dialog' => 1)) ?>
 </div>
 <? endif ?>
