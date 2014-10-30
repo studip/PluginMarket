@@ -50,10 +50,11 @@ if ($icon) {
     <div>
         <? foreach ($tags as $key => $tag) : ?>
             <?= $key > 0 ? "," : "" ?>
-            <?= Assets::img("icons/16/black/tag", array('class' => "text-bottom")) ?>
-            <?= htmlReady(ucwords($tag)) ?>
+            <a href="<?= URLHelper::getLink("plugins.php/pluginmarket/presenting/all", array('tag' => $tag['tag'])) ?>">
+                <?= Assets::img("icons/16/black/tag", array('class' => "text-bottom")) ?>
+                <?= htmlReady(ucwords($tag)) ?>
+            </a>
         <? endforeach ?>
-
     </div>
 <? endif ?>
 

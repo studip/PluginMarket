@@ -60,6 +60,8 @@ class PresentingController extends PluginController {
                 FROM pluginmarket_plugins
                     INNER JOIN pluginmarket_tags ON (pluginmarket_plugins.plugin_id = pluginmarket_tags.plugin_id)
                 WHERE pluginmarket_tags.tag = :tag
+                    AND pluginmarket_plugins.approved = 1
+                    AND pluginmarket_plugins.publiclyvisible = 1
             ");
             $statement->execute(array('tag' => Request::get("tag")));
             $plugin_data = $statement->fetchAll(PDO::FETCH_ASSOC);
