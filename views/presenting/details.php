@@ -128,7 +128,7 @@ if ($icon) {
         <tfoot>
         <tr>
             <td colspan="6">
-                <a href="<?= PluginEngine::getLink($plugin, array('plugin_id' => $marketplugin->getId()), "myplugins/add_release/".$marketplugin->getId()) ?>" data-dialog>
+                <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/add_release/".$marketplugin->getId()) ?>" data-dialog>
                     <?= Assets::img("icons/20/blue/add") ?>
                 </a>
             </td>
@@ -257,9 +257,12 @@ if ($icon) {
     </div>
 <? endif ?>
 
-<? if ($marketplugin->isWritable()) : ?>
 <div style="text-align: center">
+<? if ($marketplugin->isWritable()) : ?>
     <?= \Studip\LinkButton::create(_("bearbeiten"), PluginEngine::getURL($plugin, array(), "myplugins/edit/".$marketplugin->getId()), array('data-dialog' => 1)) ?>
-    <?= \Studip\LinkButton::create(_("Release hinzufügen"), PluginEngine::getURL($plugin, array('plugin_id' => $marketplugin->getId()), "myplugins/add_release/".$marketplugin->getId()), array('data-dialog' => 1)) ?>
-</div>
+    <?= \Studip\LinkButton::create(_("Release hinzufügen"), PluginEngine::getURL($plugin, array(), "myplugins/add_release/".$marketplugin->getId()), array('data-dialog' => 1)) ?>
 <? endif ?>
+<? if ($marketplugin['user_id'] !== $GLOBALS['user']->id) : ?>
+    <?= \Studip\LinkButton::create(_("Plugin Abonnieren"), PluginEngine::getURL($plugin, array(), "presenting/register_for_pluginnews/".$marketplugin->getId()), array('title' => _("Neuigkeiten des Plugins per Nachricht bekommen."))) ?>
+<? endif ?>
+</div>
