@@ -16,8 +16,8 @@
                 name="search"
                 placeholder="<?= _("Suche") ?>"
                 value="<?= htmlReady(Request::get("search")) ?>"
-                style="padding: 4px; width: 300px; border: 1px solid #7e92b0; line-height: 25px;"><button
-                    style="background-color: #7e92b0; height: 34px; border: 1px solid #7e92b0;"><?= Assets::img("icons/20/white/search", array('class' => "text-bottom")) ?></button>
+                style="padding: 4px; width: 300px; border: 1px solid #7e92b0; line-height: 24px; vertical-align: text-bottom;"><button
+                    style="background-color: #7e92b0; height: 34px; border: 1px solid #7e92b0; vertical-align: text-bottom;"><?= Assets::img("icons/20/white/search", array('class' => "text-bottom")) ?></button>
         </form>
     </div>
 </div>
