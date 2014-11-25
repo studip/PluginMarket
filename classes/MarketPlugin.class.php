@@ -71,6 +71,11 @@ class MarketPlugin extends SimpleORMap {
             return false;
         }
         $tags = array_map("strtolower", $tags);
+        foreach ($tags as $key => $tag) {
+            if (!trim($tag)) {
+                unset($tags[$key]);
+            }
+        }
         $old_tags = $this->getTags();
         $insert = DBManager::get()->prepare("
             INSERT IGNORE INTO pluginmarket_tags
