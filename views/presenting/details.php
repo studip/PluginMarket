@@ -264,6 +264,6 @@ if ($icon) {
     <?= \Studip\LinkButton::create(_("Release hinzufügen"), PluginEngine::getURL($plugin, array(), "myplugins/add_release/".$marketplugin->getId()), array('data-dialog' => 1)) ?>
 <? endif ?>
 <? if ($marketplugin['user_id'] !== $GLOBALS['user']->id) : ?>
-    <?= \Studip\LinkButton::create(_("Plugin Abonnieren"), PluginEngine::getURL($plugin, array(), "presenting/register_for_pluginnews/".$marketplugin->getId()), array('title' => _("Neuigkeiten des Plugins per Nachricht bekommen."))) ?>
+    <?= \Studip\LinkButton::create(_("Plugin abonnieren"), PluginEngine::getURL($plugin, array(), "presenting/register_for_pluginnews/".$marketplugin->getId()), array('title' => _("Neuigkeiten des Plugins per Nachricht bekommen."), 'data-dialog' => "1")) ?>
 <? endif ?>
 </div>

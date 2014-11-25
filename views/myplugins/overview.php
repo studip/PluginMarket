@@ -42,7 +42,7 @@
         <? endforeach ?>
         <? else : ?>
         <tr>
-            <td colspan="2" style="text-align: center;"><?= _("Sie haben noch kein Plugin eingestellt.") ?></td>
+            <td colspan="4" style="text-align: center;"><?= _("Sie haben noch kein Plugin eingestellt.") ?></td>
         </tr>
         <? endif ?>
     </tbody>

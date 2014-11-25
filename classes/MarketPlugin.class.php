@@ -19,6 +19,11 @@ class MarketPlugin extends SimpleORMap {
             'on_delete' => 'delete',
             'on_store' => 'store',
         );
+        $config['has_many']['follower'] = array(
+            'class_name' => 'MarketPluginFollower',
+            'on_delete' => 'delete',
+            'on_store' => 'store',
+        );
         $config['belongs_to']['user'] = array(
             'class_name' => 'User',
             'foreign_key' => 'user_id',
@@ -76,6 +81,7 @@ class MarketPlugin extends SimpleORMap {
                 unset($tags[$key]);
             }
         }
+
         $old_tags = $this->getTags();
         $insert = DBManager::get()->prepare("
             INSERT IGNORE INTO pluginmarket_tags

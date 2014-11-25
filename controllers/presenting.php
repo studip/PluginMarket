@@ -174,5 +174,15 @@ class PresentingController extends PluginController {
         }
     }
 
+    public function register_for_pluginnews_action($plugin_id) {
+        $this->marketplugin = MarketPlugin::find($plugin_id);
+
+        if (Request::isXhr()) {
+            $this->response->add_header('X-Title', _("Plugin abonnieren"));
+            $this->set_layout(null);
+            $this->set_content_type('text/html;charset=windows-1252');
+        }
+    }
+
 
 }

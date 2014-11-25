@@ -5,6 +5,7 @@ require_once __DIR__."/classes/MarketRelease.class.php";
 require_once __DIR__."/classes/MarketImage.class.php";
 require_once __DIR__."/classes/MarketVote.class.php";
 require_once __DIR__."/classes/MarketReleaseFollower.class.php";
+require_once __DIR__."/classes/MarketPluginFollower.class.php";
 
 class PluginMarket extends StudIPPlugin implements SystemPlugin {
 

@@ -3,7 +3,7 @@
 class InitPluginMigration extends Migration {
     
     function description() {
-        return 'creates the database and imports all the old data';
+        return 'creates the database';
     }
 
     public function up() {
@@ -108,6 +108,18 @@ class InitPluginMigration extends Migration {
                 `mkdate` bigint(20) NOT NULL,
                 PRIMARY KEY (`releasefollower_id`),
                 UNIQUE KEY `unique_users` (`user_id`,`release_id`)
+            ) ENGINE=MyISAM
+        ");
+        $db->exec("
+            CREATE TABLE IF NOT EXISTS `pluginmarket_plugin_follower` (
+                `following_id` varchar(32) NOT NULL,
+                `user_id` varchar(32) NOT NULL,
+                `plugin_id` varchar(32) NOT NULL,
+                `chdate` bigint(20) NOT NULL,
+                `mkdate` bigint(20) NOT NULL,
+                PRIMARY KEY (`following_id`),
+                KEY `user_id` (`user_id`),
+                KEY `plugin_id` (`plugin_id`)
             ) ENGINE=MyISAM
         ");
 
