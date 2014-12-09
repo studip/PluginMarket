@@ -176,6 +176,19 @@ class PresentingController extends PluginController {
 
     public function register_for_pluginnews_action($plugin_id) {
         $this->marketplugin = MarketPlugin::find($plugin_id);
+        if (Request::isPost()) {
+            if (Request::submitted("follow")) {
+                $following = new MarketPluginFollower();
+                $following['plugin_id'] = $plugin_id;
+                $following['user_id'] = $GLOBALS['user']->id;
+                $following->store();
+                PageLayout::postMessage(MessageBox::success(_("Sie bekommen nun Informationen zu Updates dieses Plugins zugeschickt.")));
+            } elseif(Request::submitted("unfollow")) {
+                $following = MarketPluginFollower::findByUserAndPlugin($GLOBALS['user']->id, $plugin_id);
+                $following->delete();
+                PageLayout::postMessage(MessageBox::success(_("Sie werden jetzt keine weiteren Neuigkeiten über dieses Plugin als Stud.IP Nachricht bekommen.")));
+            }
+        }
 
         if (Request::isXhr()) {
             $this->response->add_header('X-Title', _("Plugin abonnieren"));
