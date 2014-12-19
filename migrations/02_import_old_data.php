@@ -60,7 +60,7 @@ class ImportOldData extends Migration {
             }
             $name = strtolower($name);
             $plugin_ids = $db->query("
-                SELECT plugin_id FROM mp_category_plugins WHERE category_id = ".$db->quote($category_id)."
+                SELECT plugin_id FROM mp_categories_plugins WHERE category_id = ".$db->quote($category_id)."
             ")->fetchAll(PDO::FETCH_COLUMN, 0);
             foreach ($plugin_ids as $plugin_id) {
                 $db->query("
