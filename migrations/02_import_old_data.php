@@ -8,6 +8,8 @@ class ImportOldData extends Migration {
 
     public function up() {
 
+        return;
+
         $db = DBManager::get();
         /*
         //$oldfilefolder = $GLOBALS['STUDIP_BASE_PATH']."/data/old_marketplace_files";
@@ -23,7 +25,7 @@ class ImportOldData extends Migration {
         ");
         $db->exec("
             INSERT INTO pluginmarket_releases (release_id, plugin_id, version, studip_min_version, studip_max_version, user_id, file_id, downloads, origin, chdate, mkdate)
-            SELECT release_id, plugin_id, version, studip_min_version, studip_max_version, user_id, mp_releases.file_id, downloads, origin, mkdate, mkdate
+            SELECT file_id, plugin_id, version, studip_min_version, studip_max_version, user_id, mp_releases.file_id, downloads, origin, mkdate, mkdate
             FROM mp_releases
         ");
 
