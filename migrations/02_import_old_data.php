@@ -7,14 +7,14 @@ class ImportOldData extends Migration {
     }
 
     public function up() {
-        return;
-
 
         $db = DBManager::get();
-        $oldfilefolder = $GLOBALS['STUDIP_BASE_PATH']."/data/old_marketplace_files";
+        /*
+        //$oldfilefolder = $GLOBALS['STUDIP_BASE_PATH']."/data/old_marketplace_files";
 
         $releasefolder = $GLOBALS['STUDIP_BASE_PATH'] . "/data/pluginmarket_releases";
         $imagefolder = $GLOBALS['STUDIP_BASE_PATH'] . "/data/pluginmarket_images";
+        */
 
         //import plugins
         $db->exec("

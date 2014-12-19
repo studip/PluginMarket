@@ -42,10 +42,9 @@
     max-width: 250px;
     max-height: 260px;
     overflow: hidden;
-    -webkit-animation: scaling 700ms ease-out;
-    -ms-animation: scaling 700ms ease-out;
-    animation: scaling 700ms ease-out;
 }
+
+
 .plugins_shortview > article .headerimagedescription {
     max-height: 250px;
     overflow: hidden;
@@ -84,6 +83,12 @@
 }
 .plugins_shortview > article .tags a:hover {
     opacity: 1;
+}
+
+.plugins_shortview.new > article {
+    -webkit-animation: scaling 700ms ease-out;
+    -ms-animation: scaling 700ms ease-out;
+    animation: scaling 700ms ease-out;
 }
 
 
