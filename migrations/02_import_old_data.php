@@ -8,8 +8,6 @@ class ImportOldData extends Migration {
 
     public function up() {
 
-        return;
-
         $db = DBManager::get();
         /*
         //$oldfilefolder = $GLOBALS['STUDIP_BASE_PATH']."/data/old_marketplace_files";
