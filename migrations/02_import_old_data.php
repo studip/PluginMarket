@@ -67,7 +67,7 @@ class ImportOldData extends Migration {
                     INSERT IGNORE INTO pluginmarket_tags
                     SET tag = ".$db->quote($name).",
                         plugin_id = ".$db->quote($plugin_id).",
-                        proposal = '0'
+                        proposal = '0',
                         user_id = (SELECT user_id FROM pluginmarket_plugins WHERE pluginmarket_plugins.plugin_id = plugin_id LIMIT 1)
                 ");
             }
