@@ -6,7 +6,7 @@ class ExternController extends PluginController
     public function xml_action() {
         $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
         $this->set_layout(null);
-        header("Content-Type: text/xml");
+        $this->response->add_header('Content-Type', "text/xml");
     }
 
     public function find_releases_action() {

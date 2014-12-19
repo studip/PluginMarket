@@ -143,6 +143,8 @@ class PresentingController extends PluginController {
         $release['downloads'] += 1;
         $release->store();
         $this->render_nothing();
+        $this->response->add_header('Content-Type', "application/zip");
+        $this->response->add_header('Content-Disposition', "attachment; filename=".$release->plugin['name'].".zip");
     }
 
     public function image_action($image_id) {
