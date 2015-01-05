@@ -7,11 +7,13 @@ require_once __DIR__."/classes/MarketVote.class.php";
 require_once __DIR__."/classes/MarketReleaseFollower.class.php";
 require_once __DIR__."/classes/MarketPluginFollower.class.php";
 
-class PluginMarket extends StudIPPlugin implements SystemPlugin {
+class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
+{
 
     static protected $studip_domain = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $top = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview"));
         $top->setImage($this->getPluginURL()."/assets/topicon.svg");
@@ -41,11 +43,24 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin {
         NotificationCenter::addObserver($this, "triggerFollowingStudips", "PluginReleaseDidUpdateCode");
     }
 
-    public function getDisplayTitle() {
+    public function getDisplayTitle()
+    {
         return _("PluginMarktplatz");
     }
 
-    public function getStudipDomain() {
+    public function getHomepageTemplate($user_id)
+    {
+        $templatefactory = new Flexi_TemplateFactory(__DIR__."/views");
+        $template = $templatefactory->open("presenting/users_plugins.php");
+        $plugins = MarketPlugin::findBySQL("user_id = ? AND publiclyvisible = 1 AND approved = 1 ORDER BY mkdate DESC", array($user_id));
+        $template->set_attribute("plugin", $this);
+        $template->set_attribute("plugins", $plugins);
+        $template->set_attribute("title", _("Meine Plugins"));
+        return count($plugins) ? $template : null;
+    }
+
+    public function getStudipDomain()
+    {
         if (self::$studip_domain) {
             return self::$studip_domain;
         }
@@ -66,7 +81,8 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin {
         return self::$studip_domain = $DOMAIN_STUDIP;
     }
 
-    static public function triggerFollowingStudips($eventname, $release) {
+    static public function triggerFollowingStudips($eventname, $release)
+    {
         $output = array();
         $payload = json_encode(studip_utf8encode($output));
 
