@@ -111,7 +111,10 @@ class MarketPlugin extends SimpleORMap {
 
     public function getTags() {
         $statement = DBManager::get()->prepare("
-            SELECT tag FROM pluginmarket_tags WHERE plugin_id = ? ORDER BY tag ASC
+            SELECT tag
+            FROM pluginmarket_tags
+            WHERE plugin_id = ?
+            ORDER BY (SELECT COUNT(*) FROM pluginmarket_tags AS t2 WHERE t2.tag = pluginmarket_tags.tag) DESC
         ");
         $statement->execute(array($this->getId()));
         return $statement->fetchAll(PDO::FETCH_COLUMN, 0);
