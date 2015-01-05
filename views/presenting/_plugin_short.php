@@ -1,7 +1,9 @@
 <article>
     <div class="headerimagedescription">
-        <h1><a href="<?= PluginEngine::getLink($plugin, array(), "presenting/details/".$marketplugin->getId()) ?>"><?= htmlReady($marketplugin['name']) ?></a></h1>
-        <div class="image" style="background-image: url(<?= $marketplugin->getLogoURL() ?>);"></div>
+        <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/details/".$marketplugin->getId()) ?>">
+            <h1><?= htmlReady($marketplugin['name']) ?></h1>
+            <div class="image" style="background-image: url(<?= $marketplugin->getLogoURL() ?>);"></div>
+        </a>
         <p class="shortdescription">
             <?= htmlReady($marketplugin['short_description']) ?>
         </p>
