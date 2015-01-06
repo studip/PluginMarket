@@ -58,7 +58,7 @@ class MarketPlugin extends SimpleORMap {
 
     public function isWritable($user_id = null) {
         $user_id || $user_id = $GLOBALS['user']->id;
-        return $this['user_id'] === $user_id;
+        return ($this['user_id'] === $user_id) || $GLOBALS['perm']->have_perm("root", $user_id);
     }
 
     public function isRootable($user_id = null) {
