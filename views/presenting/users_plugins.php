@@ -7,7 +7,7 @@
                 </a>
             </td>
             <td>
-                <span>
+                <span class="starscore">
                     <? $score = $marketplugin->getRating() ?>
                     <? $score = round($score, 1) / 2 ?>
                     <? $v = $score >= 1 ? 3 : ($score >= 0.5 ? 2 : "") ?>
