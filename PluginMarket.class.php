@@ -50,6 +50,7 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
 
     public function getHomepageTemplate($user_id)
     {
+        PageLayout::addStylesheet($this->plugin->getPluginURL()."/assets/pluginmarket.css");
         $templatefactory = new Flexi_TemplateFactory(__DIR__."/views");
         $template = $templatefactory->open("presenting/users_plugins.php");
         $plugins = MarketPlugin::findBySQL("user_id = ? AND publiclyvisible = 1 AND approved = 1 ORDER BY mkdate DESC", array($user_id));
