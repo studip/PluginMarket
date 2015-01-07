@@ -94,14 +94,18 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
                 $calculatedHash = hash_hmac("sha1", $payload, $follower['security_token']);
                 $header[] = "HTTP_X_HUB_SIGNATURE: ".$calculatedHash;
             }
+            $header[] = "Content-Type: application/json";
 
             $r = curl_init();
             curl_setopt($r, CURLOPT_URL, $follower['url']);
             curl_setopt($r, CURLOPT_POST, true);
             curl_setopt($r, CURLOPT_HTTPHEADER, $header);
 
+            curl_setopt($r, CURLOPT_POSTFIELDS, $payload);
+
             $result = curl_exec($r);
             curl_close($r);
         }
     }
+
 }
