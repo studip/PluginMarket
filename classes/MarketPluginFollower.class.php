@@ -9,7 +9,7 @@ class MarketPluginFollower extends SimpleORMap {
     protected static function configure($config = array())
     {
         $config['db_table'] = 'pluginmarket_plugin_follower';
-        $config['belongs_to']['release'] = array(
+        $config['belongs_to']['plugin'] = array(
             'class_name' => 'MarketPlugin',
             'foreign_key' => 'plugin_id',
         );

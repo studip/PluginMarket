@@ -7,9 +7,9 @@
                 </a>
             </td>
             <td>
+                <? $score = $marketplugin->getRating() ?>
+                <? $score = round($score, 1) / 2 ?>
                 <span class="starscore">
-                    <? $score = $marketplugin->getRating() ?>
-                    <? $score = round($score, 1) / 2 ?>
                     <? $v = $score >= 1 ? 3 : ($score >= 0.5 ? 2 : "") ?>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "16px", 'class' => "big-image-handled")) ?>
                     <? $v = $score >= 2 ? 3 : ($score >= 1.5 ? 2 : "") ?>

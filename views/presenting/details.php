@@ -266,4 +266,10 @@ if ($icon) {
 <? if ($marketplugin['user_id'] !== $GLOBALS['user']->id) : ?>
     <?= \Studip\LinkButton::create(_("Plugin abonnieren"), PluginEngine::getURL($plugin, array(), "presenting/register_for_pluginnews/".$marketplugin->getId()), array('title' => _("Neuigkeiten des Plugins per Nachricht bekommen."), 'data-dialog' => "1")) ?>
 <? endif ?>
+<? if ($marketplugin->isRootable()) : ?>
+    <form action="?" method="post" style="display: inline-block; margin: 0px;">
+        <input type="hidden" name="plugin_id" value="<?= htmlReady($marketplugin->getId()) ?>">
+        <?= \Studip\Button::create(_("Löschen"), "delete_plugin", array('onclick' => "return window.confirm('"._("Plugin wirklich unwiderrufbar löschen?")."');")) ?>
+    </form>
+<? endif ?>
 </div>

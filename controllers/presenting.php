@@ -82,6 +82,12 @@ class PresentingController extends PluginController {
 
     public function details_action($plugin_id) {
         $this->marketplugin = new MarketPlugin($plugin_id);
+        if (Request::isPost() && Request::submitted("delete_plugin") && $this->marketplugin->isRootable()) {
+            $this->marketplugin->delete();
+            PageLayout::postMessage(MessageBox::success(_("Plugin wurde gelöscht.")));
+            $this->redirect("pluginmarket/presenting/overview");
+        }
+
     }
 
     public function review_action($plugin_id) {
