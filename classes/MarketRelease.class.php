@@ -98,9 +98,7 @@ class MarketRelease extends SimpleORMap {
         }
         $this['studip_min_version'] = $manifest['studipMinVersion'];
         $this['studip_max_version'] = $manifest['studipMaxVersion'];
-        if (!$this['version']) {
-            $this['version'] = $manifest['version'];
-        }
+        $this['version'] = $manifest['version'];
         if ($this['repository_overwrites_descriptionfrom']) {
             $readme = "";
             $scanner = scandir($dir);
