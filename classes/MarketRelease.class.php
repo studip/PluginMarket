@@ -113,6 +113,7 @@ class MarketRelease extends SimpleORMap {
                 $this->plugin->store();
             }
         }
+        $this->store();
         $hash = md5(uniqid());
         $plugin_raw = $GLOBALS['TMP_PATH']."/plugin_$hash.zip";
         create_zip_from_directory($dir, $plugin_raw);
