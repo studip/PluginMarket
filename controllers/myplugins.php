@@ -14,7 +14,7 @@ class MypluginsController extends PluginController {
 
     public function overview_action()
     {
-        $this->plugins = MarketPlugin::findBySQL("user_id = ?", array($GLOBALS['user']->id));
+        $this->plugins = MarketPlugin::findBySQL("user_id = ? ORDER BY mkdate DESC", array($GLOBALS['user']->id));
     }
 
     public function add_action() {
