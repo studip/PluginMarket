@@ -134,9 +134,9 @@ class PresentingController extends PluginController {
         PersonalNotifications::add(
             $this->marketplugin['user_id'],
             PluginEngine::getURL($this->plugin, array(), "presenting/details/".$plugin_id),
-            sprintf(_("Ihr Plugin %s wurde bewertet."), $this->marketplugin['name']),
+            sprintf(_("Ihr Plugin %s wurde von %s bewertet."), $this->marketplugin['name'], get_fullname($GLOBALS['user']->id)),
             null,
-            Assets::image_path("icons/blue/plugin")
+            Assets::image_path("icons/blue/star.svg")
         );
 
         PageLayout::postMessage(MessageBox::success(_("Review/Bewertung wurde gespeichert.")));
