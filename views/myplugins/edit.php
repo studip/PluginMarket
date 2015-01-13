@@ -44,7 +44,7 @@
         </label>
 
         <label>
-            <?= _("Schlagworte") ?>
+            <?= _("Schlagworte (kommasepariert)") ?>
             <input type="text" name="tags" value="<?= htmlReady(ucwords(implode(", ", $marketplugin->getTags()))) ?>">
         </label>
 
