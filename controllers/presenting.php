@@ -48,9 +48,9 @@ class PresentingController extends PluginController {
             $this->plugins = MarketPlugin::findBySQL("
                     (
                         name LIKE :likesearch
-                        OR (SELECT CONCAT(Vorname, ' ', Nachname) FROM auth_user_md5 WHERE user_id = pluginmarket_plugins.user_id) LIKE :likesearch
+                        OR (SELECT CONCAT(Vorname, ' ', Nachname) FROM auth_user_md5 WHERE user_id = pluginmarket_plugins.user_id LIMIT 1) LIKE :likesearch
                         OR MATCH (short_description, description) AGAINST (:search IN BOOLEAN MODE)
-                        OR (SELECT GROUP_CONCAT(' ', tag) FROM pluginmarket_tags WHERE pluginmarket_tags.plugin_id = plugin_id GROUP BY pluginmarket_tags.plugin_id) LIKE :likesearch
+                        OR (SELECT GROUP_CONCAT(' ', tag) FROM pluginmarket_tags WHERE pluginmarket_tags.plugin_id = plugin_id GROUP BY pluginmarket_tags.plugin_id LIMIT 1) LIKE :likesearch
                     )
                     AND publiclyvisible = 1
                     AND approved = 1
