@@ -10,7 +10,7 @@ class UpdateController extends PluginController {
         }
         if (!$release['repository_download_url']) {
             //might happen more often than we think, so we better be polite and die.
-            echo "OK";
+            echo "Nothing to do.";
             die();
         }
         if ($release->getSecurityHash() === Request::get("s")) {
