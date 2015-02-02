@@ -55,7 +55,7 @@ $DOMAIN_STUDIP = $plugin->getStudipDomain();
         <? if (!$release->isNew()) : ?>
         <p class="info">
             <?= _("Webhook-URL zum Einfügen in github oder gitlab:") ?>
-            <input type="text" readonly style="border: thin solid #cccccc; background-color: #eeeeee; width:100%;" value="<?= $GLOBALS['ABSOLUTE_URI_STUDIP']."plugins.php/pluginmarket/update/release/".$release->getId.'?s='.$release->getSecurityHash() ?>">
+            <input type="text" readonly style="border: thin solid #cccccc; background-color: #eeeeee; width:100%;" value="<?= $GLOBALS['ABSOLUTE_URI_STUDIP']."plugins.php/pluginmarket/update/release/".$release->getId().'?s='.$release->getSecurityHash() ?>">
         </p>
             <? if ($domain_warning) : ?>
             <p class="info"><?= htmlReady($domain_warning)  ?></p>
