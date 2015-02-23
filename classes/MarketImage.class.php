@@ -44,9 +44,9 @@ class MarketImage extends SimpleORMap {
     }
 
     public function outputImage() {
-        $path = self::getImageDataPath()."/".$this->getId();
-        header("Content-Type: ".$this['mimetype']);
-        header("Content-Disposition: inline; filename=".$this['filename']);
+        $path = self::getImageDataPath() . "/" . $this->getId();
+        header("Content-Type: " . mime_content_type($path));
+        header("Content-Disposition: inline; filename=" . $this['filename']);
         echo file_get_contents($path);
     }
 }
