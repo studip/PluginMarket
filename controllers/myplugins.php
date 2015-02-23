@@ -112,7 +112,7 @@ class MypluginsController extends PluginController {
                     $file = new MarketImage();
                     $file['plugin_id'] = $this->marketplugin->getId();
                     $file['filename'] = $name;
-                    $file['mimetype'] = $files['type'][$index];
+                    $file['mimetype'] = mime_content_type($files['tmp_name'][$index]);
                     $file['position'] = $position;
                     $file->installFromPath($files['tmp_name'][$index]);
                     $file->store();

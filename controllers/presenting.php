@@ -155,7 +155,10 @@ class PresentingController extends PluginController {
 
     public function image_action($image_id) {
         $this->image = new MarketImage($image_id);
+
+        $this->set_content_type($this->image['mimetype']);
         $this->image->outputImage();
+
         $this->render_nothing();
     }
 
