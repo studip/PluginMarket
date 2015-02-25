@@ -71,6 +71,6 @@
     <? endif ?>
 
     <div data-dialog-button>
-        <?= \Studip\Button::create(_("speichern")) ?>
+        <?= \Studip\Button::createAccept(_('Speichern')) ?>
     </div>
 </form>
