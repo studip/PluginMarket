@@ -15,7 +15,11 @@ class ImportOldData extends Migration {
         $releasefolder = $GLOBALS['STUDIP_BASE_PATH'] . "/data/pluginmarket_releases";
         $imagefolder = $GLOBALS['STUDIP_BASE_PATH'] . "/data/pluginmarket_images";
         */
-
+        
+        // Check if migration is possible
+        $oldTablesExisting = $db->query('SHOW TABLES LIKE "mp_plugins"')->rowCount();
+        
+        if ($oldTablesExisting) {
         //import plugins
         $db->exec("
             INSERT INTO pluginmarket_plugins (plugin_id, name, description, user_id, in_use, short_description, approved, published, publiclyvisible, donationsaccepted, url, language, chdate, mkdate)
@@ -128,7 +132,7 @@ class ImportOldData extends Migration {
                 'new' => $user_id
             ));
         }
-
+        }
     }
 	
     public function down() {
