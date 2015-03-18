@@ -119,6 +119,15 @@ class MarketPlugin extends SimpleORMap {
         $statement->execute(array($this->getId()));
         return $statement->fetchAll(PDO::FETCH_COLUMN, 0);
     }
+    
+    /**
+     * Returns sum of downloads
+     * 
+     * @return int Number of downloads
+     */
+    public function getDownloads() {
+        return DBManager::get()->fetchColumn('SELECT SUM(downloads) FROM pluginmarket_releases WHERE plugin_id = ?', array($this->id));
+    }
 
     public function getRating() {
         $cache = StudipCacheFactory::getCache();
