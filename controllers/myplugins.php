@@ -135,7 +135,7 @@ class MypluginsController extends PluginController {
             }
         }
         PageLayout::postMessage(MessageBox::success(_("Plugin wurde gespeichert.")));
-        $this->redirect("pluginmarket/presenting/details/".$this->marketplugin->getId());
+        $this->redirect('presenting/details/' . $this->marketplugin->getId());
     }
 
     public function save_release_action() {
@@ -158,7 +158,7 @@ class MypluginsController extends PluginController {
         $this->release->store();
 
         PageLayout::postMessage(MessageBox::success(_("Release wurde gespeichert.")));
-        $this->redirect("pluginmarket/presenting/details/".$this->release->plugin->getId());
+        $this->redirect('presenting/details/' . $this->release->plugin->getId());
     }
 
 }

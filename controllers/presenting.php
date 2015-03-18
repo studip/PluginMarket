@@ -106,7 +106,7 @@ class PresentingController extends PluginController {
         if (Request::isPost() && Request::submitted("delete_plugin") && $this->marketplugin->isRootable()) {
             $this->marketplugin->delete();
             PageLayout::postMessage(MessageBox::success(_("Plugin wurde gelöscht.")));
-            $this->redirect("pluginmarket/presenting/overview");
+            $this->redirect('presenting/overview');
         }
 
     }
@@ -161,7 +161,7 @@ class PresentingController extends PluginController {
         );
 
         PageLayout::postMessage(MessageBox::success(_("Review/Bewertung wurde gespeichert.")));
-        $this->redirect("pluginmarket/presenting/details/".$plugin_id);
+        $this->redirect('presenting/details/' . $plugin_id);
     }
 
     public function download_action($release) {

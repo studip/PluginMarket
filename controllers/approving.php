@@ -65,7 +65,7 @@ class ApprovingController extends PluginController {
         );
 
         PageLayout::postMessage(MessageBox::success(_("Review wurde gespeichert.")));
-        $this->redirect("pluginmarket/approving/overview");
+        $this->redirect('approving/overview');
     }
 
 }
