@@ -4,11 +4,6 @@
 }
 .pluginmarket_galery {
     list-style-type: none;
-    .flex();
-    .flex-direction-row();
-    .flex-wrap(wrap);
-    .flex-justify-content(center);
-    .flex-align-items(center);
     
     > .image {
         padding: 5px;
@@ -31,14 +26,20 @@
 .plugins_shortview {
     list-style-type: none;
     text-align: center;
-    
+
+    .flex();
+    .flex-direction-row();
+    .flex-wrap(wrap);
+    .flex-justify-content(center);
+    .flex-align-items(stretch);
+
     > article {
         display: inline-block;
         margin: 7px;
+
         width: 250px;
-        height: 260px;
         max-width: 250px;
-        max-height: 260px;
+
         overflow: hidden;
 
         .image {
@@ -55,9 +56,23 @@
         .shortdescription {
             font-size: 0.9em;
             height: 70px;
-            /*max-height: 70px; */
+            max-height: 70px;
             overflow: hidden;
             margin-bottom: 0px;
+            padding: 0 5px;
+            text-align: justify;
+            position: relative;
+            color: #000;
+            
+            &:after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 20px;
+                #gradient .vertical(fadeout(#fff, 100%), #fff);
+            }
         }
     }
 
@@ -105,10 +120,7 @@ article.contentbox {
         font-size: medium;
     }
     footer {
-        position: absolute;
-        bottom: 0px;
         background-color: white;
-        width: 100%;
         border-top: 1px solid @content-color-40;
         
         &.tags a {

@@ -4,10 +4,10 @@
             <h1><?= htmlReady($marketplugin['name']) ?></h1>
         </header>
         <div class="image" style="background-image: url(<?= $marketplugin->getLogoURL() ?>);"></div>
+        <p class="shortdescription">
+            <?= htmlReady($marketplugin['short_description']) ?>
+        </p>
     </a>
-    <p class="shortdescription">
-        <?= htmlReady($marketplugin['short_description']) ?>
-    </p>
 <? $tags = $marketplugin->getTags(); ?>
 <? if (count($tags)) : ?>
     <footer class="tags">
