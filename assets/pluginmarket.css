@@ -1,163 +1,252 @@
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+.hide-text {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.input-block-level {
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/*
+ * studip-mixins.less
+ *
+ * This file contains all mixins created specifically for Stud.IP
+ * while mixins.less should contain a copy of the mixins from
+ * twitter's bootstrap.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * @author      Jan-Hendrik Willms <tleilax+studip@gmail.com>
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
+ * @category    Stud.IP
+ * @since       2.4
+ */
+.scrollbox-vertical {
+  overflow: auto;
+  background: /* Shadow covers */ linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */ radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
+  background: /* Shadow covers */ linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */ radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+  /* Opera doesn't support this in the shorthand */
+  background-attachment: local, local, scroll, scroll;
+}
+.scrollbox-horizontal {
+  overflow: auto;
+  background: /* Shadow covers */ linear-gradient(90deg, #ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(90deg, rgba(255, 255, 255, 0), #ffffff 70%) 100% 0, /* Shadows */ radial-gradient(0 50%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(100% 50%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 100% 0;
+  background: /* Shadow covers */ linear-gradient(90deg, #ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(90deg, rgba(255, 255, 255, 0), #ffffff 70%) 100% 0, /* Shadows */ radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 100% 0;
+  background-repeat: no-repeat;
+  background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+  /* Opera doesn't support this in the shorthand */
+  background-attachment: local, local, scroll, scroll;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+/*
+ * arrow.less - CSS arrows mixin
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * @author      Jan-Hendrik Willms <tleilax+studip@gmail.com>
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
+ * @category    Stud.IP
+ * @since       2.4
+ */
 #pluginmarket_galery_view {
-    max-height: 500px;
-    overflow: auto;
+  max-height: 500px;
+  overflow: auto;
 }
 .pluginmarket_galery {
-    list-style-type: none;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+  list-style-type: none;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -webkit-box-flex;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  -moz-box-direction: normal;
+  -moz-box-orient: horizontal;
+  -webkit-box-orient: horizontal;
+  flex-direction: row;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  -moz-box-align: center;
+  align-items: center;
 }
 .pluginmarket_galery > .image {
-    padding: 5px;
-    border: 5px solid #eeeeee;
-    margin: 5px;
+  padding: 5px;
+  border: 5px solid #eeeeee;
+  margin: 5px;
 }
 .pluginmarket_galery > .image img {
-    display: block;
-    max-height: 180px;
+  display: block;
+  max-height: 180px;
 }
 .pluginmarket_galery > .image input[type=checkbox] {
-    display: none;
+  display: none;
 }
 .pluginmarket_galery > .image input[type=checkbox]:checked + * {
-    opacity: 0.2;
+  opacity: 0.2;
 }
-
 .plugins_shortview {
-    list-style-type: none;
-    text-align: center;
+  list-style-type: none;
+  text-align: center;
 }
-
 .plugins_shortview > article {
-    display: inline-block;
-    margin: 7px;
-    width: 250px;
-    height: 260px;
-    max-width: 250px;
-    max-height: 260px;
-    overflow: hidden;
+  display: inline-block;
+  margin: 7px;
+  width: 250px;
+  height: 260px;
+  max-width: 250px;
+  max-height: 260px;
+  overflow: hidden;
 }
-
 .plugins_shortview > article .image {
-    margin: 4px;
-    width: calc(100%-8px);
-    height: 150px;
-    background-position: center center;
-    background-size: auto calc(100% - 6px);
-    background-repeat: no-repeat;
-    background-color: white;
-    box-shadow: inset 0px 0px 4px rgba(0,0,0,0.3);
+  display: block;
+  margin: 4px;
+  height: 150px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: white;
+  box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.3);
 }
 .plugins_shortview > article .shortdescription {
-    font-size: 0.9em;
-    height: 70px;
-    /*max-height: 70px; */
-    overflow: hidden;
-    margin-bottom: 0px;
+  font-size: 0.9em;
+  height: 70px;
+  /*max-height: 70px; */
+  overflow: hidden;
+  margin-bottom: 0px;
 }
-
 .plugins_shortview.new > article {
-    -webkit-animation: scaling 700ms ease-out;
-    -ms-animation: scaling 700ms ease-out;
-    animation: scaling 700ms ease-out;
+  -webkit-animation: scaling 700ms ease-out;
+  -ms-animation: scaling 700ms ease-out;
+  animation: scaling 700ms ease-out;
 }
-
-
-@keyframes scaling {
-    from {
-        opacity: 0.8;
-        transform: scale(0.8,0.8) rotate(-3deg);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1,1) rotate(0deg);
-    }
-}
-
-/* Safari, Chrome and Opera > 12.1 */
-@-webkit-keyframes scaling {
-    from {
-        opacity: 0.8;
-        transform: scale(0.8,0.8) rotate(-3deg);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1,1) rotate(0deg);
-    }
-}
-
-/* Internet Explorer */
-@-ms-keyframes scaling {
-    from {
-        opacity: 0.8;
-        transform: scale(0.8,0.8) rotate(-3deg);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1,1) rotate(0deg);
-    }
-}
-
-/* Opera < 12.1 */
-@-o-keyframes scaling {
-    from {
-        opacity: 0.8;
-        transform: scale(0.8,0.8) rotate(-3deg);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1,1) rotate(0deg);
-    }
-}
-
 #tagcloud td {
-    transition: font-size 0.5s;
+  -webkit-transition: font-size 0.5s;
+  -moz-transition: font-size 0.5s;
+  -o-transition: font-size 0.5s;
+  transition: font-size 0.5s;
 }
 #tagcloud td:hover {
-    font-size: 1.2em;
-    transition: font-size 0.5s;
+  font-size: 1.2em;
+  transition: font-size 0.5s;
 }
-
-
 .starscore {
-    white-space: nowrap;
+  white-space: nowrap;
 }
-
 article.contentbox {
-    border-color: #D0D7E3;
-    border-style: solid;
-    border-width: 1px;
-    transition: all 300ms ease 0s;
-    position: relative;
+  border: 1px solid #d0d7e3;
+  border-style: solid;
+  border-width: 1px;
+  -webkit-transition: all 300ms ease 0s;
+  -moz-transition: all 300ms ease 0s;
+  -o-transition: all 300ms ease 0s;
+  transition: all 300ms ease 0s;
+  position: relative;
 }
-
 article.contentbox header {
-    width: 100%;
-    background-color: #E7EBF1;
-    color: #24437C;
-    font-size: 12pt;
-    font-weight: bold;
-    text-align: left;
-    line-height: 2em;
+  width: 100%;
+  background-color: #e7ebf1;
+  color: #24437c;
+  font-size: 12pt;
+  font-weight: bold;
+  text-align: left;
+  line-height: 2em;
 }
-
 article.contentbox h1 {
-    padding: 5px;
-    margin: 0px;
-    color: #28497C;
-    border-bottom: medium none;
-    font-size: medium;
+  padding: 5px;
+  margin: 0px;
+  color: #28497c;
+  border-bottom: medium none;
+  font-size: medium;
 }
-
 article.contentbox footer {
-    position: absolute;
-    bottom: 0px;
-    background-color: white;
-    width: 100%;
-    border-top-color: #D0D7E3;
-    border-top-style: solid;
-    border-top-width: 1px;
+  position: absolute;
+  bottom: 0px;
+  background-color: white;
+  width: 100%;
+  border-top: 1px solid #d0d7e3;
+}
+@keyframes scaling {
+  from {
+    opacity: 0.8;
+    transform: scale(0.8, 0.8) rotate(-3deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1, 1) rotate(0deg);
+  }
+}
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes scaling {
+  from {
+    opacity: 0.8;
+    transform: scale(0.8, 0.8) rotate(-3deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1, 1) rotate(0deg);
+  }
+}
+/* Internet Explorer */
+@-ms-keyframes scaling {
+  from {
+    opacity: 0.8;
+    transform: scale(0.8, 0.8) rotate(-3deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1, 1) rotate(0deg);
+  }
+}
+/* Opera < 12.1 */
+@-o-keyframes scaling {
+  from {
+    opacity: 0.8;
+    transform: scale(0.8, 0.8) rotate(-3deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1, 1) rotate(0deg);
+  }
 }

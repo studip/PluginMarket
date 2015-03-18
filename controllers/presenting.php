@@ -16,10 +16,9 @@ class PresentingController extends PluginController {
             $_SESSION['last_pluginmarket_visit'] = time();
             $config->store("last_pluginmarket_visit", $_SESSION['last_pluginmarket_visit']);
         }
-        PageLayout::addStylesheet($this->plugin->getPluginURL()."/assets/pluginmarket.css");
         PageLayout::addScript($this->plugin->getPluginURL()."/assets/studiptable.js");
         PageLayout::addScript($this->plugin->getPluginURL()."/assets/pluginmarket.js");
-        
+
                 $statement = DBManager::get()->prepare("
             SELECT pluginmarket_tags.tag, COUNT(*) AS number
             FROM pluginmarket_tags
@@ -33,21 +32,21 @@ class PresentingController extends PluginController {
         ");
         $statement->execute();
         $this->tags = $statement->fetchAll(PDO::FETCH_ASSOC);
-        
+
         // Set view
         $_SESSION['pluginmarket']['view'] = Request::get('view') ? : $_SESSION['pluginmarket']['view'];
         if (!isset($_SESSION['pluginmarket']['view'])) {
             $_SESSION['pluginmarket']['view'] = 'tiles';
         }
-                
+
         // Sidebar
         $sidebar = Sidebar::Get();
-        
+
         // Create search widget
         $searchWidget = new SearchWidget($this->url_for('presenting/all'));
         $searchWidget->addNeedle(_('Suche'), 'search', true);
         $sidebar->addWidget($searchWidget);
-        
+
         // Create cloud
         $tagWidget = new LinkCloudWidget();
         $tagWidget->setTitle(_("Beliebte Tags"));
@@ -55,7 +54,7 @@ class PresentingController extends PluginController {
             $tagWidget->addLink($tag['tag'], $this->url_for('presenting/all', array('tag' => $tag['tag'])), $tag['number']);
         }
         $sidebar->addWidget($tagWidget);
-        
+
         // Create view widget
         if ($action != 'details') {
             $viewWidget = new ViewsWidget();
@@ -63,7 +62,7 @@ class PresentingController extends PluginController {
             $viewWidget->addLink(_('Liste'), URLHelper::getLink('', array('view' => 'list')))->setActive($_SESSION['pluginmarket']['view'] == 'list');
             $sidebar->addWidget($viewWidget);
         }
-        
+
     }
 
     public function overview_action() {
@@ -74,7 +73,7 @@ class PresentingController extends PluginController {
         }
 
         $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY RAND() LIMIT 6");
-        
+
         $this->render_action('overview_'.$_SESSION['pluginmarket']['view']);
     }
 

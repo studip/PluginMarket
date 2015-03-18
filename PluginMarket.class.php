@@ -17,12 +17,12 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
         parent::__construct();
         $top = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview"));
         $top->setImage($this->getPluginURL()."/assets/topicon.svg");
-        
+
         $overview = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview"));
         $top->addSubNavigation("presenting", $overview);
         $overview->addSubNavigation("overview", new AutoNavigation(_('Übersicht'), PluginEngine::getURL($this, array(), "presenting/overview")));
         $overview->addSubNavigation("all", new AutoNavigation(_('Alle Plugins'), PluginEngine::getURL($this, array(), "presenting/all")));
-        
+
         if ($GLOBALS['perm']->have_perm("autor")) {
             $top->addSubNavigation("myplugins", new Navigation(_("Meine Plugins"), PluginEngine::getURL($this, array(), "myplugins/overview")));
         }
@@ -47,8 +47,11 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
 
         NotificationCenter::addObserver($this, "triggerFollowingStudips", "PluginReleaseDidUpdateCode");
     }
-    
-    public function initialize() {
+
+    public function initialize()
+    {
+        $this->addStylesheet('assets/pluginmarket.less');
+
         $sidebar = Sidebar::Get();
         $sidebar->setImage('../../'.$this->getPluginPath().'/assets/sidebar-marketplace.png');
     }
@@ -60,7 +63,8 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
 
     public function getHomepageTemplate($user_id)
     {
-        PageLayout::addStylesheet($this->getPluginURL()."/assets/pluginmarket.css");
+        $this->addStylesheet('assets/pluginmarket.less');
+
         $templatefactory = new Flexi_TemplateFactory(__DIR__."/views");
         $template = $templatefactory->open("presenting/users_plugins.php");
         $plugins = MarketPlugin::findBySQL("user_id = ? AND publiclyvisible = 1 AND approved = 1 ORDER BY mkdate DESC", array($user_id));
