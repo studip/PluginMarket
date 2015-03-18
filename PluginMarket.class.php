@@ -1,15 +1,8 @@
 <?php
-
-require_once __DIR__."/classes/MarketPlugin.class.php";
-require_once __DIR__."/classes/MarketRelease.class.php";
-require_once __DIR__."/classes/MarketImage.class.php";
-require_once __DIR__."/classes/MarketReview.class.php";
-require_once __DIR__."/classes/MarketReleaseFollower.class.php";
-require_once __DIR__."/classes/MarketPluginFollower.class.php";
+require_once 'bootstrap.php';
 
 class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
 {
-
     static protected $studip_domain = null;
 
     public function __construct()
