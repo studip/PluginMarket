@@ -12,7 +12,7 @@
     <? if (count($tags)) : ?>
         <footer class="tags">
             <? foreach ($tags as $tag) : ?>
-                <a href="<?= PluginEngine::getLink($plugin, array('tag' => $tag), "presenting/all") ?>"><?= Assets::img("icons/16/white/tag.svg", array('class' => "text-bottom")) ?> <?= htmlReady(ucwords($tag)) ?></a>
+                <a href="<?= PluginEngine::getLink($plugin, array('tag' => $tag), "presenting/all") ?>"><?= Assets::img("icons/16/blue/tag.svg", array('class' => "text-bottom")) ?> <?= htmlReady(ucwords($tag)) ?></a>
             <? endforeach ?>
         </footer>
     <? endif ?>
