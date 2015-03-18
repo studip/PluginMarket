@@ -90,7 +90,7 @@ if ($icon) {
     <thead>
         <tr>
             <th><?= _("Version") ?></th>
-            <th><?= _("Miniale Stud.IP-Versionsnummer") ?></th>
+            <th><?= _("Minimale Stud.IP-Versionsnummer") ?></th>
             <th><?= _("Maximale Stud.IP-Versionsnummer") ?></th>
             <th><?= _("MD5-Prüfsumme") ?></th>
             <th><?= _("Downloads") ?></th>
