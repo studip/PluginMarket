@@ -17,7 +17,12 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
         parent::__construct();
         $top = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview"));
         $top->setImage($this->getPluginURL()."/assets/topicon.svg");
-        $top->addSubNavigation("presenting", new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview")));
+        
+        $overview = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview"));
+        $top->addSubNavigation("presenting", $overview);
+        $overview->addSubNavigation("overview", new AutoNavigation(_('Übersicht'), PluginEngine::getURL($this, array(), "presenting/overview")));
+        $overview->addSubNavigation("all", new AutoNavigation(_('Alle Plugins'), PluginEngine::getURL($this, array(), "presenting/all")));
+        
         if ($GLOBALS['perm']->have_perm("autor")) {
             $top->addSubNavigation("myplugins", new Navigation(_("Meine Plugins"), PluginEngine::getURL($this, array(), "myplugins/overview")));
         }
@@ -41,6 +46,11 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
         Navigation::addItem("/login/pluginmarket",$loginlink);
 
         NotificationCenter::addObserver($this, "triggerFollowingStudips", "PluginReleaseDidUpdateCode");
+    }
+    
+    public function initialize() {
+        $sidebar = Sidebar::Get();
+        $sidebar->setImage('../../'.$this->getPluginPath().'/assets/sidebar-marketplace.png');
     }
 
     public function getDisplayTitle()

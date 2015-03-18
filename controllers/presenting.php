@@ -17,16 +17,8 @@ class PresentingController extends PluginController {
             $config->store("last_pluginmarket_visit", $_SESSION['last_pluginmarket_visit']);
         }
         PageLayout::addStylesheet($this->plugin->getPluginURL()."/assets/pluginmarket.css");
-    }
-
-    public function overview_action() {
-        if ($GLOBALS['perm']->have_perm("user")) {
-            if ($this->last_pluginmarket_visit !== time()) {
-                $this->new_plugins = MarketPlugin::findBySql("publiclyvisible = 1 AND approved = 1 AND published > ? ORDER BY mkdate DESC", array($this->last_pluginmarket_visit));
-            }
-        }
-
-        $statement = DBManager::get()->prepare("
+        
+                $statement = DBManager::get()->prepare("
             SELECT pluginmarket_tags.tag, COUNT(*) AS number
             FROM pluginmarket_tags
                 INNER JOIN pluginmarket_plugins ON (pluginmarket_plugins.plugin_id = pluginmarket_tags.plugin_id)
@@ -39,6 +31,32 @@ class PresentingController extends PluginController {
         ");
         $statement->execute();
         $this->tags = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+                
+        // Sidebar
+        $sidebar = Sidebar::Get();
+        
+        // Create search widget
+        $searchWidget = new SearchWidget($this->url_for('pluginmarket/presenting/all'));
+        $searchWidget->addNeedle(_('Suche'), 'search', true);
+        $sidebar->addWidget($searchWidget);
+        
+        // Create cloud
+        $tagWidget = new LinkCloudWidget();
+        $tagWidget->setTitle(_("Beliebte Tags"));
+        foreach ($this->tags as $tag) {
+            $tagWidget->addLink($tag['tag'], $this->url_for('pluginmarket/presenting/all', array('tag' => $tag['tag'])), $tag['number']);
+        }
+        $sidebar->addWidget($tagWidget);
+        
+    }
+
+    public function overview_action() {
+        if ($GLOBALS['perm']->have_perm("user")) {
+            if ($this->last_pluginmarket_visit !== time()) {
+                $this->new_plugins = MarketPlugin::findBySql("publiclyvisible = 1 AND approved = 1 AND published > ? ORDER BY mkdate DESC", array($this->last_pluginmarket_visit));
+            }
+        }
 
         $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY RAND() LIMIT 6");
     }
@@ -83,6 +101,7 @@ class PresentingController extends PluginController {
     }
 
     public function details_action($plugin_id) {
+        Navigation::addItem('/pluginmarket/presenting/details', new AutoNavigation(_('Details'), $this->url_for('pluginmarket/presenting/details/'.$plugin_id)));
         $this->marketplugin = new MarketPlugin($plugin_id);
         if (Request::isPost() && Request::submitted("delete_plugin") && $this->marketplugin->isRootable()) {
             $this->marketplugin->delete();
