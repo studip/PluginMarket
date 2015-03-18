@@ -17,6 +17,8 @@ class PresentingController extends PluginController {
             $config->store("last_pluginmarket_visit", $_SESSION['last_pluginmarket_visit']);
         }
         PageLayout::addStylesheet($this->plugin->getPluginURL()."/assets/pluginmarket.css");
+        PageLayout::addScript($this->plugin->getPluginURL()."/assets/studiptable.js");
+        PageLayout::addScript($this->plugin->getPluginURL()."/assets/pluginmarket.js");
         
                 $statement = DBManager::get()->prepare("
             SELECT pluginmarket_tags.tag, COUNT(*) AS number
@@ -31,7 +33,12 @@ class PresentingController extends PluginController {
         ");
         $statement->execute();
         $this->tags = $statement->fetchAll(PDO::FETCH_ASSOC);
-
+        
+        // Set view
+        $_SESSION['pluginmarket']['view'] = Request::get('view') ? : $_SESSION['pluginmarket']['view'];
+        if (!isset($_SESSION['pluginmarket']['view'])) {
+            $_SESSION['pluginmarket']['view'] = 'tiles';
+        }
                 
         // Sidebar
         $sidebar = Sidebar::Get();
@@ -49,6 +56,14 @@ class PresentingController extends PluginController {
         }
         $sidebar->addWidget($tagWidget);
         
+        // Create view widget
+        if ($action != 'details') {
+            $viewWidget = new ViewsWidget();
+            $viewWidget->addLink(_('Kacheln'), URLHelper::getLink('', array('view' => 'tiles')))->setActive($_SESSION['pluginmarket']['view'] == 'tiles');
+            $viewWidget->addLink(_('Liste'), URLHelper::getLink('', array('view' => 'list')))->setActive($_SESSION['pluginmarket']['view'] == 'list');
+            $sidebar->addWidget($viewWidget);
+        }
+        
     }
 
     public function overview_action() {
@@ -59,6 +74,8 @@ class PresentingController extends PluginController {
         }
 
         $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY RAND() LIMIT 6");
+        
+        $this->render_action('overview_'.$_SESSION['pluginmarket']['view']);
     }
 
     public function all_action() {
@@ -98,6 +115,7 @@ class PresentingController extends PluginController {
         } else {
             $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
         }
+        $this->render_action('overview_'.$_SESSION['pluginmarket']['view']);
     }
 
     public function details_action($plugin_id) {
