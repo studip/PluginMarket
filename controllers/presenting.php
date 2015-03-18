@@ -37,7 +37,7 @@ class PresentingController extends PluginController {
         $sidebar = Sidebar::Get();
         
         // Create search widget
-        $searchWidget = new SearchWidget($this->url_for('pluginmarket/presenting/all'));
+        $searchWidget = new SearchWidget($this->url_for('presenting/all'));
         $searchWidget->addNeedle(_('Suche'), 'search', true);
         $sidebar->addWidget($searchWidget);
         
@@ -45,7 +45,7 @@ class PresentingController extends PluginController {
         $tagWidget = new LinkCloudWidget();
         $tagWidget->setTitle(_("Beliebte Tags"));
         foreach ($this->tags as $tag) {
-            $tagWidget->addLink($tag['tag'], $this->url_for('pluginmarket/presenting/all', array('tag' => $tag['tag'])), $tag['number']);
+            $tagWidget->addLink($tag['tag'], $this->url_for('presenting/all', array('tag' => $tag['tag'])), $tag['number']);
         }
         $sidebar->addWidget($tagWidget);
         
@@ -101,7 +101,7 @@ class PresentingController extends PluginController {
     }
 
     public function details_action($plugin_id) {
-        Navigation::addItem('/pluginmarket/presenting/details', new AutoNavigation(_('Details'), $this->url_for('pluginmarket/presenting/details/'.$plugin_id)));
+        Navigation::addItem('/pluginmarket/presenting/details', new AutoNavigation(_('Details'), $this->url_for('presenting/details/'.$plugin_id)));
         $this->marketplugin = new MarketPlugin($plugin_id);
         if (Request::isPost() && Request::submitted("delete_plugin") && $this->marketplugin->isRootable()) {
             $this->marketplugin->delete();
