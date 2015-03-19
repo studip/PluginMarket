@@ -49,7 +49,10 @@ class ExternController extends MarketController
         static $markdown = null;
 
         if ($purifier === null) {
-            $purifier = new HTMLPurifier(HTMLPurifier_Config::createDefault());
+            $purifier_config = HTMLPurifier_Config::createDefault();
+            $purifier_config->set('Cache.SerializerPath', realpath($GLOBALS['TMP_PATH']));
+            $purifier = new HTMLPurifier($purifier_config);
+
             $markdown = new HTML_To_Markdown();
             $markdown->set_option('strip_tags', true);
         }
