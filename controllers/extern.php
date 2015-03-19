@@ -12,8 +12,63 @@ class ExternController extends MarketController
 
     public function xml_action()
     {
-        $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
-        $this->response->add_header('Content-Type', "text/xml");
+        $doc = new DomDocument('1.0', 'UTF-8');
+        $doc->formatOutput = true;
+        $xml_plugins = $doc->appendChild($doc->createElement('plugins'));
+
+        $plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
+        foreach ($plugins as $plugin) {
+            $xml_plugin = $xml_plugins->appendChild($doc->createElement('plugin'));
+            $xml_plugin->setAttribute('name', $this->xml_ready($plugin['name']));
+            $xml_plugin->setAttribute('homepage', $plugin['url']);
+            $xml_plugin->setAttribute('short_description', $this->xml_ready($plugin['short_description']));
+            $xml_plugin->setAttribute('description', $this->xml_ready($plugin['description']));
+            $xml_plugin->setAttribute('image', $plugin->getLogoURL(true));
+            $xml_plugin->setAttribute('score', $plugin->getRating());
+            foreach ($plugin->releases as $release) {
+                $xml_release = $xml_plugin->appendChild($doc->createElement('release'));
+                $xml_release->setAttribute('version', $release['version']);
+                $xml_release->setAttribute('studipMinVersion', $release['studip_min_version']);
+                $xml_release->setAttribute('studipMaxVersion', $release['studip_max_version']);
+                $xml_release->setAttribute('url', $this->absolute_url_for('presenting/download/' . $release->getId()));
+            }
+        }
+
+        $this->response->add_header('Content-Type', 'text/xml;charset=UTF-8');
+        $this->render_text($doc->saveXML());
+    }
+
+    /**
+     * Converts a given string to our xml friendly text.
+     * This step involves purifying the string 
+     */
+    public function xml_ready($string)
+    {
+        static $purifier = null;
+        static $fixer = null;
+        static $markdown = null;
+
+        if ($purifier === null) {
+            $purifier = new HTMLPurifier(HTMLPurifier_Config::createDefault());
+            $markdown = new HTML_To_Markdown();
+            $markdown->set_option('strip_tags', true);
+        }
+
+        $string = utf8_encode($string);
+        $string = str_replace('&nbsp;', ' ', $string);
+
+        $string = $purifier->purify($string);
+        $string = $markdown->convert($string);
+
+        $string = preg_replace('/\[\]\((\w+:\/\/.*?)\)/', '', $string);
+
+        $string = preg_replace('/\[(\w+:\/\/.*?)\/?\]\(\\1\/?\s+"(.*?)"\)/isxm', '$2: $1', $string);
+        $string = preg_replace('/\[(\w+:\/\/.*?)\/?\]\(\\1\/?\)/isxm', '$1', $string);
+        $string = preg_replace('/\[(.*?)\]\((\w+:\/\/.*?)\)/', '$1: $2', $string);
+
+        $string = trim($string);
+
+        return $string;
     }
 
     public function find_releases_action()

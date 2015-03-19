@@ -1,0 +1,5 @@
+{
+    "require": {
+        "nickcernis/html-to-markdown": "dev-master"
+    }
+}
