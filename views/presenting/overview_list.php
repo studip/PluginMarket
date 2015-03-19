@@ -1,6 +1,6 @@
 <table id="plugintable" class="default">
     <caption>
-        <?= _('Plugins') ?>
+        <?= htmlReady(count($plugins)) ?> <?= _('Plugins') ?>
     </caption>
     <thead>
         <tr>
