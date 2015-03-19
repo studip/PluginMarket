@@ -9,7 +9,7 @@
         <legend><?= _("Konfigurieren Sie Ihr Stud.IP") ?></legend>
         <label>
             <?= _("Download-URL - geben Sie diese URL in Ihrem Stud.IP in der Pluginverwaltung ein") ?>
-            <input type="text" readonly value="<?= $plugin->getStudipDomain() . $controller->url_for('presenting/download/' . $release->getId()) ?>">
+            <input type="text" readonly value="<?= $GLOBALS['ABSOLUTE_URI_STUDIP'] . $controller->url_for('presenting/download/' . $release->getId()) ?>">
         </label>
     </fieldset>
     <fieldset>

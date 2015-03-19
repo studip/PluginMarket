@@ -1,7 +1,3 @@
-<?
-$DOMAIN_STUDIP = $plugin->getStudipDomain();
-?>
-
 <fieldset>
     <legend>
         <? if ($release->isNew()) : ?>
