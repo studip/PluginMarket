@@ -16,10 +16,9 @@ class PresentingController extends PluginController {
             $_SESSION['last_pluginmarket_visit'] = time();
             $config->store("last_pluginmarket_visit", $_SESSION['last_pluginmarket_visit']);
         }
-        PageLayout::addStylesheet($this->plugin->getPluginURL()."/assets/pluginmarket.css");
         PageLayout::addScript($this->plugin->getPluginURL()."/assets/studiptable.js");
         PageLayout::addScript($this->plugin->getPluginURL()."/assets/pluginmarket.js");
-        
+
                 $statement = DBManager::get()->prepare("
             SELECT pluginmarket_tags.tag, COUNT(*) AS number
             FROM pluginmarket_tags
@@ -33,29 +32,29 @@ class PresentingController extends PluginController {
         ");
         $statement->execute();
         $this->tags = $statement->fetchAll(PDO::FETCH_ASSOC);
-        
+
         // Set view
         $_SESSION['pluginmarket']['view'] = Request::get('view') ? : $_SESSION['pluginmarket']['view'];
         if (!isset($_SESSION['pluginmarket']['view'])) {
             $_SESSION['pluginmarket']['view'] = 'tiles';
         }
-                
+
         // Sidebar
         $sidebar = Sidebar::Get();
-        
+
         // Create search widget
-        $searchWidget = new SearchWidget($this->url_for('pluginmarket/presenting/all'));
+        $searchWidget = new SearchWidget($this->url_for('presenting/all'));
         $searchWidget->addNeedle(_('Suche'), 'search', true);
         $sidebar->addWidget($searchWidget);
-        
+
         // Create cloud
         $tagWidget = new LinkCloudWidget();
         $tagWidget->setTitle(_("Beliebte Tags"));
         foreach ($this->tags as $tag) {
-            $tagWidget->addLink($tag['tag'], $this->url_for('pluginmarket/presenting/all', array('tag' => $tag['tag'])), $tag['number']);
+            $tagWidget->addLink($tag['tag'], $this->url_for('presenting/all', array('tag' => $tag['tag'])), $tag['number']);
         }
         $sidebar->addWidget($tagWidget);
-        
+
         // Create view widget
         if ($action != 'details') {
             $viewWidget = new ViewsWidget();
@@ -90,7 +89,7 @@ class PresentingController extends PluginController {
         }
 
         $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY RAND() LIMIT 6");
-        
+
         $this->render_action('overview_'.$_SESSION['pluginmarket']['view']);
     }
 
@@ -136,12 +135,12 @@ class PresentingController extends PluginController {
     }
 
     public function details_action($plugin_id) {
-        Navigation::addItem('/pluginmarket/presenting/details', new AutoNavigation(_('Details'), $this->url_for('pluginmarket/presenting/details/'.$plugin_id)));
+        Navigation::addItem('/pluginmarket/presenting/details', new AutoNavigation(_('Details'), $this->url_for('presenting/details/'.$plugin_id)));
         $this->marketplugin = new MarketPlugin($plugin_id);
         if (Request::isPost() && Request::submitted("delete_plugin") && $this->marketplugin->isRootable()) {
             $this->marketplugin->delete();
             PageLayout::postMessage(MessageBox::success(_("Plugin wurde gelöscht.")));
-            $this->redirect("pluginmarket/presenting/overview");
+            $this->redirect('presenting/overview');
         }
 
     }
@@ -196,7 +195,7 @@ class PresentingController extends PluginController {
         );
 
         PageLayout::postMessage(MessageBox::success(_("Review/Bewertung wurde gespeichert.")));
-        $this->redirect("pluginmarket/presenting/details/".$plugin_id);
+        $this->redirect('presenting/details/' . $plugin_id);
     }
 
     public function download_action($release) {

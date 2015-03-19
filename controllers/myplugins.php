@@ -9,7 +9,6 @@ class MypluginsController extends PluginController {
 
         Navigation::activateItem("/pluginmarket/myplugins");
         $this->set_content_type('text/html;charset=windows-1252');
-        PageLayout::addStylesheet($this->plugin->getPluginURL()."/assets/pluginmarket.css");
     }
 
     public function overview_action()
@@ -122,7 +121,7 @@ class MypluginsController extends PluginController {
 
         if (Request::submitted("release")) {
             $release_data = Request::getArray("release");
-            if ($release_data['type'] !== "zipfile" || $_FILES['release_file']['tmp_path']) {
+            if ($release_data['type'] !== "zipfile" || $_FILES['release_file']['tmp_name']) {
                 $release = new MarketRelease();
                 if (!isset($release_data['repository_overwrites_descriptionfrom'])) {
                     $release_data['repository_overwrites_descriptionfrom'] = 0;
@@ -135,7 +134,7 @@ class MypluginsController extends PluginController {
             }
         }
         PageLayout::postMessage(MessageBox::success(_("Plugin wurde gespeichert.")));
-        $this->redirect("pluginmarket/presenting/details/".$this->marketplugin->getId());
+        $this->redirect('presenting/details/' . $this->marketplugin->getId());
     }
 
     public function save_release_action() {
@@ -158,7 +157,7 @@ class MypluginsController extends PluginController {
         $this->release->store();
 
         PageLayout::postMessage(MessageBox::success(_("Release wurde gespeichert.")));
-        $this->redirect("pluginmarket/presenting/details/".$this->release->plugin->getId());
+        $this->redirect('presenting/details/' . $this->release->plugin->getId());
     }
 
 }

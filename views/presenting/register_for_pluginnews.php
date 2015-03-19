@@ -2,7 +2,7 @@
     <?= $message ?>
 <? endforeach ?>
 
-<form action="<?= PluginEngine::getLink($plugin, array(), "presenting/register_for_pluginnews/".$marketplugin->getId()) ?>" method="post" class="studipform" data-dialog>
+<form action="<?= $controller->url_for('presenting/register_for_pluginnews/' . $marketplugin->getId()) ?>" method="post" class="studipform" data-dialog>
     <?= MessageBox::info(sprintf(_("Durch das Abonnieren des Plugins %s erhalten Sie Stud.IP-Nachrichten, wenn neue Releases hochgeladen werden."), $marketplugin['name'])) ?>
     <div style="text-align: center">
         <? if (MarketPluginFollower::findByUserAndPlugin($GLOBALS['user']->id, $marketplugin->getId())) : ?>
