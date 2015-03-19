@@ -122,5 +122,15 @@ class MarketRelease extends SimpleORMap {
         unlink($plugin_raw);
         return true;
     }
+    
+    /**
+     * Checks if the release works with the given Stud.IP version
+     * 
+     * @param String $version Version to check for
+     */
+    public function checkVersion($version) {
+        return ( !$this->studip_min_version || version_compare($version, $this->studip_min_version) >= 0 )
+                && ( !$this->studip_max_version || version_compare($version, $this->studip_max_version) <= 0 );
+    }
 
 }

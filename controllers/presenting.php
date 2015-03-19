@@ -63,7 +63,23 @@ class PresentingController extends PluginController {
             $viewWidget->addLink(_('Liste'), URLHelper::getLink('', array('view' => 'list')))->setActive($_SESSION['pluginmarket']['view'] == 'list');
             $sidebar->addWidget($viewWidget);
         }
+
+        // Create versionfilter widget
+        $versionWidget = new OptionsWidget();
+        $versionWidget->setTitle(_('Stud.IP Version'));
         
+        // Create options for all studip versions
+        $_SESSION['pluginmarket']['version'] = Request::get('version') ? : $_SESSION['pluginmarket']['version'];
+        $studipVersions = array('1.4.0','1.5.0','1.6.0','1.7','1.8','1.9','1.10','1.11','2.0','2.1','2.2','2.3','2.4','2.5','3.0','3.1');
+        foreach (array_reverse($studipVersions) as $version) {
+            $options[] = "<option value='".URLHelper::getLink('', array('version' => $version))."' ".($_SESSION['pluginmarket']['version'] == $version ? "SELECTED" : "").">$version</option>";
+        }
+        $versionWidget->addElement(new WidgetElement('<select style="width: 100%" onchange="location = this.options[this.selectedIndex].value;">'.join($options).'</select>'));
+        
+        // Add checkbox to ignore older releases (use invese logic to be applied on startup)
+        $_SESSION['pluginmarket']['all_releases'] = Request::submitted('all_releases') ? Request::get('all_releases') : $_SESSION['pluginmarket']['all_releases'];
+        $versionWidget->addCheckbox(_('Aktuelles Release'), !$_SESSION['pluginmarket']['all_releases'], URLHelper::getLink('', array('all_releases' => !$_SESSION['pluginmarket']['all_releases'])));
+        $sidebar->addWidget($versionWidget, 'comments');
     }
 
     public function overview_action() {
@@ -115,6 +131,7 @@ class PresentingController extends PluginController {
         } else {
             $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
         }
+        $this->plugins = array_filter ( $this->plugins, function($plugin) {return $plugin->checkVersion($_SESSION['pluginmarket']['version']);});
         $this->render_action('overview_'.$_SESSION['pluginmarket']['view']);
     }
 
@@ -244,6 +261,6 @@ class PresentingController extends PluginController {
             $this->set_content_type('text/html;charset=windows-1252');
         }
     }
-
+    
 
 }

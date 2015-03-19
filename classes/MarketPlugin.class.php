@@ -128,6 +128,24 @@ class MarketPlugin extends SimpleORMap {
     public function getDownloads() {
         return DBManager::get()->fetchColumn('SELECT SUM(downloads) FROM pluginmarket_releases WHERE plugin_id = ?', array($this->id));
     }
+    
+    /**
+     * Checks if the plugin has a release for a given studip version
+     * 
+     * @param String $version the requested version
+     * @param boolean $all_releases Defines if all releases are checked for compatibility
+     */
+    public function checkVersion($version, $all_releases = false) {
+        if ($all_releases) {
+            foreach ($this->releases as $release) {
+                if ($release->checkVersion($version)) {
+                    return true;
+                }
+            }
+        } else {
+            return $this->releases[0] ? $this->releases[0]->checkVersion($version) : false;
+        }
+    }
 
     public function getRating() {
         $cache = StudipCacheFactory::getCache();
