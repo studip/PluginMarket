@@ -21,7 +21,7 @@ class MarketImage extends SimpleORMap {
     }
 
     public function getURL() {
-        return "plugins.php/pluginmarket/presenting/image/".$this->getId();
+        return URLHelper::getURL("plugins.php/pluginmarket/presenting/image/".$this->getId(), array(), true);
     }
 
     public function delete() {
