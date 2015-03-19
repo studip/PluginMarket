@@ -12,7 +12,7 @@
             version="<?= htmlReady(studip_utf8encode($release['version'])) ?>"
             studipMinVersion="<?= htmlReady(studip_utf8encode($release['studip_min_version'])) ?>"
             studipMaxVersion="<?= htmlReady(studip_utf8encode($release['studip_min_version'])) ?>"
-            url="<?= htmlReady(studip_utf8encode($GLOBALS['ABSOLUTE_URI_STUDIP'].$controller->url_for('presenting/download/' . $release->getId()))) ?>"
+            url="<?= htmlReady(studip_utf8encode($GLOBALS['ABSOLUTE_URI_STUDIP']."plugins.php/pluginmarket/presenting/download/" . $release->getId())) ?>"
             />
         <? endforeach ?>
     </plugin>
