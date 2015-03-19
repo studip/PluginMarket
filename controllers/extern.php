@@ -58,7 +58,7 @@ class ExternController extends MarketController
             $markdown->set_option('strip_tags', true);
         }
 
-        $string = utf8_encode($string);
+        $string = studip_utf8encode($string);
         $string = str_replace('&nbsp;', ' ', $string);
 
         $string = $purifier->purify($string);
