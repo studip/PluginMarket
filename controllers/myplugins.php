@@ -121,7 +121,7 @@ class MypluginsController extends PluginController {
 
         if (Request::submitted("release")) {
             $release_data = Request::getArray("release");
-            if ($release_data['type'] !== "zipfile" || $_FILES['release_file']['tmp_path']) {
+            if ($release_data['type'] !== "zipfile" || $_FILES['release_file']['tmp_name']) {
                 $release = new MarketRelease();
                 if (!isset($release_data['repository_overwrites_descriptionfrom'])) {
                     $release_data['repository_overwrites_descriptionfrom'] = 0;
