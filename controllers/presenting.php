@@ -131,7 +131,7 @@ class PresentingController extends PluginController {
         } else {
             $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
         }
-        $this->plugins = array_filter ( $this->plugins, function($plugin) {return $plugin->checkVersion($_SESSION['pluginmarket']['version']);});
+        $this->plugins = array_filter ( $this->plugins, function($plugin) {return $plugin->checkVersion($_SESSION['pluginmarket']['version'], $_SESSION['pluginmarket']['all_releases']);});
         $this->render_action('overview_'.$_SESSION['pluginmarket']['view']);
     }
 
