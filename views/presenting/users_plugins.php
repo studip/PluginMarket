@@ -2,7 +2,7 @@
 <? foreach ($plugins as $marketplugin): ?>
     <tr>
         <td>
-            <a href="<?= $controller->url_for('presenting/details/' . $marketplugin->getId()) ?>">
+            <a href="<?= PluginEngine::getLink($plugin, array(), 'presenting/details/' . $marketplugin->getId()) ?>">
                 <?= htmlReady($marketplugin['name']) ?>
             </a>
         </td>
@@ -26,7 +26,7 @@
             <div style="max-height: 20px; overflow: hidden;">
             <? foreach ($marketplugin->getTags() as $key => $tag): ?>
                 <?= $key > 0 ? "," : "" ?>
-                <a href="<?= $controller->url_for('presenting/all', compact('tag')) ?>">
+                <a href="<?= PluginEngine::getLink($plugin, compact('tag'), 'presenting/all') ?>">
                     <?= Assets::img("icons/16/blue/tag", array('class' => "text-bottom")) ?>
                     <?= htmlReady(ucwords($tag)) ?>
                 </a>
