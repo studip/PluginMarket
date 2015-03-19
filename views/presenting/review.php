@@ -1,4 +1,4 @@
-<form action="<?= PluginEngine::getLink($plugin, array(), "presenting/save_review/".$review['plugin_id']) ?>" method="post" class="studip_form">
+<form action="<?= $controller->url_for('presenting/save_review/' . $review['plugin_id']) ?>" method="post" class="studip_form">
     <fieldset>
         <legend>
             <?= _("Bewertung") ?>

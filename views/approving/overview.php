@@ -7,35 +7,37 @@
     </tr>
     </thead>
     <tbody>
-    <? if (count($plugins)) : ?>
-        <? foreach ($plugins as $marketplugin) : ?>
-            <tr>
-                <td>
-                    <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/details/".$marketplugin->getId()) ?>">
-                        <?= htmlReady($marketplugin['name']) ?>
-                    </a>
-                </td>
-                <td>
-                    <?
-                    $chdate = $marketplugin['chdate'];
-                    foreach ($marketplugin->releases as $release) {
-                        $chdate = max($chdate, $release['chdate']);
-                    }
-                    ?>
-                    <?= date("j.n.Y, G:i", $chdate) ?> <?= _("Uhr") ?>
-                </td>
-                <td>
-                    <a href="<?= PluginEngine::getLink($plugin, array(), "approving/review/".$marketplugin->getId()) ?>" data-dialog>
-                        <?= Assets::img("icons/20/blue/assessment") ?>
-                    </a>
-                </td>
-            </tr>
-        <? endforeach ?>
-    <? else : ?>
+<? if (count($plugins)) : ?>
+    <? foreach ($plugins as $marketplugin): ?>
         <tr>
-            <td colspan="2" style="text-align: center;"><?= _("Keine Plugins warten auf eine Qualitätssicherung") ?></td>
+            <td>
+                <a href="<?= $controller->url_for('presenting/details/' . $marketplugin->getId()) ?>">
+                    <?= htmlReady($marketplugin['name']) ?>
+                </a>
+            </td>
+            <td>
+            <?
+                $chdate = $marketplugin['chdate'];
+                foreach ($marketplugin->releases as $release) {
+                    $chdate = max($chdate, $release['chdate']);
+                }
+            ?>
+                <?= date("j.n.Y, G:i", $chdate) ?> <?= _("Uhr") ?>
+            </td>
+            <td class="actions">
+                <a href="<?= $controller->url_for('approving/review/' . $marketplugin->getId()) ?>" data-dialog>
+                    <?= Assets::img("icons/20/blue/assessment") ?>
+                </a>
+            </td>
         </tr>
-    <? endif ?>
+    <? endforeach; ?>
+<? else: ?>
+        <tr>
+            <td colspan="2" style="text-align: center;">
+                <?= _("Keine Plugins warten auf eine Qualitätssicherung") ?>
+            </td>
+        </tr>
+<? endif; ?>
     </tbody>
 </table>
 

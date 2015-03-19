@@ -19,7 +19,7 @@
         <? foreach ($plugins as $marketplugin): ?>
             <tr>
                 <td data-sort="<?= htmlReady($marketplugin->name) ?>">
-                    <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/details/" . $marketplugin->getId()) ?>">
+                    <a href="<?= $controller->url_for('presenting/details/' . $marketplugin->getId()) ?>">
                         <?= htmlReady($marketplugin->name) ?>
                     </a>
                 </td>

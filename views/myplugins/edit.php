@@ -1,4 +1,4 @@
-<form action="<?= PluginEngine::getLink($plugin, array(), "myplugins/save") ?>" method="post" class="studip_form" enctype="multipart/form-data">
+<form action="<?= $controller->url_for('myplugins/save') ?>" method="post" class="studip_form" enctype="multipart/form-data">
     <input type="hidden" name="id" value="<?= $marketplugin->getId() ?>">
     <fieldset>
         <legend>
