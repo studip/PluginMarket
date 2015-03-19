@@ -21,7 +21,7 @@ class ExternController extends MarketController
         foreach ($plugins as $plugin) {
             $xml_plugin = $xml_plugins->appendChild($doc->createElement('plugin'));
             $xml_plugin->setAttribute('name', $this->xml_ready($plugin['name']));
-            $xml_plugin->setAttribute('homepage', $plugin['url']);
+            $xml_plugin->setAttribute('homepage', $this->xml_ready($plugin['url']));
             $xml_plugin->setAttribute('short_description', $this->xml_ready($plugin['short_description']));
             $xml_plugin->setAttribute('description', $this->xml_ready($plugin['description']));
             $xml_plugin->setAttribute('image', $plugin->getLogoURL(true));
