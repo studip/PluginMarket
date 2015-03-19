@@ -1,8 +1,8 @@
 <?php
-require_once 'app/controllers/plugin_controller.php';
+require_once 'market_controller.php';
 
-class PresentingController extends PluginController {
-
+class PresentingController extends MarketController
+{
     protected $last_pluginmarket_visit = null;
 
     function before_filter(&$action, &$args)

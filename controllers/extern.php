@@ -1,16 +1,23 @@
 <?php
-require_once 'app/controllers/plugin_controller.php';
+require_once 'market_controller.php';
 
-class ExternController extends PluginController
+class ExternController extends MarketController
 {
-    public function xml_action() {
-        $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
-        URLHelper::setBaseUrl($GLOBALS['ABSOLUTE_URI_STUDIP']);
+    public function before_filter(&$action, &$args)
+    {
+        parent::before_filter($action, $args);
+
         $this->set_layout(null);
+    }
+
+    public function xml_action()
+    {
+        $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
         $this->response->add_header('Content-Type', "text/xml");
     }
 
-    public function find_releases_action() {
+    public function find_releases_action()
+    {
         $output = array();
         $studipversion = Request::get("studipversion");
         $plugins = MarketPlugin::findByPluginclassname(Request::get("classname"));
@@ -22,9 +29,9 @@ class ExternController extends PluginController
                     if ((!$release['studip_min_version'] || version_compare($studipversion, $release['studip_min_version'], ">="))
                             && (!$release['studip_max_version'] || version_compare($studipversion, $release['studip_max_version'], "<="))) {
                         $output['releases'][] = array(
-                            'version' => $release['version'],
-                            'html_url' => PluginEngine::getURL($this->plugin, array(), "presenting/details/".$plugin->getId()),
-                            'download_url' => PluginEngine::getURL($this->plugin, array(), "presenting/download/".$release->getId())
+                            'version'      => $release['version'],
+                            'html_url'     => $this->url_for('presenting/details/' . $plugin->getId()),
+                            'download_url' => $this->url_for('presenting/download/' . $release->getId()),
                         );
                     }
                 }

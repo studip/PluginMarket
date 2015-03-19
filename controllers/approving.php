@@ -1,7 +1,8 @@
 <?php
-require_once 'app/controllers/plugin_controller.php';
+require_once 'market_controller.php';
 
-class ApprovingController extends PluginController {
+class ApprovingController extends MarketController
+{
 
     function before_filter(&$action, &$args)
     {

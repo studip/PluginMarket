@@ -1,7 +1,7 @@
 <?php
 
-class MarketImage extends SimpleORMap {
-
+class MarketImage extends SimpleORMap
+{
     static public function findByPlugin_id($plugin_id) {
         return self::findBySQL("plugin_id = ? ORDER BY position ASC, mkdate ASC", array($plugin_id));
     }
@@ -20,8 +20,19 @@ class MarketImage extends SimpleORMap {
         parent::configure($config);
     }
 
-    public function getURL() {
-        return URLHelper::getURL("plugins.php/pluginmarket/presenting/image/".$this->getId(), array(), true);
+    public function getURL($absolute_url = false)
+    {
+        if ($absolute_url) {
+            $old_base = URLHelper::setBaseURL($GLOBALS['ABSOLUTE_URI_STUDIP']);
+        }
+
+        $url = URLHelper::getURL("plugins.php/pluginmarket/presenting/image/".$this->getId(), array(), true);
+
+        if ($absolute_url) {
+            URLHelper::setBaseURL($old_base);
+        }
+
+        return $url;
     }
 
     public function delete() {

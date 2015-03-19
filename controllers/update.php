@@ -1,9 +1,10 @@
 <?php
-require_once 'app/controllers/plugin_controller.php';
+require_once 'market_controller.php';
 
-class UpdateController extends PluginController {
-
-    public function release_action($release_id) {
+class UpdateController extends MarketController
+{
+    public function release_action($release_id)
+    {
         $release = new MarketRelease($release_id);
         if ($release->isNew()) {
             throw new Exception("Unknown release.");
@@ -20,5 +21,4 @@ class UpdateController extends PluginController {
             $this->render_text("Insecure request.");
         }
     }
-
 }
