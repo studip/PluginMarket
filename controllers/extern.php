@@ -59,7 +59,6 @@ class ExternController extends MarketController
         }
 
         $string = studip_utf8encode($string);
-        $string = str_replace('&nbsp;', ' ', $string);
 
         $string = $purifier->purify($string);
         $string = $markdown->convert($string);
@@ -70,6 +69,7 @@ class ExternController extends MarketController
         $string = preg_replace('/\[(\w+:\/\/.*?)\/?\]\(\\1\/?\)/isxm', '$1', $string);
         $string = preg_replace('/\[(.*?)\]\((\w+:\/\/.*?)\)/', '$1: $2', $string);
 
+        $string = preg_replace('/[\x00-\x08\x0b\x0c\x0e-\x1f]/', '', $string);
         $string = trim($string);
 
         return $string;
