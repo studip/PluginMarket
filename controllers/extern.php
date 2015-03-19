@@ -12,8 +12,9 @@ class ExternController extends MarketController
 
     public function xml_action()
     {
-        $doc = new DomDocument('1.0', 'UTF-8');
+        $doc = new DomDocument('1.0', 'utf-8');
         $doc->formatOutput = true;
+        $doc->encoding = 'utf-8';
         $xml_plugins = $doc->appendChild($doc->createElement('plugins'));
 
         $plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
