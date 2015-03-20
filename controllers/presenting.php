@@ -70,6 +70,12 @@ class PresentingController extends PluginController {
         // Create options for all studip versions
         $_SESSION['pluginmarket']['version'] = Request::get('version') ? : $_SESSION['pluginmarket']['version'];
         $studipVersions = array('1.4.0','1.5.0','1.6.0','1.7','1.8','1.9','1.10','1.11','2.0','2.1','2.2','2.3','2.4','2.5','3.0','3.1');
+        
+        // Version fallback
+        if (!isset($_SESSION['pluginmarket']['version'])) {
+            $_SESSION['pluginmarket']['version'] = $studipVersions[count($studipVersions) - 1];
+        }
+
         foreach (array_reverse($studipVersions) as $version) {
             $options[] = "<option value='".URLHelper::getLink('', array('version' => $version))."' ".($_SESSION['pluginmarket']['version'] == $version ? "SELECTED" : "").">$version</option>";
         }
