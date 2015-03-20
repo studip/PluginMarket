@@ -1,8 +1,8 @@
 <?php
-require_once 'app/controllers/plugin_controller.php';
+require_once 'market_controller.php';
 
-class MypluginsController extends PluginController {
-
+class MypluginsController extends MarketController
+{
     function before_filter(&$action, &$args)
     {
         parent::before_filter($action, $args);

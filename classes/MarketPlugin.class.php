@@ -66,9 +66,10 @@ class MarketPlugin extends SimpleORMap {
         return $GLOBALS['perm']->have_perm("root", $user_id);
     }
 
-    public function getLogoURL() {
+    public function getLogoURL($absolute_url = false)
+    {
         $firstimage = $this->images->first();
-        return $firstimage ? $firstimage->getURL() : Assets::image_path("icons/blue/plugin.svg");
+        return $firstimage ? $firstimage->getURL($absolute_url) : Assets::image_path("icons/blue/plugin.svg");
     }
 
     public function setTags($tags) {
