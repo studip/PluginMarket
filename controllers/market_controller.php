@@ -53,7 +53,7 @@ class MarketController extends PluginController
         $string = preg_replace('/[\x00-\x08\x0b\x0c\x0e-\x1f]/', '', $string);
         $string = trim($string);
 
-        $string = htmlentities($string, ENT_XML1, 'UTF-8');
+        $string = htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 
         return $string;
     }
