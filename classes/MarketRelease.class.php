@@ -75,11 +75,32 @@ class MarketRelease extends SimpleORMap {
         return self::getReleaseDataPath()."/".$this->getId();
     }
 
-    public function outputZip() {
-        $path = self::getReleaseDataPath()."/".$this->getId();
-        header("Content-Type: application/zip");
-        header("Content-Disposition: attachment; filename=".$this->plugin['name'].".zip");
-        echo file_get_contents($path);
+    public function outputZip()
+    {
+        header('Content-Type: ' . $this->getMimeType());
+        header('Content-Disposition: attachment; filename="' . $this->getFilename() . '"');
+
+        readfile($this->getFilePath());
+    }
+
+    public function getMimeType()
+    {
+        return 'application/zip';
+    }
+
+    public function getFilename()
+    {
+        return $this->plugin['name'] . '.zip';
+    }
+
+    public function getContentLength()
+    {
+        return filesize($this->getFilePath());
+    }
+
+    public function getContent()
+    {
+        return file_get_contents($this->getFilePath());
     }
 
     public function getChecksum() {
@@ -122,10 +143,10 @@ class MarketRelease extends SimpleORMap {
         unlink($plugin_raw);
         return true;
     }
-    
+
     /**
      * Checks if the release works with the given Stud.IP version
-     * 
+     *
      * @param String $version Version to check for
      */
     public function checkVersion($version) {

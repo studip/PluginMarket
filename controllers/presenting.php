@@ -198,12 +198,17 @@ class PresentingController extends MarketController
         $this->redirect('presenting/details/' . $plugin_id);
     }
 
-    public function download_action($release) {
+    public function download_action($release)
+    {
         $release = new MarketRelease($release);
-        $release->outputZip();
         $release['downloads'] += 1;
         $release->store();
-        $this->render_nothing();
+
+        $this->set_content_type($release->getMimeType());
+        $this->response->add_header('Content-Disposition', 'attachment;filename="' . addslashes($release->getFilename()) . '"');
+        $this->response->add_header('Content-Length', $release->getContentLength());
+
+        $this->render_text($release->getContent());
     }
 
     public function image_action($image_id) {
