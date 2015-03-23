@@ -44,6 +44,12 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
     public function initialize()
     {
         $this->addStylesheet('assets/pluginmarket.less');
+        PageLayout::addHeadElement('link', array(
+            'rel'   => 'alternate',
+            'type'  => 'application/rss+xml',
+            'href'  => PluginEngine::getLink($this, array(), 'rss/newest'),
+            'title' => _('Neueste Plugins'),
+        ));
 
         $sidebar = Sidebar::Get();
         $sidebar->setImage('../../'.$this->getPluginPath().'/assets/sidebar-marketplace.png');
