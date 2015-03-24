@@ -83,7 +83,7 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
 
             if ($follower['security_token']) {
                 $calculatedHash = hash_hmac("sha1", $payload, $follower['security_token']);
-                $header[] = "HTTP_X_HUB_SIGNATURE: ".$calculatedHash;
+                $header[] = "X_HUB_SIGNATURE: ".$calculatedHash;
             }
             $header[] = "Content-Type: application/json";
 

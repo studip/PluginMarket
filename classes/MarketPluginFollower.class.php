@@ -2,6 +2,13 @@
 
 class MarketPluginFollower extends SimpleORMap {
 
+    static public function notifyUsers($plugin_id, $type = null)
+    {
+        foreach (self::findByPlugin_id($plugin_id) as $follower) {
+
+        }
+    }
+
     static public function findByUserAndPlugin($user_id, $plugin_id) {
         return self::findOneBySQL("user_id = ? AND plugin_id = ?", array($user_id, $plugin_id));
     }
