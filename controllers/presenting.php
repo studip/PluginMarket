@@ -68,7 +68,7 @@ class PresentingController extends MarketController
         $versionWidget->setTitle(_('Stud.IP Version'));
         
         // Create options for all studip versions
-        $_SESSION['pluginmarket']['version'] = Request::get('version') ? : $_SESSION['pluginmarket']['version'];
+        $_SESSION['pluginmarket']['version'] = Request::submitted('version') ? Request::get('version') : $_SESSION['pluginmarket']['version'];
         $studipVersions = array('1.4.0','1.5.0','1.6.0','1.7','1.8','1.9','1.10','1.11','2.0','2.1','2.2','2.3','2.4','2.5','3.0','3.1');
         
         $options[] = "<option value='".URLHelper::getLink('', array('version' => 0))."'>"._('Alle Versionen')."</option>";
