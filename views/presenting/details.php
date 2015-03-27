@@ -201,15 +201,21 @@ if ($icon) {
 <div>
     <div style="text-align: center;">
         <? if ($marketplugin['rating'] === null) : ?>
-            <a style="opacity: 0.3;" title="<?= $GLOBALS['perm']->have_perm("autor") ? _("Geben Sie die erste Bewertung ab.") : _("Noch keine bewertung abgegeben.") ?>" <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="' . $controller->url_for('presenting/review/' . $marketplugin->getId()) . '" data-dialog' : "" ?>>
+            <? if (!$marketplugin->isWritable()) : ?>
+                <a style="opacity: 0.3;" title="<?= $GLOBALS['perm']->have_perm("autor") ? _("Geben Sie die erste Bewertung ab.") : _("Noch keine bewertung abgegeben.") ?>" <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="' . $controller->url_for('presenting/review/' . $marketplugin->getId()) . '" data-dialog' : "" ?>>
+            <? endif ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
-            </a>
+            <? if (!$marketplugin->isWritable()) : ?>
+                </a>
+            <? endif ?>
         <? else : ?>
-            <a <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="' . $controller->url_for('presenting/review/' . $marketplugin->getId()) . '" data-dialog' : "" ?> title="<?= sprintf(_("%s von 5 Sternen"), round($marketplugin['rating'] / 2, 1)) ?>">
+            <? if (!$marketplugin->isWritable()) : ?>
+                <a <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="' . $controller->url_for('presenting/review/' . $marketplugin->getId()) . '" data-dialog' : "" ?> title="<?= sprintf(_("%s von 5 Sternen"), round($marketplugin['rating'] / 2, 1)) ?>">
+            <? endif ?>
                 <? $marketplugin['rating'] = round($marketplugin['rating'], 1) / 2 ?>
                 <? $v = $marketplugin['rating'] >= 1 ? 3 : ($marketplugin['rating'] >= 0.5 ? 2 : "") ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
@@ -221,7 +227,9 @@ if ($icon) {
                 <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
                 <? $v = $marketplugin['rating'] > 4.5 ? 3 : ($marketplugin['rating'] >= 4.5 ? 2 : "") ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-            </a>
+            <? if (!$marketplugin->isWritable()) : ?>
+                </a>
+            <? endif ?>
         <? endif ?>
     </div>
 
