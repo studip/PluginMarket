@@ -197,12 +197,11 @@ if ($icon) {
     </div>
 <? endif ?>
 
-<? if (($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) || $marketplugin->getRating()) : ?>
+<? if (($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) || $marketplugin['rating']) : ?>
     <h2><?= _("Bewertungen") ?></h2>
     <div>
         <div style="text-align: center;">
-            <? $score = $marketplugin->getRating() ?>
-            <? if ($score === null) : ?>
+            <? if ($marketplugin['rating'] === null) : ?>
                 <a style="opacity: 0.3;" title="<?= $GLOBALS['perm']->have_perm("autor") ? _("Geben Sie die erste Bewertung ab.") : _("Noch keine bewertung abgegeben.") ?>" <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="' . $controller->url_for('presenting/review/' . $marketplugin->getId()) . '" data-dialog' : "" ?>>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
@@ -211,17 +210,17 @@ if ($icon) {
                     <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
                 </a>
             <? else : ?>
-                <a <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="' . $controller->url_for('presenting/review/' . $marketplugin->getId()) . '" data-dialog' : "" ?> title="<?= sprintf(_("%s von 5 Sternen"), round($score / 2, 1)) ?>">
-                    <? $score = round($score, 1) / 2 ?>
-                    <? $v = $score >= 1 ? 3 : ($score >= 0.5 ? 2 : "") ?>
+                <a <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="' . $controller->url_for('presenting/review/' . $marketplugin->getId()) . '" data-dialog' : "" ?> title="<?= sprintf(_("%s von 5 Sternen"), round($marketplugin['rating'] / 2, 1)) ?>">
+                    <? $marketplugin['rating'] = round($marketplugin['rating'], 1) / 2 ?>
+                    <? $v = $marketplugin['rating'] >= 1 ? 3 : ($marketplugin['rating'] >= 0.5 ? 2 : "") ?>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                    <? $v = $score >= 2 ? 3 : ($score >= 1.5 ? 2 : "") ?>
+                    <? $v = $marketplugin['rating'] >= 2 ? 3 : ($marketplugin['rating'] >= 1.5 ? 2 : "") ?>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                    <? $v = $score >= 3 ? 3 : ($score >= 2.5 ? 2 : "") ?>
+                    <? $v = $marketplugin['rating'] >= 3 ? 3 : ($marketplugin['rating'] >= 2.5 ? 2 : "") ?>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                    <? $v = $score >= 4 ? 3 : ($score >= 3.5 ? 2 : "") ?>
+                    <? $v = $marketplugin['rating'] >= 4 ? 3 : ($marketplugin['rating'] >= 3.5 ? 2 : "") ?>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                    <? $v = $score > 4.5 ? 3 : ($score >= 4.5 ? 2 : "") ?>
+                    <? $v = $marketplugin['rating'] > 4.5 ? 3 : ($marketplugin['rating'] >= 4.5 ? 2 : "") ?>
                     <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
                 </a>
             <? endif ?>

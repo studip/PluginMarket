@@ -25,7 +25,7 @@ class ExternController extends MarketController
                 'short_description' => $plugin->short_description,
                 'description'       => $plugin->description,
                 'image'             => $plugin->getLogoURL(true),
-                'score'             => $plugin->getRating(),
+                'score'             => $plugin['rating'],
             )));
             foreach ($plugin->releases as $release) {
                 $xml_plugin->appendChild($this->create_xml_element($doc, 'release', null, array(

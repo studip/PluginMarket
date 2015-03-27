@@ -140,7 +140,7 @@ class MarketPlugin extends SimpleORMap {
         return $this->releases[0] ? $this->releases[0]->checkVersion($version) : false;
     }
 
-    public function getRating() {
+    public function calculateRating() {
         $cache = StudipCacheFactory::getCache();
         $cache_key = 'pluginmarket_rating/'.$this->getId();
         $rating = $cache->read($cache_key);
