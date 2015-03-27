@@ -7,6 +7,7 @@ class AddRatingToDatabase extends Migration {
             ALTER TABLE `pluginmarket_plugins`
             ADD `rating` DOUBLE NULL AFTER `language` ;
         ");
+        SimpleORMap::expireTableScheme();
         foreach (MarketPlugin::findBySQL("1=1") as $plugin) {
             $plugin['rating'] = $plugin->calculateRating();
             $plugin->store();
