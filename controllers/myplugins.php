@@ -44,7 +44,7 @@ class MypluginsController extends MarketController
 
     public function edit_release_action($release_id) {
         $this->release = new MarketRelease($release_id);
-        $this->marketplugin = new MarketPlugin(Request::option("plugin_id") ?: null);
+        $this->marketplugin = $this->release->plugin;
         if (!$this->marketplugin->isNew() && !$this->marketplugin->isWritable()) {
             throw new AccessDeniedException("Kein Zugriff");
         }
@@ -153,7 +153,14 @@ class MypluginsController extends MarketController
         if ($release_data['type'] === "zipfile") {
             $this->release['repository_download_url'] = null;
         }
+        if (!Request::get("use_secret")) {
+            $this->release['repository_secret'] = null;
+        } elseif(!$this->release['repository_secret']) {
+            $this->release['repository_secret'] = md5(uniqid());
+        }
+
         $this->release->installFile();
+
         $this->release->store();
 
         PageLayout::postMessage(MessageBox::success(_("Release wurde gespeichert.")));

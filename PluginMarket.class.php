@@ -44,6 +44,12 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
     public function initialize()
     {
         $this->addStylesheet('assets/pluginmarket.less');
+        PageLayout::addHeadElement('link', array(
+            'rel'   => 'alternate',
+            'type'  => 'application/rss+xml',
+            'href'  => PluginEngine::getLink($this, array(), 'rss/newest'),
+            'title' => _('Neueste Plugins'),
+        ));
 
         $sidebar = Sidebar::Get();
         $sidebar->setImage('../../'.$this->getPluginPath().'/assets/sidebar-marketplace.png');
@@ -77,7 +83,7 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
 
             if ($follower['security_token']) {
                 $calculatedHash = hash_hmac("sha1", $payload, $follower['security_token']);
-                $header[] = "HTTP_X_HUB_SIGNATURE: ".$calculatedHash;
+                $header[] = "X_HUB_SIGNATURE: sha1=".$calculatedHash;
             }
             $header[] = "Content-Type: application/json";
 

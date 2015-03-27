@@ -39,6 +39,10 @@
             <?= _("Download-URL des Branches oder des Tags") ?>
             <input type="text" name="release[repository_download_url]" value="<?= htmlReady($release['repository_download_url']) ?>">
         </label>
+        <label>
+            <input type="checkbox" name="use_secret"<? $release->isNew() || $release['repository_secret'] ? " checked" : "" ?> value="1">
+            <?= _("Automatisches Update absichern über Sicherheitstoken (optional)") ?>
+        </label>
         <p class="info">
             <?= _("Github.com und gitlab bieten zu jedem Branch und Tag den Download als ZIP-Datei an. Klicken Sie dort mit rechter Maustaste auf den Downloadbutton und kopieren Sie die URL, um sie hier einzufügen. Nach dem Speichern hier können Sie auf github bzw. gitlab Webhooks einrichten, damit der Marktplatz sich automatisch die neuste Version des Plugins vom Repository holt. Damit ist das Plugin auf dem Pluginmarktplatz immer brandaktuell.") ?>
         </p>
@@ -53,6 +57,13 @@
             <?= _("Webhook-URL zum Einfügen in github oder gitlab:") ?>
             <input type="text" readonly style="border: thin solid #cccccc; background-color: #eeeeee; width:100%;" value="<?= $controller->absolute_url_for('update/release/' . $release->getId(), array('s' => $release->getSecurityHash())) ?>">
         </p>
+        <? if ($release['repository_secret']) : ?>
+            <label>
+                <?= _("Secret (muss in github beim Webhook eingetragen werden)") ?>
+                <input type="text" readonly style="border: thin solid #cccccc; background-color: #eeeeee;" name="release[repository_secret]" value="<?= htmlReady($release['repository_secret']) ?>">
+            </label>
+        <? endif ?>
+
             <? if ($domain_warning) : ?>
             <p class="info"><?= htmlReady($domain_warning)  ?></p>
             <? endif ?>
