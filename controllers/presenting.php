@@ -19,7 +19,7 @@ class PresentingController extends MarketController
         PageLayout::addScript($this->plugin->getPluginURL()."/assets/studiptable.js");
         PageLayout::addScript($this->plugin->getPluginURL()."/assets/pluginmarket.js");
 
-                $statement = DBManager::get()->prepare("
+        $tags_statement = DBManager::get()->prepare("
             SELECT pluginmarket_tags.tag, COUNT(*) AS number
             FROM pluginmarket_tags
                 INNER JOIN pluginmarket_plugins ON (pluginmarket_plugins.plugin_id = pluginmarket_tags.plugin_id)
@@ -30,8 +30,8 @@ class PresentingController extends MarketController
             ORDER BY number DESC, RAND()
             LIMIT 25
         ");
-        $statement->execute();
-        $this->tags = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $tags_statement->execute();
+        $this->tags = $tags_statement->fetchAll(PDO::FETCH_ASSOC);
 
         // Set view
         $_SESSION['pluginmarket']['view'] = Request::get('view') ? : $_SESSION['pluginmarket']['view'];
@@ -75,11 +75,9 @@ class PresentingController extends MarketController
         foreach (array_reverse($studipVersions) as $version) {
             $options[] = "<option value='".URLHelper::getLink('', array('version' => $version))."' ".($_SESSION['pluginmarket']['version'] == $version ? "SELECTED" : "").">$version</option>";
         }
-        $versionWidget->addElement(new WidgetElement('<select style="width: 100%" onchange="location = this.options[this.selectedIndex].value;">'.join($options).'</select>'));
+        $versionWidget->addElement(new WidgetElement('<select style="width: 100%" onchange="location = this.options[this.selectedIndex].value;">'.join("", $options).'</select>'));
         
         // Add checkbox to ignore older releases (use invese logic to be applied on startup)
-        $_SESSION['pluginmarket']['all_releases'] = Request::submitted('all_releases') ? Request::get('all_releases') : $_SESSION['pluginmarket']['all_releases'];
-        $versionWidget->addCheckbox(_('Aktuelles Release'), !$_SESSION['pluginmarket']['all_releases'], URLHelper::getLink('', array('all_releases' => !$_SESSION['pluginmarket']['all_releases'])));
         $sidebar->addWidget($versionWidget, 'comments');
     }
 
@@ -135,7 +133,9 @@ class PresentingController extends MarketController
         
         // Filter version
         if ($_SESSION['pluginmarket']['version']) {
-            $this->plugins = array_filter ( $this->plugins, function($plugin) {return $plugin->checkVersion($_SESSION['pluginmarket']['version'], $_SESSION['pluginmarket']['all_releases']);});
+            $this->plugins = array_filter ( $this->plugins, function($plugin) {
+                return $plugin->checkVersion($_SESSION['pluginmarket']['version']);
+            });
         }
         $this->render_action('overview_'.$_SESSION['pluginmarket']['view']);
     }

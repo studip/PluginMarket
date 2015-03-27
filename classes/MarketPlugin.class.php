@@ -136,16 +136,8 @@ class MarketPlugin extends SimpleORMap {
      * @param String $version the requested version
      * @param boolean $all_releases Defines if all releases are checked for compatibility
      */
-    public function checkVersion($version, $all_releases = false) {
-        if ($all_releases) {
-            foreach ($this->releases as $release) {
-                if ($release->checkVersion($version)) {
-                    return true;
-                }
-            }
-        } else {
-            return $this->releases[0] ? $this->releases[0]->checkVersion($version) : false;
-        }
+    public function checkVersion($version) {
+        return $this->releases[0] ? $this->releases[0]->checkVersion($version) : false;
     }
 
     public function getRating() {
