@@ -71,11 +71,7 @@ class PresentingController extends MarketController
         $_SESSION['pluginmarket']['version'] = Request::get('version') ? : $_SESSION['pluginmarket']['version'];
         $studipVersions = array('1.4.0','1.5.0','1.6.0','1.7','1.8','1.9','1.10','1.11','2.0','2.1','2.2','2.3','2.4','2.5','3.0','3.1');
         
-        // Version fallback
-        if (!isset($_SESSION['pluginmarket']['version'])) {
-            $_SESSION['pluginmarket']['version'] = $studipVersions[count($studipVersions) - 1];
-        }
-
+        $options[] = "<option value='".URLHelper::getLink('', array('version' => 0))."'>"._('Alle Versionen')."</option>";
         foreach (array_reverse($studipVersions) as $version) {
             $options[] = "<option value='".URLHelper::getLink('', array('version' => $version))."' ".($_SESSION['pluginmarket']['version'] == $version ? "SELECTED" : "").">$version</option>";
         }
@@ -136,7 +132,11 @@ class PresentingController extends MarketController
         } else {
             $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
         }
-        $this->plugins = array_filter ( $this->plugins, function($plugin) {return $plugin->checkVersion($_SESSION['pluginmarket']['version'], $_SESSION['pluginmarket']['all_releases']);});
+        
+        // Filter version
+        if ($_SESSION['pluginmarket']['version']) {
+            $this->plugins = array_filter ( $this->plugins, function($plugin) {return $plugin->checkVersion($_SESSION['pluginmarket']['version'], $_SESSION['pluginmarket']['all_releases']);});
+        }
         $this->render_action('overview_'.$_SESSION['pluginmarket']['view']);
     }
 
