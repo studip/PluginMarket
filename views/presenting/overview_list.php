@@ -8,6 +8,9 @@
                 <?= _('Name') ?>
             </th>
             <th data-sort-type="int">
+                <?= _('Standorte') ?>
+            </th>
+            <th data-sort-type="int">
                 <?= _('Downloads') ?>
             </th>
             <th data-sort-type="int">
@@ -22,6 +25,9 @@
                     <a href="<?= $controller->url_for('presenting/details/' . $marketplugin->getId()) ?>">
                         <?= htmlReady($marketplugin->name) ?>
                     </a>
+                </td>
+                <td>
+                    <?= htmlReady($marketplugin->getUses()) ?>
                 </td>
                 <td>
                     <?= htmlReady($marketplugin->getDownloads()) ?>
