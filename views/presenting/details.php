@@ -102,8 +102,8 @@ if ($icon) {
     <thead>
         <tr>
             <th><?= _("Version") ?></th>
-            <th><?= _("Minimale Stud.IP-Versionsnummer") ?></th>
-            <th><?= _("Maximale Stud.IP-Versionsnummer") ?></th>
+            <th><?= _("Min. Stud.IP Version") ?></th>
+            <th><?= _("Max. Stud.IP Version") ?></th>
             <th><?= _("Hochgeladen am") ?></th>
             <th><?= _("MD5-Prüfsumme") ?></th>
             <th><?= _("Downloads") ?></th>
@@ -122,7 +122,7 @@ if ($icon) {
             <td><?= $release['studip_min_version'] ? htmlReady($release['studip_min_version']) : " - " ?></td>
             <td><?= $release['studip_max_version'] ? htmlReady($release['studip_max_version']) : " - " ?></td>
             <td><?= strftime("%x", $release['mkdate']) ?></td>
-			<td><?= htmlReady($release->getChecksum()) ?></td>
+            <td><?= htmlReady($release->getChecksum()) ?></td>
             <td><?= htmlReady($release['downloads']) ?></td>
             <td class="actions">
                 <? if ($marketplugin->isWritable()) : ?>
@@ -145,7 +145,7 @@ if ($icon) {
     <? if ($marketplugin->isWritable()) : ?>
         <tfoot>
         <tr>
-            <td colspan="6">
+            <td colspan="7">
                 <a href="<?= $controller->url_for('myplugins/add_release/' . $marketplugin->getId()) ?>" data-dialog>
                     <?= Assets::img("icons/20/blue/add") ?>
                 </a>
