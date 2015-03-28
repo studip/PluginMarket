@@ -8,7 +8,7 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
     public function __construct()
     {
         parent::__construct();
-        $top = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview"));
+        $top = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array('view' => 'tiles'), "presenting/overview"));
         $top->setImage($this->getPluginURL()."/assets/topicon.svg");
 
         $overview = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview"));

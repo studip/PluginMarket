@@ -59,7 +59,7 @@ class PresentingController extends MarketController
         if ($action != 'details') {
             $viewWidget = new ViewsWidget();
             $viewWidget->addLink(_('Kacheln'), URLHelper::getLink('', array('view' => 'tiles')))->setActive($_SESSION['pluginmarket']['view'] == 'tiles');
-            $viewWidget->addLink(_('Liste'), URLHelper::getLink('', array('view' => 'list')))->setActive($_SESSION['pluginmarket']['view'] == 'list');
+            $viewWidget->addLink(_('Liste'), $this->url_for('presenting/all', array('view' => 'list')))->setActive($_SESSION['pluginmarket']['view'] == 'list');
             $sidebar->addWidget($viewWidget);
         }
 
