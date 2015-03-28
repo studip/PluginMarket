@@ -115,6 +115,9 @@ if ($icon) {
                     <a href="<?= $controller->url_for('myplugins/edit_release/' . $release->getId()) ?>" data-dialog>
                         <?= Assets::img("icons/20/blue/edit", array('class' => "text-bottom")) ?>
                     </a>
+                    <a href="<?= $controller->url_for('presenting/delete_release/' . $release->getId()) ?>" data-dialog>
+                        <?= Assets::img("icons/20/blue/trash", array('class' => "text-bottom", 'onclick' => "return window.confirm('"._("Pluginrelease wirklich unwiderrufbar löschen?")."');")) ?>
+                    </a>
                 <? endif ?>
                 <? if ($GLOBALS['perm']->have_perm("autor")) : ?>
                     <a href="<?= $controller->url_for('presenting/follow_release/' . $release->getId()) ?>" title="<?= _("Für automatische Updates registrieren.") ?>" data-dialog>
