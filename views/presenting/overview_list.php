@@ -3,8 +3,8 @@
         <?= htmlReady(count($plugins)) ?> <?= _('Plugins') ?>
     </caption>
     <thead>
-        <tr>
-            <th>
+        <tr class="sortable">
+            <th class="sortasc" data-sort="asc">
                 <?= _('Name') ?>
             </th>
             <th data-sort-type="int">
@@ -18,7 +18,7 @@
     <tbody>
         <? foreach ($plugins as $marketplugin): ?>
             <tr>
-                <td data-sort="<?= htmlReady($marketplugin->name) ?>">
+                <td>
                     <a href="<?= $controller->url_for('presenting/details/' . $marketplugin->getId()) ?>">
                         <?= htmlReady($marketplugin->name) ?>
                     </a>
@@ -26,9 +26,9 @@
                 <td>
                     <?= htmlReady($marketplugin->getDownloads()) ?>
                 </td>
-                <td>
-                    <? $score = $marketplugin['rating'] ?>
-                    <? $score = round($score, 1) / 2 ?>
+                <? $score = $marketplugin['rating'] ?>
+                <? $score = round($score, 1) / 2 ?>
+                <td data-sort="<?=$score?>">
                     <span class="starscore">
                         <? $v = $score >= 1 ? 3 : ($score >= 0.5 ? 2 : "") ?>
                         <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "16px", 'class' => "big-image-handled")) ?>
@@ -42,7 +42,7 @@
                         <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "16px", 'class' => "big-image-handled")) ?>
                     </span>
                 </td>
-            </tr>  
+            </tr>
         <? endforeach; ?>
     </tbody>
 </table>

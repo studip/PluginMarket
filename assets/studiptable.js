@@ -57,9 +57,16 @@ STUDIP.table = function (element, opt) {
                 asc = false;
                 self.headers.removeAttr('data-sort');
                 $(this).attr('data-sort', 'desc');
+                $(this).parent().children('th').removeClass('sortasc sortdesc');
+
+                $(this).addClass('sortdesc');
+
             } else {
                 self.headers.removeAttr('data-sort');
                 $(this).attr('data-sort', 'asc');
+                $(this).parent().children('th').removeClass('sortasc sortdesc');
+
+                $(this).addClass('sortasc');
             }
 
             var sortType = $(this).attr('data-sort-type');
@@ -67,14 +74,23 @@ STUDIP.table = function (element, opt) {
             var headerIndex = $(this).index() + 1;
             var body = self.rows.parent();
             self.rows.sort(function (a, b) {
+                var sort1,sort2;
                 var attr = $(a).find('td:nth-child(' + headerIndex + ')').attr('data-sort');
                 if (typeof attr !== typeof undefined && attr !== false) {
-                    return ($(a).find('td:nth-child(' + headerIndex + ')').attr('data-sort') > $(b).find('td:nth-child(' + headerIndex + ')').attr('data-sort')) === asc;
+                    sort1 = $(a).find('td:nth-child(' + headerIndex + ')').attr('data-sort');
+                    sort2 = $(b).find('td:nth-child(' + headerIndex + ')').attr('data-sort');
+                } else if (sortType === 'int') {
+                    sort1 = parseFloat('0' + $(a).find('td:nth-child(' + headerIndex + ')').text().trim());
+                    sort2 = parseFloat('0' + $(b).find('td:nth-child(' + headerIndex + ')').text().trim());
+                } else {
+                    sort1 = $(a).find('td:nth-child(' + headerIndex + ')').text().trim().toLowerCase();
+                    sort2 = $(b).find('td:nth-child(' + headerIndex + ')').text().trim().toLowerCase();
+
                 }
-                if (sortType === 'int') {
-                    return (parseFloat('0' + $(a).find('td:nth-child(' + headerIndex + ')').html().trim()) > parseFloat('0' + $(b).find('td:nth-child(' + headerIndex + ')').html().trim())) === asc;
-                }
-                return ($(a).find('td:nth-child(' + headerIndex + ')').html() > $(b).find('td:nth-child(' + headerIndex + ')').html()) === asc;
+                if(sort1 == sort2) return 0;
+                if (asc) return sort1 > sort2 ? 1 : -1;
+                else return sort1 < sort2 ? 1 : -1;
+
             });
             self.rows.detach().appendTo(body);
         });

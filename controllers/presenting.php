@@ -106,7 +106,7 @@ class PresentingController extends MarketController
                     )
                     AND publiclyvisible = 1
                     AND approved = 1
-                ORDER BY (IF(name LIKE :likesearch, 6, 0) + MATCH (short_description, description) AGAINST (:search)) ", array(
+                ORDER BY (IF(name LIKE :likesearch, 6, 0) + MATCH (short_description, description) AGAINST (:search)),name ", array(
                     'likesearch' => "%".Request::get("search")."%",
                     'search' => Request::get("search")
                 )
@@ -119,6 +119,7 @@ class PresentingController extends MarketController
                 WHERE pluginmarket_tags.tag = :tag
                     AND pluginmarket_plugins.approved = 1
                     AND pluginmarket_plugins.publiclyvisible = 1
+                ORDER BY name
             ");
             $statement->execute(array('tag' => Request::get("tag")));
             $plugin_data = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -139,6 +140,7 @@ class PresentingController extends MarketController
                 return $plugin->checkVersion($_SESSION['pluginmarket']['version']);
             });
         }
+        $this->show_all = true;
         $this->render_action('overview_'.$_SESSION['pluginmarket']['view']);
     }
 
