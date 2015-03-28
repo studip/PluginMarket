@@ -15,6 +15,7 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
         $top->addSubNavigation("presenting", $overview);
         $overview->addSubNavigation("overview", new AutoNavigation(_('Übersicht'), PluginEngine::getURL($this, array(), "presenting/overview")));
         $overview->addSubNavigation("all", new AutoNavigation(_('Alle Plugins'), PluginEngine::getURL($this, array(), "presenting/all")));
+        $overview->addSubNavigation("tools", new AutoNavigation(_('Tools'), PluginEngine::getURL($this, array(), "tools/sidebar_graphics_generator")));
 
         if ($GLOBALS['perm']->have_perm("autor")) {
             $top->addSubNavigation("myplugins", new Navigation(_("Meine Plugins"), PluginEngine::getURL($this, array(), "myplugins/overview")));
