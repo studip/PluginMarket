@@ -24,6 +24,11 @@ class MarketPlugin extends SimpleORMap {
             'on_delete' => 'delete',
             'on_store' => 'store',
         );
+        $config['has_many']['uses'] = array(
+            'class_name' => 'MarketPluginUsage',
+            'on_delete' => 'delete',
+            'on_store' => 'store',
+        );
         $config['belongs_to']['user'] = array(
             'class_name' => 'User',
             'foreign_key' => 'user_id',

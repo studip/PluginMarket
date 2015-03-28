@@ -34,10 +34,22 @@ if ($icon) {
 </ol>
 <? endif ?>
 
-<? if (trim($marketplugin['in_use'])) : ?>
-    <h2><?= _("In Benutzung bei") ?></h2>
-    <div><?= formatReady($marketplugin['in_use']) ?></div>
-<? endif ?>
+<h2><?= _("In Benutzung bei") ?></h2>
+<ul class="plugin-usages">
+    <? foreach ($marketplugin['uses'] as $use): ?>
+        <li>
+            <?= htmlReady($use->name) ?>
+            <? if ($use->plugin->isWritable(User::findCurrent()->id)): ?>
+            (<?= ObjectdisplayHelper::link($use->user) ?>)
+            <? endif; ?>
+            <? if ($use->isEditable()): ?>
+                <a href="<?= $controller->url_for('presenting/delete_usage/' . $use->id) ?>">
+                    <?= Assets::img('icons/blue/trash.svg'); ?>
+                </a>
+            <? endif; ?>
+        </li>
+    <? endforeach; ?>
+</ul>
 
 <? if ($marketplugin['url']) : ?>
     <h2><?= _("Projekthomepage") ?></h2>
