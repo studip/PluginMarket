@@ -125,28 +125,19 @@ class MarketPlugin extends SimpleORMap {
         $statement->execute(array($this->getId()));
         return $statement->fetchAll(PDO::FETCH_COLUMN, 0);
     }
-    
+
     /**
      * Returns sum of downloads
-     * 
+     *
      * @return int Number of downloads
      */
     public function getDownloads() {
         return DBManager::get()->fetchColumn('SELECT SUM(downloads) FROM pluginmarket_releases WHERE plugin_id = ?', array($this->id));
     }
-    
-    /**
-     * Returns sum of downloads
-     * 
-     * @return int Number of downloads
-     */
-    public function getUses() {
-        return DBManager::get()->fetchColumn('SELECT COUNT(*) FROM pluginmarket_plugin_usages WHERE plugin_id = ?', array($this->id));
-    }
-    
+
     /**
      * Checks if the plugin has a release for a given studip version
-     * 
+     *
      * @param String $version the requested version
      * @param boolean $all_releases Defines if all releases are checked for compatibility
      */

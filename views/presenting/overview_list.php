@@ -27,7 +27,7 @@
                     </a>
                 </td>
                 <td>
-                    <?= htmlReady($marketplugin->getUses()) ?>
+                    <?= htmlReady($marketplugin->uses->count()) ?>
                 </td>
                 <td>
                     <?= htmlReady($marketplugin->getDownloads()) ?>
