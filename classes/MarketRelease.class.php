@@ -119,6 +119,10 @@ class MarketRelease extends SimpleORMap {
         }
         $this['studip_min_version'] = $manifest['studipMinVersion'];
         $this['studip_max_version'] = $manifest['studipMaxVersion'];
+        if (!$this['studip_max_version']) {
+            $versions = PluginMarket::getStudipReleases();
+            $this['studip_max_version'] = array_pop($versions).".99";
+        }
         $this['version'] = $manifest['version'];
         if ($this['repository_overwrites_descriptionfrom']) {
             $readme = "";

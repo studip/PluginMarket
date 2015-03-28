@@ -69,10 +69,9 @@ class PresentingController extends MarketController
 
         // Create options for all studip versions
         $_SESSION['pluginmarket']['version'] = Request::submitted('version') ? Request::get('version') : $_SESSION['pluginmarket']['version'];
-        $studipVersions = array('1.4.0','1.5.0','1.6.0','1.7','1.8','1.9','1.10','1.11','2.0','2.1','2.2','2.3','2.4','2.5','3.0','3.1');
 
         $options[] = "<option value='".URLHelper::getLink('', array('version' => 0))."'>"._('Alle Versionen')."</option>";
-        foreach (array_reverse($studipVersions) as $version) {
+        foreach (array_reverse(PluginMarket::getStudipReleases()) as $version) {
             $options[] = "<option value='".URLHelper::getLink('', array('version' => $version))."' ".($_SESSION['pluginmarket']['version'] == $version ? "SELECTED" : "").">$version</option>";
         }
         $versionWidget->addElement(new WidgetElement('<select style="width: 100%" onchange="location = this.options[this.selectedIndex].value;">'.join("", $options).'</select>'));
