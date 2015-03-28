@@ -136,6 +136,15 @@ class MarketPlugin extends SimpleORMap {
     }
     
     /**
+     * Returns sum of downloads
+     * 
+     * @return int Number of downloads
+     */
+    public function getUses() {
+        return DBManager::get()->fetchColumn('SELECT COUNT(*) FROM pluginmarket_plugin_usages WHERE plugin_id = ?', array($this->id));
+    }
+    
+    /**
      * Checks if the plugin has a release for a given studip version
      * 
      * @param String $version the requested version
