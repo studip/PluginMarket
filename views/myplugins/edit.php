@@ -34,11 +34,6 @@
         </label>
 
         <label>
-            <?= _("In Benutzung bei") ?>
-            <textarea name="data[in_use]"><?= htmlReady($marketplugin['in_use']) ?></textarea>
-        </label>
-
-        <label>
             <?= _("Projekthomepage") ?>
             <input type="text" name="data[url]" value="<?= htmlReady($marketplugin['url']) ?>">
         </label>
