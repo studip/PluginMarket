@@ -154,14 +154,14 @@ class PresentingController extends MarketController
         }
         $this->marketplugin['rating'] = $this->marketplugin->calculateRating();
         $this->marketplugin->store();
-        
+
         // Add actions widget
         $sidebar = Sidebar::Get();
         $actions = new ActionsWidget();
         $actions->addLink(_('Nutzung mitteilen'), $this->url_for('presenting/propose_usage/'.$this->marketplugin->id), 'icons/16/blue/add.svg')->asDialog('size=auto');
         $sidebar->addWidget($actions);
     }
-    
+
     public function propose_usage_action($plugin_id) {
         $this->plugin = new MarketPlugin($plugin_id);
 
@@ -177,7 +177,7 @@ class PresentingController extends MarketController
         }
         $this->most_used = DBManager::get()->fetchFirst('SELECT name FROM pluginmarket_plugin_usages WHERE user_id = ? AND name NOT IN (SELECT name FROM pluginmarket_plugin_usages WHERE plugin_id = ?) GROUP BY name ORDER BY count(*)', array(User::findCurrent()->id, $plugin_id));
     }
-    
+
     public function delete_usage_action($usage_id) {
         $usage = MarketPluginUsage::find($usage_id);
         if ($usage->isEditable()) {
