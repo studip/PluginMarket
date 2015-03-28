@@ -20,7 +20,7 @@ class UsageProposals extends Migration {
   KEY (`plugin_id`),
   KEY (`user_id`),
   KEY (`name`)
-)
+) ENGINE=MyISAM
         ");
         
         SimpleORMap::expireTableScheme();
