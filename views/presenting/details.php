@@ -104,7 +104,7 @@ if ($icon) {
             <th><?= _("Version") ?></th>
             <th><?= _("Minimale Stud.IP-Versionsnummer") ?></th>
             <th><?= _("Maximale Stud.IP-Versionsnummer") ?></th>
-			<th><?= _("Uploaddatum") ?></th>
+            <th><?= _("Hochgeladen am") ?></th>
             <th><?= _("MD5-Prüfsumme") ?></th>
             <th><?= _("Downloads") ?></th>
             <th></th>
@@ -121,8 +121,8 @@ if ($icon) {
             </td>
             <td><?= $release['studip_min_version'] ? htmlReady($release['studip_min_version']) : " - " ?></td>
             <td><?= $release['studip_max_version'] ? htmlReady($release['studip_max_version']) : " - " ?></td>
-            <td><?= htmlReady($release->getChecksum()) ?></td>
-			<td><?= strftime("%x", $release['mkdate']) ?></td>
+            <td><?= strftime("%x", $release['mkdate']) ?></td>
+			<td><?= htmlReady($release->getChecksum()) ?></td>
             <td><?= htmlReady($release['downloads']) ?></td>
             <td class="actions">
                 <? if ($marketplugin->isWritable()) : ?>
