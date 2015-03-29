@@ -150,6 +150,7 @@ class PresentingController extends MarketController
             $this->marketplugin->delete();
             PageLayout::postMessage(MessageBox::success(_("Plugin wurde gelöscht.")));
             $this->redirect('presenting/overview');
+            return;
         }
         $this->marketplugin['rating'] = $this->marketplugin->calculateRating();
         $this->marketplugin->store();
