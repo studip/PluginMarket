@@ -102,6 +102,7 @@ class PresentingController extends MarketController
                         OR (SELECT CONCAT(Vorname, ' ', Nachname) FROM auth_user_md5 WHERE user_id = pluginmarket_plugins.user_id LIMIT 1) LIKE :likesearch
                         OR MATCH (short_description, description) AGAINST (:search IN BOOLEAN MODE)
                         OR (SELECT GROUP_CONCAT(' ', tag) FROM pluginmarket_tags WHERE pluginmarket_tags.plugin_id = plugin_id GROUP BY pluginmarket_tags.plugin_id LIMIT 1) LIKE :likesearch
+                        OR (SELECT 1 FROM pluginmarket_plugin_usages pu WHERE pluginmarket_plugins.plugin_id = pu.plugin_id AND name LIKE :likesearch) 
                     )
                     AND publiclyvisible = 1
                     AND approved = 1
@@ -161,7 +162,7 @@ class PresentingController extends MarketController
         $actions->addLink(_('Nutzung mitteilen'), $this->url_for('presenting/propose_usage/'.$this->marketplugin->id), 'icons/16/blue/add.svg')->asDialog('size=auto');
         $sidebar->addWidget($actions);
     }
-
+    
     public function propose_usage_action($plugin_id) {
         $this->plugin = new MarketPlugin($plugin_id);
 

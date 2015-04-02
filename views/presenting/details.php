@@ -38,7 +38,9 @@ if ($icon) {
 <ul class="plugin-usages">
     <? foreach ($marketplugin['uses'] as $use): ?>
         <li>
-            <?= htmlReady($use->name) ?>
+            <a href="<?= $controller->url_for('presenting/all', array('search' => htmlReady($use->name))) ?>"> 
+                <?= htmlReady($use->name) ?>
+            </a>
             <? if ($use->plugin->isWritable(User::findCurrent()->id)): ?>
             (<?= ObjectdisplayHelper::link($use->user) ?>)
             <? endif; ?>
