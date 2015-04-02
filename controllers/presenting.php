@@ -102,6 +102,7 @@ class PresentingController extends MarketController
                         OR (SELECT CONCAT(Vorname, ' ', Nachname) FROM auth_user_md5 WHERE user_id = pluginmarket_plugins.user_id LIMIT 1) LIKE :likesearch
                         OR MATCH (short_description, description) AGAINST (:search IN BOOLEAN MODE)
                         OR (SELECT GROUP_CONCAT(' ', tag) FROM pluginmarket_tags WHERE pluginmarket_tags.plugin_id = plugin_id GROUP BY pluginmarket_tags.plugin_id LIMIT 1) LIKE :likesearch
+                        OR (SELECT 1 FROM pluginmarket_plugin_usages WHERE pluginmarket_plugins.plugin_id = pluginmarket_plugin_usages.plugin_id AND name LIKE :likesearch) 
                     )
                     AND publiclyvisible = 1
                     AND approved = 1
