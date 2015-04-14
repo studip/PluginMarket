@@ -89,12 +89,21 @@ class PresentingController extends MarketController
 
         $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY RAND() LIMIT 3");
 
-        $this->best_plugins = MarketPlugin::findBySQL("
-            publiclyvisible = 1
+        $best = DBManager::get()->prepare("
+            SELECT pluginmarket_plugins.*
+            FROM pluginmarket_plugins
+                LEFT JOIN pluginmarket_reviews ON (pluginmarket_plugins.plugin_id = pluginmarket_reviews.plugin_id)
+            WHERE publiclyvisible = 1
                 AND approved = 1
-            ORDER BY rating DESC
+            GROUP BY pluginmarket_plugins.plugin_id
+            ORDER BY pluginmarket_plugins.rating DESC, MAX(pluginmarket_reviews.chdate) DESC
             LIMIT 6
         ");
+        $best->execute();
+        $this->best_plugins = array();
+        foreach ($best->fetchAll(PDO::FETCH_ASSOC) as $data) {
+            $this->best_plugins[] = MarketPlugin::buildExisting($data);
+        }
 
         $this->render_action('overview_'.$_SESSION['pluginmarket']['view']);
     }

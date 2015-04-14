@@ -240,15 +240,15 @@ if ($icon) {
                 <a <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="' . $controller->url_for('presenting/review/' . $marketplugin->getId()) . '" data-dialog' : "" ?> title="<?= sprintf(_("%s von 5 Sternen"), round($marketplugin['rating'] / 2, 1)) ?>">
             <? endif ?>
                 <? $marketplugin['rating'] = round($marketplugin['rating'], 1) / 2 ?>
-                <? $v = $marketplugin['rating'] >= 1 ? 3 : ($marketplugin['rating'] >= 0.5 ? 2 : "") ?>
+                <? $v = $marketplugin['rating'] >= 0.75 ? 3 : ($marketplugin['rating'] >= 0.25 ? 2 : "") ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                <? $v = $marketplugin['rating'] >= 2 ? 3 : ($marketplugin['rating'] >= 1.5 ? 2 : "") ?>
+                <? $v = $marketplugin['rating'] >= 1.75 ? 3 : ($marketplugin['rating'] >= 1.25 ? 2 : "") ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                <? $v = $marketplugin['rating'] >= 3 ? 3 : ($marketplugin['rating'] >= 2.5 ? 2 : "") ?>
+                <? $v = $marketplugin['rating'] >= 2.75 ? 3 : ($marketplugin['rating'] >= 2.25 ? 2 : "") ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                <? $v = $marketplugin['rating'] >= 4 ? 3 : ($marketplugin['rating'] >= 3.5 ? 2 : "") ?>
+                <? $v = $marketplugin['rating'] >= 3.75 ? 3 : ($marketplugin['rating'] >= 3.25 ? 2 : "") ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                <? $v = $marketplugin['rating'] > 4.5 ? 3 : ($marketplugin['rating'] >= 4.5 ? 2 : "") ?>
+                <? $v = $marketplugin['rating'] >= 4.75 ? 3 : ($marketplugin['rating'] >= 4.25 ? 2 : "") ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
             <? if (!$marketplugin->isWritable()) : ?>
                 </a>
