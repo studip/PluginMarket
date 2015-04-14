@@ -89,7 +89,12 @@ class PresentingController extends MarketController
 
         $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY RAND() LIMIT 3");
 
-        $this->best_plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY rating DESC LIMIT 6");
+        $this->best_plugins = MarketPlugin::findBySQL("
+            publiclyvisible = 1
+                AND approved = 1
+            ORDER BY rating DESC
+            LIMIT 6
+        ");
 
         $this->render_action('overview_'.$_SESSION['pluginmarket']['view']);
     }

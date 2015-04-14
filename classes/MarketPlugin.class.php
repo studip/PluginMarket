@@ -146,18 +146,11 @@ class MarketPlugin extends SimpleORMap {
     }
 
     public function calculateRating() {
-
-        $latest_release_date = $this->releases[0]->mkdate;
         $rating = 0;
         $factors = 0;
         foreach ($this->reviews as $review) {
-            $factor = (120 * 86400) / ($latest_release_date - $review['chdate']);
-            if ($factor < 0) {
-                $factor = 1;
-            }
-            if ($factor > 1) {
-                $factor = 1;
-            }
+            $age = time() - $review['chdate'];
+            $factor = (pi() - 2 * atan($age / (86400 * 180))) / pi();
             $rating += $review['rating'] * $factor * 2;
             $factors += $factor;
         }
@@ -166,6 +159,7 @@ class MarketPlugin extends SimpleORMap {
         } else {
             return $rating = null;
         }
+        var_dump($rating);
 
         return $rating;
     }
