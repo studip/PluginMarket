@@ -135,7 +135,7 @@ if ($icon) {
                     <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit_release/" . $release->getId()) ?>" data-dialog>
                         <?= Assets::img("icons/20/blue/edit", array('class' => "text-bottom")) ?>
                     </a>
-                    <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/delete_release/" . $release->getId())  ?>">
+                    <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/delete_release/" . $release->getId())  ?>">
                         <?= Assets::img("icons/20/blue/trash", array('class' => "text-bottom", 'onclick' => "return window.confirm('"._("Pluginrelease wirklich unwiderrufbar löschen?")."');")) ?>
                     </a>
                 <? endif ?>
