@@ -32,8 +32,8 @@
                 <td>
                     <?= htmlReady($marketplugin->uses->count()) ?>
                 </td>
-                <td data-sorter="<?= $marketplugin->releases->orderBy('chdate DESC')->first()->chdate ?>">
-                    <?= strftime('%x', $marketplugin->releases->orderBy('chdate DESC')->first()->chdate) ?>
+                <td data-sorter="<?= $marketplugin->releases->orderBy('chdate DESC')->val('mkdate') ?>">
+                    <?= strftime('%x', $marketplugin->releases->orderBy('chdate DESC')->val('mkdate')) ?>
                 </td>
                 <td>
                     <?= htmlReady($marketplugin->getDownloads()) ?>
