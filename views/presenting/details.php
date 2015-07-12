@@ -18,10 +18,10 @@ if ($icon) {
 <div>
     <?= htmlReady($marketplugin['short_description']) ?>
 </div>
-<?if ($marketplugin['description'] || $marketplugin['long_description']) : ?>
+<?if ($marketplugin['description']) : ?>
     <div>
         <br>
-        <?= formatReady($marketplugin['description'] ?: $marketplugin['long_description']) ?>
+        <?= formatReady($marketplugin['description']) ?>
     </div>
 <? endif ?>
 <? if (count($marketplugin->images) > 0 || $marketplugin->isWritable()) : ?>

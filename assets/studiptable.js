@@ -82,6 +82,9 @@ STUDIP.table = function (element, opt) {
                 } else if (sortType === 'int') {
                     sort1 = parseFloat('0' + $(a).find('td:nth-child(' + headerIndex + ')').text().trim());
                     sort2 = parseFloat('0' + $(b).find('td:nth-child(' + headerIndex + ')').text().trim());
+                } else if (sortType === 'sorter') {
+                    sort1 = parseFloat('0' + $(a).find('td:nth-child(' + headerIndex + ')').data('sorter'));
+                    sort2 = parseFloat('0' + $(b).find('td:nth-child(' + headerIndex + ')').data('sorter'));
                 } else {
                     sort1 = $(a).find('td:nth-child(' + headerIndex + ')').text().trim().toLowerCase();
                     sort2 = $(b).find('td:nth-child(' + headerIndex + ')').text().trim().toLowerCase();
