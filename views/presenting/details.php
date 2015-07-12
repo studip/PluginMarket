@@ -16,9 +16,14 @@ if ($icon) {
 
 <h1><?= htmlReady($marketplugin['name']) ?></h1>
 <div>
-    <?= formatReady($marketplugin['description']) ?>
+    <?= htmlReady($marketplugin['short_description']) ?>
 </div>
-
+<?if ($marketplugin['description'] || $marketplugin['long_description']) : ?>
+    <div>
+        <br>
+        <?= formatReady($marketplugin['description'] ?: $marketplugin['long_description']) ?>
+    </div>
+<? endif ?>
 <? if (count($marketplugin->images) > 0 || $marketplugin->isWritable()) : ?>
 <h2><?= _("Galerie") ?></h2>
 
