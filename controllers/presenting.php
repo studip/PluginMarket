@@ -88,6 +88,8 @@ class PresentingController extends MarketController
         }
 
         $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY RAND() LIMIT 3");
+        
+        $this->latest_plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY mkdate DESC LIMIT 5");
 
         $best = DBManager::get()->prepare("
             SELECT pluginmarket_plugins.*
