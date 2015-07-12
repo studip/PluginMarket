@@ -1,5 +1,5 @@
 <? if ($show_all) : ?>
-    <h2><?=count($plugins)?>&nbsp;<?= _('Plugins') ?></h2>
+    <h2><?= count($plugins) ?>&nbsp;<?= _('Plugins') ?></h2>
     <div class="plugins_shortview">
         <? foreach ($plugins as $marketplugin) : ?>
             <?= $this->render_partial("presenting/_plugin_short.php", compact("marketplugin", "plugin")) ?>
@@ -14,6 +14,13 @@
             <? endforeach ?>
         </div>
     <? endif ?>
+
+    <h2><?= _("Neueste Plugins") ?></h2>
+    <div class="plugins_shortview">
+        <? foreach ($latest_plugins as $marketplugin) : ?>
+            <?= $this->render_partial("presenting/_plugin_short.php", compact("marketplugin", "plugin")) ?>
+        <? endforeach ?>
+    </div>
 
     <h2><?= _("Zufällige Plugins") ?></h2>
     <div class="plugins_shortview">
