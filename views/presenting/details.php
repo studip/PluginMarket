@@ -30,7 +30,9 @@ if ($icon) {
 <ol id="pluginmarket_galery_view" class="pluginmarket_galery">
     <? foreach ($marketplugin->images as $image) : ?>
     <div class="image">
-        <img src="<?= htmlReady($image->getURL()) ?>">
+        <a href="<?= htmlReady($image->getURL()) ?>" data-lightbox="plugin_gallery">
+            <img src="<?= htmlReady($image->getURL()) ?>">
+        </a>
     </div>
     <? endforeach ?>
     <? if ($marketplugin->isWritable()) : ?>
