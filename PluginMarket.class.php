@@ -55,6 +55,7 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
 
     public function initialize()
     {
+        PageLayout::addSqueezePackage('lightbox');
         $this->addStylesheet('assets/pluginmarket.less');
         PageLayout::addHeadElement('link', array(
             'rel'   => 'alternate',
