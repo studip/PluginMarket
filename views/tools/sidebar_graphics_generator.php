@@ -1,4 +1,4 @@
-<h2><?= _("Erstellen von Siderbar-Grafiken") ?></h2>
+<h2><?= _("Erstellen von Sidebar-Grafiken") ?></h2>
 
 <table>
     <tbody>
@@ -7,7 +7,7 @@
         <td><input type="color" id="color" value="#24437c" onChange="STUDIP.SidebarGraphicsGenerator.drawImage();"></td>
     </tr>
     <tr>
-        <td><label for="localicon"><?= _("Bilddatei (SVG, quadratisch, weiß)") ?></label></td>
+        <td><label for="localicon"><?= _("Bilddatei (SVG, quadratisch, weiÃŸ)") ?></label></td>
         <td><input type="file" id="localicon" onChange="STUDIP.SidebarGraphicsGenerator.setFile(this); return false;"></td>
     </tr>
     <tr style="display: none;">
