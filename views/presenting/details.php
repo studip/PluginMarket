@@ -16,20 +16,31 @@ if ($icon) {
 
 <h1><?= htmlReady($marketplugin['name']) ?></h1>
 <div>
-    <?= formatReady($marketplugin['description']) ?>
+    <?= htmlReady($marketplugin['short_description']) ?>
 </div>
-
+<?if ($marketplugin['description']) : ?>
+    <div>
+        <br>
+        <?= formatReady($marketplugin['description']) ?>
+    </div>
+<? endif ?>
 <? if (count($marketplugin->images) > 0 || $marketplugin->isWritable()) : ?>
 <h2><?= _("Galerie") ?></h2>
 
 <ol id="pluginmarket_galery_view" class="pluginmarket_galery">
     <? foreach ($marketplugin->images as $image) : ?>
     <div class="image">
-        <img src="<?= htmlReady($image->getURL()) ?>">
+        <a href="<?= htmlReady($image->getURL()) ?>" data-lightbox="plugin_gallery">
+            <img src="<?= htmlReady($image->getURL()) ?>">
+        </a>
     </div>
     <? endforeach ?>
     <? if ($marketplugin->isWritable()) : ?>
-    <div><a href="<?= $controller->url_for('myplugins/edit_images/' . $marketplugin->getId()) ?>" data-dialog title="<?= _("Galerie bearbeiten / neue Bilder hinzufügen") ?>"><?= Assets::img("icons/20/blue/add") ?></a></div>
+    <div>
+        <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit_images/". $marketplugin->getId())  ?>" data-dialog title="<?= _("Galerie bearbeiten / neue Bilder hinzufügen") ?>">
+            <?= Assets::img("icons/20/blue/add") ?>
+        </a>
+    </div>
     <? endif ?>
 </ol>
 <? endif ?>
@@ -38,12 +49,14 @@ if ($icon) {
 <ul class="plugin-usages">
     <? foreach ($marketplugin['uses'] as $use): ?>
         <li>
-            <?= htmlReady($use->name) ?>
+            <a href="<?= PluginEngine::getLink($plugin, array('search' => htmlReady($use->name)), "presenting/all") ?>">
+                <?= htmlReady($use->name) ?>
+            </a>
             <? if ($use->plugin->isWritable(User::findCurrent()->id)): ?>
             (<?= ObjectdisplayHelper::link($use->user) ?>)
             <? endif; ?>
             <? if ($use->isEditable()): ?>
-                <a href="<?= $controller->url_for('presenting/delete_usage/' . $use->id) ?>">
+                <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/delete_usage/" . $use->id) ?>">
                     <?= Assets::img('icons/blue/trash.svg'); ?>
                 </a>
             <? endif; ?>
@@ -114,7 +127,7 @@ if ($icon) {
     <? foreach ($marketplugin->releases as $release) : ?>
         <tr>
             <td>
-                <a href="<?= $controller->url_for('presenting/download/' . $release->getId()) ?>" title="<?= _("Dieses Release runterladen") ?>">
+                <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/download/". $release->getId()) ?>" title="<?= _("Dieses Release runterladen") ?>">
                     <?= Assets::img("icons/20/blue/download", array('class' => "text-bottom")) ?>
                     <?= htmlReady($release['version']) ?>
                 </a>
@@ -126,15 +139,15 @@ if ($icon) {
             <td><?= htmlReady($release['downloads']) ?></td>
             <td class="actions">
                 <? if ($marketplugin->isWritable()) : ?>
-                    <a href="<?= $controller->url_for('myplugins/edit_release/' . $release->getId()) ?>" data-dialog>
+                    <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit_release/" . $release->getId()) ?>" data-dialog>
                         <?= Assets::img("icons/20/blue/edit", array('class' => "text-bottom")) ?>
                     </a>
-                    <a href="<?= $controller->url_for('presenting/delete_release/' . $release->getId()) ?>">
+                    <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/delete_release/" . $release->getId())  ?>">
                         <?= Assets::img("icons/20/blue/trash", array('class' => "text-bottom", 'onclick' => "return window.confirm('"._("Pluginrelease wirklich unwiderrufbar löschen?")."');")) ?>
                     </a>
                 <? endif ?>
                 <? if ($GLOBALS['perm']->have_perm("autor")) : ?>
-                    <a href="<?= $controller->url_for('presenting/follow_release/' . $release->getId()) ?>" title="<?= _("Für automatische Updates registrieren.") ?>" data-dialog>
+                    <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/follow_release/" . $release->getId()) ?>" title="<?= _("Für automatische Updates registrieren.") ?>" data-dialog>
                         <?= Assets::img("icons/20/blue/rss", array('class' => "text-bottom")) ?>
                     </a>
                 <? endif ?>
@@ -146,7 +159,7 @@ if ($icon) {
         <tfoot>
         <tr>
             <td colspan="7">
-                <a href="<?= $controller->url_for('myplugins/add_release/' . $marketplugin->getId()) ?>" data-dialog>
+                <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/add_release/" . $marketplugin->getId()) ?>" data-dialog>
                     <?= Assets::img("icons/20/blue/add") ?>
                 </a>
             </td>
@@ -234,15 +247,15 @@ if ($icon) {
                 <a <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="' . $controller->url_for('presenting/review/' . $marketplugin->getId()) . '" data-dialog' : "" ?> title="<?= sprintf(_("%s von 5 Sternen"), round($marketplugin['rating'] / 2, 1)) ?>">
             <? endif ?>
                 <? $marketplugin['rating'] = round($marketplugin['rating'], 1) / 2 ?>
-                <? $v = $marketplugin['rating'] >= 1 ? 3 : ($marketplugin['rating'] >= 0.5 ? 2 : "") ?>
+                <? $v = $marketplugin['rating'] >= 0.75 ? 3 : ($marketplugin['rating'] >= 0.25 ? 2 : "") ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                <? $v = $marketplugin['rating'] >= 2 ? 3 : ($marketplugin['rating'] >= 1.5 ? 2 : "") ?>
+                <? $v = $marketplugin['rating'] >= 1.75 ? 3 : ($marketplugin['rating'] >= 1.25 ? 2 : "") ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                <? $v = $marketplugin['rating'] >= 3 ? 3 : ($marketplugin['rating'] >= 2.5 ? 2 : "") ?>
+                <? $v = $marketplugin['rating'] >= 2.75 ? 3 : ($marketplugin['rating'] >= 2.25 ? 2 : "") ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                <? $v = $marketplugin['rating'] >= 4 ? 3 : ($marketplugin['rating'] >= 3.5 ? 2 : "") ?>
+                <? $v = $marketplugin['rating'] >= 3.75 ? 3 : ($marketplugin['rating'] >= 3.25 ? 2 : "") ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
-                <? $v = $marketplugin['rating'] > 4.5 ? 3 : ($marketplugin['rating'] >= 4.5 ? 2 : "") ?>
+                <? $v = $marketplugin['rating'] >= 4.75 ? 3 : ($marketplugin['rating'] >= 4.25 ? 2 : "") ?>
                 <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
             <? if (!$marketplugin->isWritable()) : ?>
                 </a>
@@ -282,11 +295,11 @@ if ($icon) {
 
 <div style="text-align: center">
 <? if ($marketplugin->isWritable()) : ?>
-    <?= \Studip\LinkButton::create(_("bearbeiten"), $controller->url_for('myplugins/edit/' . $marketplugin->getId()), array('data-dialog' => 1)) ?>
-    <?= \Studip\LinkButton::create(_("Release hinzufügen"), $controller->url_for('myplugins/add_release/' . $marketplugin->getId()), array('data-dialog' => 1)) ?>
+    <?= \Studip\LinkButton::create(_("bearbeiten"), PluginEngine::getURL($plugin, array(), "myplugins/edit/" . $marketplugin->getId()), array('data-dialog' => 1)) ?>
+    <?= \Studip\LinkButton::create(_("Release hinzufügen"), PluginEngine::getURL($plugin, array(), "myplugins/add_release/" . $marketplugin->getId()), array('data-dialog' => 1)) ?>
 <? endif ?>
 <? if ($marketplugin['user_id'] !== $GLOBALS['user']->id) : ?>
-    <?= \Studip\LinkButton::create(_("Plugin abonnieren"), $controller->url_for('presenting/register_for_pluginnews/' . $marketplugin->getId()), array('title' => _("Neuigkeiten des Plugins per Nachricht bekommen."), 'data-dialog' => "1")) ?>
+    <?= \Studip\LinkButton::create(_("Plugin abonnieren"), PluginEngine::getURL($plugin, array(), "presenting/register_for_pluginnews/" . $marketplugin->getId()), array('title' => _("Neuigkeiten des Plugins per Nachricht bekommen."), 'data-dialog' => "1")) ?>
 <? endif ?>
 <? if ($marketplugin->isRootable()) : ?>
     <form action="?" method="post" style="display: inline-block; margin: 0px;">

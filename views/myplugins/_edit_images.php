@@ -9,7 +9,9 @@
         <li class="image">
             <input type="checkbox" name="delete_image[]" value="<?= htmlReady($image->getId()) ?>" id="delete_image_<?= htmlReady($image->getId()) ?>">
             <div>
-                <img src="<?= htmlReady($image->getURL()) ?>" style="max-height: 150px;">
+                <a href="<?= htmlReady($image->getURL()) ?>" data-lightbox="plugin_gallery">
+                    <img src="<?= htmlReady($image->getURL()) ?>" style="max-height: 150px;">
+                </a>
                 <input type="hidden" name="image_order[]" value="<?= htmlReady($image->getId()) ?>">
                 <label for="delete_image_<?= htmlReady($image->getId()) ?>">
                     <?= Assets::img("icons/20/blue/trash", array('style' => "cursor: pointer;")) ?>

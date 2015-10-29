@@ -88,8 +88,24 @@ class PresentingController extends MarketController
         }
 
         $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY RAND() LIMIT 3");
+        
+        $this->latest_plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY mkdate DESC LIMIT 5");
 
-        $this->best_plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY rating DESC LIMIT 6");
+        $best = DBManager::get()->prepare("
+            SELECT pluginmarket_plugins.*
+            FROM pluginmarket_plugins
+                LEFT JOIN pluginmarket_reviews ON (pluginmarket_plugins.plugin_id = pluginmarket_reviews.plugin_id)
+            WHERE publiclyvisible = 1
+                AND approved = 1
+            GROUP BY pluginmarket_plugins.plugin_id
+            ORDER BY pluginmarket_plugins.rating DESC, MAX(pluginmarket_reviews.chdate) DESC
+            LIMIT 6
+        ");
+        $best->execute();
+        $this->best_plugins = array();
+        foreach ($best->fetchAll(PDO::FETCH_ASSOC) as $data) {
+            $this->best_plugins[] = MarketPlugin::buildExisting($data);
+        }
 
         $this->render_action('overview_'.$_SESSION['pluginmarket']['view']);
     }
@@ -102,6 +118,7 @@ class PresentingController extends MarketController
                         OR (SELECT CONCAT(Vorname, ' ', Nachname) FROM auth_user_md5 WHERE user_id = pluginmarket_plugins.user_id LIMIT 1) LIKE :likesearch
                         OR MATCH (short_description, description) AGAINST (:search IN BOOLEAN MODE)
                         OR (SELECT GROUP_CONCAT(' ', tag) FROM pluginmarket_tags WHERE pluginmarket_tags.plugin_id = plugin_id GROUP BY pluginmarket_tags.plugin_id LIMIT 1) LIKE :likesearch
+                        OR (SELECT 1 FROM pluginmarket_plugin_usages WHERE pluginmarket_plugins.plugin_id = pluginmarket_plugin_usages.plugin_id AND name LIKE :likesearch LIMIT 1)
                     )
                     AND publiclyvisible = 1
                     AND approved = 1
