@@ -282,16 +282,11 @@ if ($icon) {
 
 <div style="text-align: center">
 <? if ($marketplugin->isWritable()) : ?>
+    <?= \Studip\LinkButton::create(_("Plugin löschen"), $controller->url_for('myplugins/delete/' . $marketplugin->getId()), array('data-dialog' => 1)) ?>
     <?= \Studip\LinkButton::create(_("bearbeiten"), $controller->url_for('myplugins/edit/' . $marketplugin->getId()), array('data-dialog' => 1)) ?>
     <?= \Studip\LinkButton::create(_("Release hinzufügen"), $controller->url_for('myplugins/add_release/' . $marketplugin->getId()), array('data-dialog' => 1)) ?>
 <? endif ?>
 <? if ($marketplugin['user_id'] !== $GLOBALS['user']->id) : ?>
     <?= \Studip\LinkButton::create(_("Plugin abonnieren"), $controller->url_for('presenting/register_for_pluginnews/' . $marketplugin->getId()), array('title' => _("Neuigkeiten des Plugins per Nachricht bekommen."), 'data-dialog' => "1")) ?>
-<? endif ?>
-<? if ($marketplugin->isRootable()) : ?>
-    <form action="?" method="post" style="display: inline-block; margin: 0px;">
-        <input type="hidden" name="plugin_id" value="<?= htmlReady($marketplugin->getId()) ?>">
-        <?= \Studip\Button::create(_("Löschen"), "delete_plugin", array('onclick' => "return window.confirm('"._("Plugin wirklich unwiderrufbar löschen?")."');")) ?>
-    </form>
 <? endif ?>
 </div>

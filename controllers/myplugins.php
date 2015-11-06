@@ -167,4 +167,15 @@ class MypluginsController extends MarketController
         $this->redirect('presenting/details/' . $this->release->plugin->getId());
     }
 
+
+    public function delete_action($plugin_id) {
+        $this->marketplugin = MarketPlugin::find($plugin_id);
+        if (Request::submitted('delete') && $this->marketplugin->isWritable()) {
+            CSRFProtection::verifyUnsafeRequest();
+            $this->marketplugin->delete();
+            $this->redirect('myplugins/overview');
+        }
+    }
+
+
 }
