@@ -27,6 +27,26 @@ class UpdateController extends MarketController
             $this->render_text("Insecure request.");
         }
     }
+    
+    public function usage_action() {
+        $this->plugins = MarketPlugin::findManyByName(Request::getArray('plugins'));
+        $this->mostlikely = MarketPluginUsage::findOneBySQL('user_id = ? GROUP BY name ORDER BY count(*) DESC', array(User::findCurrent()->id))->name;
+    }
+    
+    public function save_usage_action() {
+        // delete old usage
+        MarketPluginUsage::deleteBySQL('user_id = ? AND name = ?', array(User::findCurrent()->id, Request::get('tag')));
+        
+        // create new usages
+        foreach (Request::getArray('plugins') as $pluginid) {
+            MarketPluginUsage::create(array(
+                'plugin_id' => $pluginid,
+                'user_id' => User::findCurrent()->id,
+                'name' => Request::get('tag')
+            ));
+            $this->done++;
+        }
+    }
 
     protected function verify_secret($secret)
     {
