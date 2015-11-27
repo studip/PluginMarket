@@ -119,6 +119,12 @@ class MarketRelease extends SimpleORMap {
         }
         $this['studip_min_version'] = $manifest['studipMinVersion'];
         $this['studip_max_version'] = $manifest['studipMaxVersion'];
+        if (!$this['studip_max_version']) {
+            $versions = PluginMarket::getStudipReleases();
+            $manifest['studipMaxVersion']
+                = $this['studip_max_version']
+                = array_pop($versions).".99";
+        }
         $this['version'] = $manifest['version'];
         if ($this['repository_overwrites_descriptionfrom']) {
             $readme = "";
@@ -135,6 +141,7 @@ class MarketRelease extends SimpleORMap {
             }
         }
         $this->store();
+        file_put_contents($dir."/plugin.manifest", $this->createManifest($manifest));
         $hash = md5(uniqid());
         $plugin_raw = $GLOBALS['TMP_PATH']."/plugin_$hash.zip";
         create_zip_from_directory($dir, $plugin_raw);
@@ -152,6 +159,14 @@ class MarketRelease extends SimpleORMap {
     public function checkVersion($version) {
         return ( !$this->studip_min_version || version_compare($version, $this->studip_min_version) >= 0 )
                 && ( !$this->studip_max_version || version_compare($version, $this->studip_max_version) <= 0 );
+    }
+
+    protected function createManifest($manifest) {
+        $arr = array();
+        foreach ($manifest as $index => $value) {
+            $arr[] = $index."=".$value;
+        }
+        return implode("\n", $arr);
     }
 
 }

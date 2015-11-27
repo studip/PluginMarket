@@ -10,7 +10,7 @@
             <th data-sort-type="int">
                 <?= _('Standorte') ?>
             </th>
-            <th data-sort-type="int">
+            <th data-sort-type="sorter">
                 <?= _('Letzte Änderung') ?>
             </th>
             <th data-sort-type="int">
@@ -32,8 +32,8 @@
                 <td>
                     <?= htmlReady($marketplugin->uses->count()) ?>
                 </td>
-                <td>
-                    <?= strftime('%x', $marketplugin->releases->orderBy('chdate DESC')->first()->chdate) ?>
+                <td data-sorter="<?= $marketplugin->releases->orderBy('chdate DESC')->val('mkdate') ?>">
+                    <?= strftime('%x', $marketplugin->releases->orderBy('chdate DESC')->val('mkdate')) ?>
                 </td>
                 <td>
                     <?= htmlReady($marketplugin->getDownloads()) ?>

@@ -1,4 +1,4 @@
-<form action="<?= $controller->url_for('approving/approve/' . $marketplugin->getId()) ?>" method="post" class="studip_form">
+<form action="<?= $controller->url_for('approving/approve/' . $marketplugin->getId()) ?>" method="post" class="default">
     <fieldset>
         <legend>
             <?= _("Review schreiben") ?>

@@ -69,10 +69,9 @@ class PresentingController extends MarketController
 
         // Create options for all studip versions
         $_SESSION['pluginmarket']['version'] = Request::submitted('version') ? Request::get('version') : $_SESSION['pluginmarket']['version'];
-        $studipVersions = array('1.4.0','1.5.0','1.6.0','1.7','1.8','1.9','1.10','1.11','2.0','2.1','2.2','2.3','2.4','2.5','3.0','3.1');
 
         $options[] = "<option value='".URLHelper::getLink('', array('version' => 0))."'>"._('Alle Versionen')."</option>";
-        foreach (array_reverse($studipVersions) as $version) {
+        foreach (array_reverse(PluginMarket::getStudipReleases()) as $version) {
             $options[] = "<option value='".URLHelper::getLink('', array('version' => $version))."' ".($_SESSION['pluginmarket']['version'] == $version ? "SELECTED" : "").">$version</option>";
         }
         $versionWidget->addElement(new WidgetElement('<select style="width: 100%" onchange="location = this.options[this.selectedIndex].value;">'.join("", $options).'</select>'));
@@ -92,7 +91,21 @@ class PresentingController extends MarketController
         
         $this->latest_plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY mkdate DESC LIMIT 5");
 
-        $this->best_plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY rating DESC LIMIT 6");
+        $best = DBManager::get()->prepare("
+            SELECT pluginmarket_plugins.*
+            FROM pluginmarket_plugins
+                LEFT JOIN pluginmarket_reviews ON (pluginmarket_plugins.plugin_id = pluginmarket_reviews.plugin_id)
+            WHERE publiclyvisible = 1
+                AND approved = 1
+            GROUP BY pluginmarket_plugins.plugin_id
+            ORDER BY pluginmarket_plugins.rating DESC, MAX(pluginmarket_reviews.chdate) DESC
+            LIMIT 6
+        ");
+        $best->execute();
+        $this->best_plugins = array();
+        foreach ($best->fetchAll(PDO::FETCH_ASSOC) as $data) {
+            $this->best_plugins[] = MarketPlugin::buildExisting($data);
+        }
 
         $this->render_action('overview_'.$_SESSION['pluginmarket']['view']);
     }
@@ -105,6 +118,7 @@ class PresentingController extends MarketController
                         OR (SELECT CONCAT(Vorname, ' ', Nachname) FROM auth_user_md5 WHERE user_id = pluginmarket_plugins.user_id LIMIT 1) LIKE :likesearch
                         OR MATCH (short_description, description) AGAINST (:search IN BOOLEAN MODE)
                         OR (SELECT GROUP_CONCAT(' ', tag) FROM pluginmarket_tags WHERE pluginmarket_tags.plugin_id = plugin_id GROUP BY pluginmarket_tags.plugin_id LIMIT 1) LIKE :likesearch
+                        OR (SELECT 1 FROM pluginmarket_plugin_usages WHERE pluginmarket_plugins.plugin_id = pluginmarket_plugin_usages.plugin_id AND name LIKE :likesearch LIMIT 1)
                     )
                     AND publiclyvisible = 1
                     AND approved = 1
@@ -149,6 +163,14 @@ class PresentingController extends MarketController
     public function details_action($plugin_id) {
         Navigation::addItem('/pluginmarket/presenting/details', new AutoNavigation(_('Details'), $this->url_for('presenting/details/'.$plugin_id)));
         $this->marketplugin = new MarketPlugin($plugin_id);
+
+        if (Request::isPost() && Request::submitted("delete_plugin") && $this->marketplugin->isRootable()) {
+            $this->marketplugin->delete();
+            PageLayout::postMessage(MessageBox::success(_("Plugin wurde gelöscht.")));
+            $this->redirect('presenting/overview');
+            return;
+        }
+
         $this->marketplugin['rating'] = $this->marketplugin->calculateRating();
         $this->marketplugin->store();
 
