@@ -124,6 +124,10 @@ class MarketRelease extends SimpleORMap {
             $manifest['studipMaxVersion']
                 = $this['studip_max_version']
                 = array_pop($versions).".99";
+            if (!$this['studip_max_version']) {
+                PageLayout::postMessage(MessageBox::info(sprintf(_("Die studipMaxversion wurde auf %s gesetzt, da keine andere angegeben wurde."), $manifest['studipMaxVersion'])));
+            }
+
         }
         $this['version'] = $manifest['version'];
         if ($this['repository_overwrites_descriptionfrom']) {
