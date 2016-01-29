@@ -1,4 +1,4 @@
-<form class="studip_form" method="post" action="<?= $controller->url_for('presenting/propose_usage/' . $plugin->id) ?>">
+<form class="default" method="post" action="<?= $controller->url_for('presenting/propose_usage/' . $plugin->id) ?>">
     <fieldset>
         <?= CSRFProtection::tokenTag(); ?>
         <legend><?= sprintf(_('Pluginnutzung mitteilen für %s'), htmlReady($plugin->name)) ?></legend>

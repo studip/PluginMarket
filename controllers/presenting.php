@@ -163,12 +163,14 @@ class PresentingController extends MarketController
     public function details_action($plugin_id) {
         Navigation::addItem('/pluginmarket/presenting/details', new AutoNavigation(_('Details'), $this->url_for('presenting/details/'.$plugin_id)));
         $this->marketplugin = new MarketPlugin($plugin_id);
+
         if (Request::isPost() && Request::submitted("delete_plugin") && $this->marketplugin->isRootable()) {
             $this->marketplugin->delete();
             PageLayout::postMessage(MessageBox::success(_("Plugin wurde gelöscht.")));
             $this->redirect('presenting/overview');
             return;
         }
+
         $this->marketplugin['rating'] = $this->marketplugin->calculateRating();
         $this->marketplugin->store();
 
@@ -341,6 +343,5 @@ class PresentingController extends MarketController
         $this->render_nothing();
 
     }
-
 
 }

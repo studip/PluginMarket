@@ -30,7 +30,9 @@ if ($icon) {
 <ol id="pluginmarket_galery_view" class="pluginmarket_galery">
     <? foreach ($marketplugin->images as $image) : ?>
     <div class="image">
-        <img src="<?= htmlReady($image->getURL()) ?>">
+        <a href="<?= htmlReady($image->getURL()) ?>" data-lightbox="plugin_gallery">
+            <img src="<?= htmlReady($image->getURL()) ?>">
+        </a>
     </div>
     <? endforeach ?>
     <? if ($marketplugin->isWritable()) : ?>
@@ -293,16 +295,11 @@ if ($icon) {
 
 <div style="text-align: center">
 <? if ($marketplugin->isWritable()) : ?>
+    <?= \Studip\LinkButton::create(_("Plugin löschen"), PluginEngine::getURL($plugin, array(), 'myplugins/delete/' . $marketplugin->getId()), array('data-dialog' => 1)) ?>
     <?= \Studip\LinkButton::create(_("bearbeiten"), PluginEngine::getURL($plugin, array(), "myplugins/edit/" . $marketplugin->getId()), array('data-dialog' => 1)) ?>
     <?= \Studip\LinkButton::create(_("Release hinzufügen"), PluginEngine::getURL($plugin, array(), "myplugins/add_release/" . $marketplugin->getId()), array('data-dialog' => 1)) ?>
 <? endif ?>
 <? if ($marketplugin['user_id'] !== $GLOBALS['user']->id) : ?>
     <?= \Studip\LinkButton::create(_("Plugin abonnieren"), PluginEngine::getURL($plugin, array(), "presenting/register_for_pluginnews/" . $marketplugin->getId()), array('title' => _("Neuigkeiten des Plugins per Nachricht bekommen."), 'data-dialog' => "1")) ?>
-<? endif ?>
-<? if ($marketplugin->isRootable()) : ?>
-    <form action="?" method="post" style="display: inline-block; margin: 0px;">
-        <input type="hidden" name="plugin_id" value="<?= htmlReady($marketplugin->getId()) ?>">
-        <?= \Studip\Button::create(_("Löschen"), "delete_plugin", array('onclick' => "return window.confirm('"._("Plugin wirklich unwiderrufbar löschen?")."');")) ?>
-    </form>
 <? endif ?>
 </div>
