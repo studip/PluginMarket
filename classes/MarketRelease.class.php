@@ -56,7 +56,7 @@ class MarketRelease extends SimpleORMap {
         } else {
             $plugin_dir = $tmp_folder;
         }
-        $this->installFromDirectory($plugin_dir);
+        $this->installFromDirectory($plugin_dir, $file);
 
         rmdirr($tmp_folder);
         unlink($file);
@@ -111,7 +111,7 @@ class MarketRelease extends SimpleORMap {
         return md5($this->getId()."-".$this['mkdate']);
     }
 
-    protected function installFromDirectory($dir) {
+    protected function installFromDirectory($dir, $originalfile = null) {
         $manifest = PluginManager::getInstance()->getPluginManifest($dir);
         if ($manifest['pluginclassname']) {
             $this->plugin['pluginclassname'] = $manifest['pluginclassname'];
@@ -125,9 +125,11 @@ class MarketRelease extends SimpleORMap {
                 = $this['studip_max_version']
                 = array_pop($versions).".99";
             if (!$this['studip_max_version']) {
-                PageLayout::postMessage(MessageBox::info(sprintf(_("Die studipMaxversion wurde auf %s gesetzt, da keine andere angegeben wurde."), $manifest['studipMaxVersion'])));
+                PageLayout::postMessage(MessageBox::info(sprintf(_("Die studipMaxVersion wurde auf %s gesetzt, da keine andere angegeben wurde."), $manifest['studipMaxVersion'])));
             }
-
+        }
+        if (version_compare($this['studip_min_version'], $this['studip_max_version'], ">")) {
+            $this['studip_max_version'] = $this['studip_min_version'];
         }
         $this['version'] = $manifest['version'];
         if ($this['repository_overwrites_descriptionfrom']) {
@@ -150,7 +152,11 @@ class MarketRelease extends SimpleORMap {
         $plugin_raw = $GLOBALS['TMP_PATH']."/plugin_$hash.zip";
         create_zip_from_directory($dir, $plugin_raw);
 
-        copy($plugin_raw, $this->getFilePath());
+        if ($manifest['studipMaxVersion'] !== $this['studip_max_version']) {
+            copy($plugin_raw, $this->getFilePath());
+        } else {
+            copy($originalfile, $this->getFilePath());
+        }
         unlink($plugin_raw);
         return true;
     }
