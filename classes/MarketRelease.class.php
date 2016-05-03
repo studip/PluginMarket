@@ -174,7 +174,26 @@ class MarketRelease extends SimpleORMap {
     protected function createManifest($manifest) {
         $arr = array();
         foreach ($manifest as $index => $value) {
-            $arr[] = $index."=".$value;
+            if (is_array($value)) {
+                if ($index == 'screenshots') {
+                    $arr[] = "screenshots=".$value['path'];
+                    foreach ($value['pictures'] as $one) {
+                        $arr[] = "screenshots." . $one['source'] . "=" . $one['title'];
+                    }
+                }
+                if ($index == 'additionalclasses') {
+                    foreach ($value as $one) {
+                        $arr[] = 'pluginclassname' . "=" . $one;
+                    }
+                }
+                if ($index == 'additionalscreenshots') {
+                    foreach ($value as $one) {
+                        $arr[] = 'screenshot' . "=" . $one;
+                    }
+                }
+            } else {
+               $arr[] = $index."=".$value;
+            }
         }
         return implode("\n", $arr);
     }
