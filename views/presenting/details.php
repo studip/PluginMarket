@@ -4,9 +4,9 @@ PageLayout::addHeadElement("meta", array('property' => "og:site_name", 'content'
 PageLayout::addHeadElement("meta", array('property' => "og:type", 'content' => "article"));
 PageLayout::addHeadElement("meta", array('property' => "og:title", 'content' => $marketplugin['name']));
 PageLayout::addHeadElement("meta", array('property' => "og:description", 'content' => $marketplugin['short_description']));
-$icon = $marketplugin->images->first();
-if ($icon) {
-    PageLayout::addHeadElement("meta", array('property' => "og:image", 'content' => $icon->getURL()));
+$image = $marketplugin->images->first();
+if ($image) {
+    PageLayout::addHeadElement("meta", array('property' => "og:image", 'content' => $image->getURL(true)));
 }
 ?>
 
