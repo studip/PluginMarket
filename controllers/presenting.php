@@ -88,7 +88,7 @@ class PresentingController extends MarketController
         }
 
         $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY RAND() LIMIT 3");
-        
+
         $this->latest_plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY mkdate DESC LIMIT 5");
 
         $best = DBManager::get()->prepare("
@@ -161,8 +161,10 @@ class PresentingController extends MarketController
     }
 
     public function details_action($plugin_id) {
-        $this->marketplugin = new MarketPlugin($plugin_id);
-
+        $this->marketplugin = MarketPlugin::find($plugin_id);
+        if (!$this->marketplugin) {
+            throw new Trails_Exception(404);
+        }
         Navigation::addItem('/pluginmarket/presenting/details', new AutoNavigation(_('Details'), $this->url_for('presenting/details/'.$plugin_id)));
         PageLayout::setTitle($this->marketplugin->name . ' - ' . $this->plugin->getDisplayTitle());
 
