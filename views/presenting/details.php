@@ -124,7 +124,7 @@ if ($image) {
         </tr>
     </thead>
     <tbody>
-    <? foreach ($marketplugin->releases as $release) : ?>
+    <? foreach ($marketplugin->releases->orderBy('version DESC') as $release) : ?>
         <tr>
             <td>
                 <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/download/". $release->getId()) ?>" title="<?= _("Dieses Release runterladen") ?>">
