@@ -233,30 +233,32 @@ if ($image) {
         <? if ($marketplugin['rating'] === null) : ?>
             <? if (!$marketplugin->isWritable()) : ?>
                 <a style="opacity: 0.3;" title="<?= $GLOBALS['perm']->have_perm("autor") ? _("Geben Sie die erste Bewertung ab.") : _("Noch keine bewertung abgegeben.") ?>" <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="' . $controller->url_for('presenting/review/' . $marketplugin->getId()) . '" data-dialog' : "" ?>>
+                <? $icon_prefix = "blue_" ?>
             <? endif ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/star.svg", array('width' => "50px")) ?>
+                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star.svg", array('width' => "50px")) ?>
+                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star.svg", array('width' => "50px")) ?>
+                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star.svg", array('width' => "50px")) ?>
+                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star.svg", array('width' => "50px")) ?>
+                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star.svg", array('width' => "50px")) ?>
             <? if (!$marketplugin->isWritable()) : ?>
                 </a>
             <? endif ?>
         <? else : ?>
             <? if (!$marketplugin->isWritable()) : ?>
                 <a <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="' . $controller->url_for('presenting/review/' . $marketplugin->getId()) . '" data-dialog' : "" ?> title="<?= sprintf(_("%s von 5 Sternen"), round($marketplugin['rating'] / 2, 1)) ?>">
+                <? $icon_prefix = "blue_" ?>
             <? endif ?>
                 <? $marketplugin['rating'] = round($marketplugin['rating'], 1) / 2 ?>
                 <? $v = $marketplugin['rating'] >= 0.75 ? 3 : ($marketplugin['rating'] >= 0.25 ? 2 : "") ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
+                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star$v.svg", array('width' => "50px")) ?>
                 <? $v = $marketplugin['rating'] >= 1.75 ? 3 : ($marketplugin['rating'] >= 1.25 ? 2 : "") ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
+                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star$v.svg", array('width' => "50px")) ?>
                 <? $v = $marketplugin['rating'] >= 2.75 ? 3 : ($marketplugin['rating'] >= 2.25 ? 2 : "") ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
+                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star$v.svg", array('width' => "50px")) ?>
                 <? $v = $marketplugin['rating'] >= 3.75 ? 3 : ($marketplugin['rating'] >= 3.25 ? 2 : "") ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
+                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star$v.svg", array('width' => "50px")) ?>
                 <? $v = $marketplugin['rating'] >= 4.75 ? 3 : ($marketplugin['rating'] >= 4.25 ? 2 : "") ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "50px")) ?>
+                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star$v.svg", array('width' => "50px")) ?>
             <? if (!$marketplugin->isWritable()) : ?>
                 </a>
             <? endif ?>
@@ -296,8 +298,11 @@ if ($image) {
 <div style="text-align: center">
 <? if ($marketplugin->isWritable()) : ?>
     <?= \Studip\LinkButton::create(_("Plugin löschen"), PluginEngine::getURL($plugin, array(), 'myplugins/delete/' . $marketplugin->getId()), array('data-dialog' => 1)) ?>
-    <?= \Studip\LinkButton::create(_("bearbeiten"), PluginEngine::getURL($plugin, array(), "myplugins/edit/" . $marketplugin->getId()), array('data-dialog' => 1)) ?>
+    <?= \Studip\LinkButton::create(_("Bearbeiten"), PluginEngine::getURL($plugin, array(), "myplugins/edit/" . $marketplugin->getId()), array('data-dialog' => 1)) ?>
     <?= \Studip\LinkButton::create(_("Release hinzufügen"), PluginEngine::getURL($plugin, array(), "myplugins/add_release/" . $marketplugin->getId()), array('data-dialog' => 1)) ?>
+<? endif ?>
+<? if (!$marketplugin->isWritable()) : ?>
+    <?= \Studip\LinkButton::create(_("Bewertung schreiben"), $controller->url_for('presenting/review/' . $marketplugin->getId()), array('data-dialog' => 1)) ?>
 <? endif ?>
 <? if ($marketplugin['user_id'] !== $GLOBALS['user']->id) : ?>
     <?= \Studip\LinkButton::create(_("Plugin abonnieren"), PluginEngine::getURL($plugin, array(), "presenting/register_for_pluginnews/" . $marketplugin->getId()), array('title' => _("Neuigkeiten des Plugins per Nachricht bekommen."), 'data-dialog' => "1")) ?>

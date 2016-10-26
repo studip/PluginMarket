@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__."/../classes/MarketPlugin.class.php";
+
 class AddRatingToDatabase extends Migration {
     
     public function up() {
