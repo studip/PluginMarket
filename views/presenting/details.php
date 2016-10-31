@@ -84,7 +84,7 @@ if ($image) {
 <? endif ?>
 
 <h2><?= _("Zum Autor") ?></h2>
-<ul class="clean">
+<ul class="clean plugins_authors">
     <li>
         <? $author = User::find($marketplugin['user_id']) ?>
         <div>
