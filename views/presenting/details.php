@@ -235,11 +235,11 @@ if ($image) {
                 <a style="opacity: 0.3;" title="<?= $GLOBALS['perm']->have_perm("autor") ? _("Geben Sie die erste Bewertung ab.") : _("Noch keine bewertung abgegeben.") ?>" <?= ($GLOBALS['perm']->have_perm("autor") && !$marketplugin->isWritable()) ? 'href="' . $controller->url_for('presenting/review/' . $marketplugin->getId()) . '" data-dialog' : "" ?>>
                 <? $icon_prefix = "blue_" ?>
             <? endif ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star.svg", array('width' => "50px")) ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star.svg", array('width' => "50px")) ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star.svg", array('width' => "50px")) ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star.svg", array('width' => "50px")) ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star.svg", array('width' => "50px")) ?>
+                <?= Icon::create($plugin->getPluginURL()."/assets/".$icon_prefix."star.svg")->asImg("50px") ?>
+                <?= Icon::create($plugin->getPluginURL()."/assets/".$icon_prefix."star.svg")->asImg("50px") ?>
+                <?= Icon::create($plugin->getPluginURL()."/assets/".$icon_prefix."star.svg")->asImg("50px") ?>
+                <?= Icon::create($plugin->getPluginURL()."/assets/".$icon_prefix."star.svg")->asImg("50px") ?>
+                <?= Icon::create($plugin->getPluginURL()."/assets/".$icon_prefix."star.svg")->asImg("50px") ?>
             <? if (!$marketplugin->isWritable()) : ?>
                 </a>
             <? endif ?>
@@ -250,15 +250,16 @@ if ($image) {
             <? endif ?>
                 <? $marketplugin['rating'] = round($marketplugin['rating'], 1) / 2 ?>
                 <? $v = $marketplugin['rating'] >= 0.75 ? 3 : ($marketplugin['rating'] >= 0.25 ? 2 : "") ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star$v.svg", array('width' => "50px")) ?>
+                <?= Icon::create($plugin->getPluginURL()."/assets/".$icon_prefix."star$v.svg")->asImg("50px") ?>
+
                 <? $v = $marketplugin['rating'] >= 1.75 ? 3 : ($marketplugin['rating'] >= 1.25 ? 2 : "") ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star$v.svg", array('width' => "50px")) ?>
+                <?= Icon::create($plugin->getPluginURL()."/assets/".$icon_prefix."star$v.svg")->asImg("50px") ?>
                 <? $v = $marketplugin['rating'] >= 2.75 ? 3 : ($marketplugin['rating'] >= 2.25 ? 2 : "") ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star$v.svg", array('width' => "50px")) ?>
+                <?= Icon::create($plugin->getPluginURL()."/assets/".$icon_prefix."star$v.svg")->asImg("50px") ?>
                 <? $v = $marketplugin['rating'] >= 3.75 ? 3 : ($marketplugin['rating'] >= 3.25 ? 2 : "") ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star$v.svg", array('width' => "50px")) ?>
+                <?= Icon::create($plugin->getPluginURL()."/assets/".$icon_prefix."star$v.svg")->asImg("50px") ?>
                 <? $v = $marketplugin['rating'] >= 4.75 ? 3 : ($marketplugin['rating'] >= 4.25 ? 2 : "") ?>
-                <?= Assets::img($plugin->getPluginURL()."/assets/".$icon_prefix."star$v.svg", array('width' => "50px")) ?>
+                <?= Icon::create($plugin->getPluginURL()."/assets/".$icon_prefix."star$v.svg")->asImg("50px") ?>
             <? if (!$marketplugin->isWritable()) : ?>
                 </a>
             <? endif ?>
@@ -276,15 +277,15 @@ if ($image) {
                 </div>
                 <div>
                     <? $v = $review['rating'] >= 1 ? 3 : "" ?>
-                    <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "20px")) ?>
+                    <?= Icon::create($plugin->getPluginURL()."/assets/star$v.svg")->asImg("20px") ?>
                     <? $v = $review['rating'] >= 2 ? 3 : "" ?>
-                    <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "20px")) ?>
+                    <?= Icon::create($plugin->getPluginURL()."/assets/star$v.svg")->asImg("20px") ?>
                     <? $v = $review['rating'] >= 3 ? 3 : "" ?>
-                    <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "20px")) ?>
+                    <?= Icon::create($plugin->getPluginURL()."/assets/star$v.svg")->asImg("20px") ?>
                     <? $v = $review['rating'] >= 4 ? 3 : "" ?>
-                    <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "20px")) ?>
+                    <?= Icon::create($plugin->getPluginURL()."/assets/star$v.svg")->asImg("20px") ?>
                     <? $v = $review['rating'] >= 5 ? 3 : "" ?>
-                    <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "20px")) ?>
+                    <?= Icon::create($plugin->getPluginURL()."/assets/star$v.svg")->asImg("20px") ?>
                 </div>
                 <?= htmlReady($review['review']) ?>
             </blockquote>
