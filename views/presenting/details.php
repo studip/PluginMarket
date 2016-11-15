@@ -57,7 +57,7 @@ if ($image) {
             <? endif; ?>
             <? if ($use->isEditable()): ?>
                 <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/delete_usage/" . $use->id) ?>">
-                    <?= Assets::img('icons/blue/trash.svg'); ?>
+                    <?= Icon::create('trash', "clickable")->asImg("20px"); ?>
                 </a>
             <? endif; ?>
         </li>
@@ -76,7 +76,7 @@ if ($image) {
         <? foreach ($tags as $key => $tag) : ?>
             <?= $key > 0 ? "," : "" ?>
             <a href="<?= URLHelper::getLink("plugins.php/pluginmarket/presenting/all", array('tag' => $tag)) ?>">
-                <?= Assets::img("icons/16/blue/tag", array('class' => "text-bottom")) ?>
+                <?= Icon::create("tag", "clickable")->asImg("20px", array('class' => "text-bottom")) ?>
                 <?= htmlReady(ucwords($tag)) ?>
             </a>
         <? endforeach ?>
@@ -128,7 +128,7 @@ if ($image) {
         <tr>
             <td>
                 <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/download/". $release->getId()) ?>" title="<?= _("Dieses Release runterladen") ?>">
-                    <?= Assets::img("icons/20/blue/download", array('class' => "text-bottom")) ?>
+                    <?= Icon::create("download", "clickable")->asImg("20px", array('class' => "text-bottom")) ?>
                     <?= htmlReady($release['version']) ?>
                 </a>
             </td>
@@ -140,15 +140,15 @@ if ($image) {
             <td class="actions">
                 <? if ($marketplugin->isWritable()) : ?>
                     <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit_release/" . $release->getId()) ?>" data-dialog>
-                        <?= Assets::img("icons/20/blue/edit", array('class' => "text-bottom")) ?>
+                        <?= Icon::create("edit", "clickable")->asImg("20px", array('class' => "text-bottom")) ?>
                     </a>
                     <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/delete_release/" . $release->getId())  ?>">
-                        <?= Assets::img("icons/20/blue/trash", array('class' => "text-bottom", 'onclick' => "return window.confirm('"._("Pluginrelease wirklich unwiderrufbar löschen?")."');")) ?>
+                        <?= Icon::create("trash", "clickable")->asImg("20px", array('class' => "text-bottom", 'onclick' => "return window.confirm('"._("Pluginrelease wirklich unwiderrufbar löschen?")."');")) ?>
                     </a>
                 <? endif ?>
                 <? if ($GLOBALS['perm']->have_perm("autor")) : ?>
                     <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/follow_release/" . $release->getId()) ?>" title="<?= _("Für automatische Updates registrieren.") ?>" data-dialog>
-                        <?= Assets::img("icons/20/blue/rss", array('class' => "text-bottom")) ?>
+                        <?= Icon::create("rss", "clickable")->asImg("20px", array('class' => "text-bottom")) ?>
                     </a>
                 <? endif ?>
             </td>
@@ -160,7 +160,7 @@ if ($image) {
         <tr>
             <td colspan="7">
                 <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/add_release/" . $marketplugin->getId()) ?>" data-dialog>
-                    <?= Assets::img("icons/20/blue/add") ?>
+                    <?= Icon::create("add", "clickable")->asImg("20px", array('class' => "text-bottom")) ?>
                 </a>
             </td>
         </tr>
