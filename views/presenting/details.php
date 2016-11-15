@@ -38,7 +38,7 @@ if ($image) {
     <? if ($marketplugin->isWritable()) : ?>
     <div>
         <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit_images/". $marketplugin->getId())  ?>" data-dialog title="<?= _("Galerie bearbeiten / neue Bilder hinzufügen") ?>">
-            <?= Assets::img("icons/20/blue/add") ?>
+            <?= Icon::create("add", "clickable")->asImg("20px") ?>
         </a>
     </div>
     <? endif ?>
