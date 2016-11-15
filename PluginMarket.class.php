@@ -24,7 +24,7 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
 
         $overview = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview"));
         $top->addSubNavigation("presenting", $overview);
-        $overview->addSubNavigation("overview", new AutoNavigation(_('Ãœbersicht'), PluginEngine::getURL($this, array(), "presenting/overview")));
+        $overview->addSubNavigation("overview", new AutoNavigation(_('Übersicht'), PluginEngine::getURL($this, array(), "presenting/overview")));
         $overview->addSubNavigation("all", new AutoNavigation(_('Alle Plugins'), PluginEngine::getURL($this, array(), "presenting/all")));
         $overview->addSubNavigation("tools", new AutoNavigation(_('Tools'), PluginEngine::getURL($this, array(), "tools/sidebar_graphics_generator")));
 
@@ -41,13 +41,13 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
             }
         }
         if ($GLOBALS['perm']->have_perm("root")) {
-            $approving = new Navigation(_("QualitÃ¤tssicherung"), PluginEngine::getURL($this, array(), "approving/overview"));
+            $approving = new Navigation(_("Qualitätssicherung"), PluginEngine::getURL($this, array(), "approving/overview"));
             $top->addSubNavigation("approving", $approving);
         }
         Navigation::addItem("/pluginmarket", $top);
 
         $loginlink = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview"));
-        $loginlink->setDescription(_("Laden Sie hier Plugins fÃ¼r Ihr Stud.IP herunter"));
+        $loginlink->setDescription(_("Laden Sie hier Plugins für Ihr Stud.IP herunter"));
         Navigation::addItem("/login/pluginmarket",$loginlink);
 
         NotificationCenter::addObserver($this, "triggerFollowingStudips", "PluginReleaseDidUpdateCode");
