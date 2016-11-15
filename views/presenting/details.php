@@ -273,7 +273,9 @@ if ($image) {
             <blockquote class="quote">
                 <div class="author">
                     <div style="float: right;"><?= date("j.n.Y", $review['chdate']) ?></div>
-                    <?= sprintf(_("Rezension von %s"), $GLOBALS['user']->id !== "nobody" ? '<a style="color: white;" href="'.URLHelper::getLink("dispatch.php/profile", array('username' => get_username($review['user_id']))).'">'.Assets::img("icons/16/white/link-intern", array('class' => "text-bottom"))." ".htmlReady(get_fullname($review['user_id'])).'</a>' : htmlReady(get_fullname($review['user_id'])) ) ?>:
+                    <?= sprintf(_("Rezension von %s"), $GLOBALS['user']->id !== "nobody"
+                        ? '<a style="color: white;" href="'.URLHelper::getLink("dispatch.php/profile", array('username' => get_username($review['user_id']))).'">'.Icon::create("link-intern", "info_alt")->asImg("16px", array('class' => "text-bottom"))." ".htmlReady(get_fullname($review['user_id'])).'</a>'
+                        : htmlReady(get_fullname($review['user_id'])) ) ?>:
                 </div>
                 <div>
                     <? $v = $review['rating'] >= 1 ? 3 : "" ?>
