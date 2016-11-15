@@ -181,7 +181,11 @@ class PresentingController extends MarketController
         // Add actions widget
         $sidebar = Sidebar::Get();
         $actions = new ActionsWidget();
-        $actions->addLink(_('Nutzung mitteilen'), $this->url_for('presenting/propose_usage/'.$this->marketplugin->id), 'icons/16/blue/add.svg')->asDialog('size=auto');
+        $actions->addLink(
+            _('Nutzung mitteilen'),
+            $this->url_for('presenting/propose_usage/'.$this->marketplugin->id),
+            Icon::create('add', "clickable")
+        )->asDialog('size=auto');
         $sidebar->addWidget($actions);
     }
 
