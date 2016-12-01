@@ -41,7 +41,7 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
                 }
             }
         }
-        if ($GLOBALS['perm']->have_perm("root")) {
+        if (RolePersistence::isAssignedRole($GLOBALS['user']->id, "Pluginbeauftragter")) {
             $approving = new Navigation(_("Qualitätssicherung"), PluginEngine::getURL($this, array(), "approving/overview"));
             $top->addSubNavigation("approving", $approving);
         }

@@ -51,9 +51,16 @@ class MarketPlugin extends SimpleORMap {
     public function requestReview() {
         if ($this->content['publiclyvisible'] && !$this->content_db['publiclyvisible'] && !$this['approved']) {
             $messaging = new messaging();
-            foreach (User::findByPerms("root") as $rootuser) {
+            $statement = DBManager::get()->prepare("
+                SELECT roles_user.user_id
+                FROM roles
+                    INNER JOIN roles_user ON (roles.roleid = roles_user.roleid)
+                WHERE roles.rolename = 'Pluginbeauftragter'
+            ");
+            $statement->execute();
+            foreach ($statement->fetchAll(PDO::FETCH_COLUMN, 0) as $beauftragter) {
                 $messaging->sendSystemMessage(
-                    $rootuser['user_id'],
+                    $beauftragter,
                     sprintf(_("Plugin %s braucht ein Review"), $this['name']),
                     _("Auf dem Marktplatz wurde ein neues Plugin öffentlich geschaltet. Es kann allerdings erst öffentlich auf dem Marktplatz erscheinen, wenn Sie das Plugin einmal reviewt haben und freischalten. Gehen Sie auf den Pluginmarktplatz und den Reiter 'Qualitätssicherung'.")
                 );
@@ -63,12 +70,13 @@ class MarketPlugin extends SimpleORMap {
 
     public function isWritable($user_id = null) {
         $user_id || $user_id = $GLOBALS['user']->id;
-        return ($this['user_id'] === $user_id) || $GLOBALS['perm']->have_perm("root", $user_id);
+        return ($this['user_id'] === $user_id) || $this->isRootable($user_id);
     }
 
     public function isRootable($user_id = null) {
         $user_id || $user_id = $GLOBALS['user']->id;
-        return $GLOBALS['perm']->have_perm("root", $user_id);
+        return $GLOBALS['perm']->have_perm("root", $user_id)
+                || RolePersistence::isAssignedRole($user_id, "Pluginbeauftragter");
     }
 
     public function getLogoURL($absolute_url = false)

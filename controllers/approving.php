@@ -7,7 +7,7 @@ class ApprovingController extends MarketController
     function before_filter(&$action, &$args)
     {
         parent::before_filter($action, $args);
-        if (!$GLOBALS['perm']->have_perm("root")) {
+        if (!RolePersistence::isAssignedRole($GLOBALS['user']->id, "Pluginbeauftragter")) {
             throw new AcessDeniedException("Kein Zutritt");
         }
 

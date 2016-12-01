@@ -32,7 +32,10 @@ class MarketPluginUsage extends SimpleORMap
     }
 
     public function isEditable() {
-        return $GLOBALS['perm']->have_perm('root') || $this->user_id == User::findCurrent() || $this->plugin->user_id == User::findCurrent()->id;
+        return $GLOBALS['perm']->have_perm('root')
+                || $this->user_id == User::findCurrent()
+                || $this->plugin->user_id == User::findCurrent()->id
+                || RolePersistence::isAssignedRole(User::findCurrent()->id, "Pluginbeauftragter");
     }
 
 }
