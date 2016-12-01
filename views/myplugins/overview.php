@@ -3,6 +3,7 @@
         <tr>
             <th><?= _("Name") ?></th>
             <th><?= _("Letztes Update") ?></th>
+            <th><?= _("Maximale Stud.IP-Version") ?></th>
             <th></th>
             <th></th>
         </tr>
@@ -27,6 +28,17 @@
                 }
             ?>
                 <?= date("j.n.Y, G:i", $chdate) ?> <?= _("Uhr") ?>
+            </td>
+            <td>
+                <?
+                $max = "0.1";
+                foreach ($marketplugin->releases as $release) {
+                    if (version_compare($max, $release['studip_max_version'], "<")) {
+                        $max = $release['studip_max_version'];
+                    }
+                    echo htmlReady($max === "0.1" ? "?" : $max);
+                }
+                ?>
             </td>
             <td>
             <? if (!$marketplugin['publiclyvisible']) :  ?>
