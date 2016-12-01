@@ -9,6 +9,7 @@ class AddModeratorRole extends Migration {
             VALUES
                 ('Pluginbeauftragter', 'n');
         ");
+        StudipCacheFactory::getCache()->expire('plugins/rolepersistence/roles');
     }
 
     public function down() {
