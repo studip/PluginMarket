@@ -37,8 +37,8 @@
                     if (version_compare($max, $release['studip_max_version'], "<")) {
                         $max = $release['studip_max_version'];
                     }
-                    echo htmlReady($max === "0.1" ? "?" : $max);
                 }
+                echo htmlReady($max === "0.1" ? "?" : $max);
                 ?>
             </td>
             <td>
