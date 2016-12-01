@@ -14,7 +14,8 @@
         <tr>
             <td>
             <? if ($marketplugin['publiclyvisible'] && !$marketplugin['approved']) : ?>
-                <?= Assets::img("icons/20/red/exclaim-circle", array('title' => _("Plugin wurde noch nicht von einem Administrator freigeschaltet."), 'class' => "text-bottom")) ?>
+                <?= Icon::create('exclaim-circle', 'status-red', ['title' => _("Plugin wurde noch nicht von einem Administrator freigeschaltet."),
+                    'class' => "text-bottom"]) ?>
             <? endif; ?>
                 <a href="<?= $controller->url_for('presenting/details/' . $marketplugin->getId()) ?>">
                     <?= htmlReady($marketplugin['name']) ?>
@@ -42,15 +43,15 @@
             </td>
             <td>
             <? if (!$marketplugin['publiclyvisible']) :  ?>
-                <?= Assets::img("icons/20/grey/lock-locked.png.png", array('title' => _("Plugin ist nicht öffentlich"))) ?>
+                <?= Icon::create('lock-locked', 'inactive', ['title' => _("Plugin ist nicht öffentlich")]) ?>
             <? endif ?>
             </td>
             <td class="actions">
                 <a href="<?= $controller->url_for('myplugins/edit/' . $marketplugin->getId()) ?>" data-dialog title="<?= _("Plugin-Info bearbeiten") ?>">
-                    <?= Assets::img('icons/20/blue/edit') ?>
+                    <?= Icon::create('edit') ?>
                 </a>
                 <a href="<?= $controller->url_for('myplugins/add_release/' . $marketplugin->getId()) ?>" data-dialog title="<?= _("Neues Release hinzufügen") ?>">
-                    <?= Assets::img("icons/20/blue/add") ?>
+                    <?= Icon::create('add') ?>
                 </a>
             </td>
         </tr>
@@ -62,6 +63,7 @@
             </td>
         </tr>
 <? endif; ?>
+
     </tbody>
 </table>
 
@@ -70,7 +72,7 @@ $sidebar = Sidebar::Get();
 $sidebar->setImage(Assets::image_path("sidebar/plugin-sidebar.png"));
 $actions = new ActionsWidget();
 $actions->addLink(_("Neues Plugin eintragen"),
-                  $controller->url_for('myplugins/add'),
-                  'icons/16/blue/add.png')->asDialog();
+    $controller->url_for('myplugins/add'),
+    Icon::create('add'))->asDialog();
 $sidebar->addWidget($actions);
 

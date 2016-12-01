@@ -40,18 +40,18 @@
                 </td>
                 <? $score = $marketplugin['rating'] ?>
                 <? $score = round($score, 1) / 2 ?>
-                <td data-sort="<?=$score?>">
+                <td data-sort="<?= $score ?>">
                     <span class="starscore">
                         <? $v = $score >= 1 ? 3 : ($score >= 0.5 ? 2 : "") ?>
-                        <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "16px", 'class' => "big-image-handled")) ?>
+                        <?= Icon::create($plugin->getPluginURL() . "/assets/star$v.svg")->asImg('16px')?>
                         <? $v = $score >= 2 ? 3 : ($score >= 1.5 ? 2 : "") ?>
-                        <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "16px", 'class' => "big-image-handled")) ?>
+                        <?= Icon::create($plugin->getPluginURL() . "/assets/star$v.svg")->asImg('16px')?>
                         <? $v = $score >= 3 ? 3 : ($score >= 2.5 ? 2 : "") ?>
-                        <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "16px", 'class' => "big-image-handled")) ?>
+                        <?= Icon::create($plugin->getPluginURL() . "/assets/star$v.svg")->asImg('16px') ?>
                         <? $v = $score >= 4 ? 3 : ($score >= 3.5 ? 2 : "") ?>
-                        <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "16px", 'class' => "big-image-handled")) ?>
+                        <?= Icon::create($plugin->getPluginURL() . "/assets/star$v.svg")->asImg('16px') ?>
                         <? $v = $score > 4.5 ? 3 : ($score >= 4.5 ? 2 : "") ?>
-                        <?= Assets::img($plugin->getPluginURL()."/assets/star$v.svg", array('width' => "16px", 'class' => "big-image-handled")) ?>
+                        <?= Icon::create($plugin->getPluginURL() . "/assets/star$v.svg")->asImg('16px')?>
                     </span>
                 </td>
             </tr>

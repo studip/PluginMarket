@@ -28,7 +28,7 @@
 
 <div id="save_instructions" style="display: none; padding: 20px;">
     <a href="#" id="downloader" onClick="this.href=window.document.getElementById('sidebar_image').toDataURL('image/png');" download="testXXX.png">
-        <?= Assets::img("icons/16/blue/download") ?>
+        <?= Icon::create("icons/16/blue/download") ?>
         <?= _("Speichern unter ...") ?>
     </a>
 </div>

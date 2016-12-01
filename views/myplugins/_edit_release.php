@@ -24,7 +24,7 @@
         </legend>
         <label>
             <a style="cursor: pointer">
-                <?= Assets::img("icons/20/blue/upload") ?>
+                <?= Icon::create('upload') ?>
                 <input type="file" name="release_file">
             </a>
         </label>

@@ -26,7 +26,7 @@
             </td>
             <td class="actions">
                 <a href="<?= $controller->url_for('approving/review/' . $marketplugin->getId()) ?>" data-dialog>
-                    <?= Assets::img("icons/20/blue/assessment") ?>
+                    <?= Icon::create('assessment') ?>
                 </a>
             </td>
         </tr>
