@@ -8,7 +8,7 @@ class ApprovingController extends MarketController
     {
         parent::before_filter($action, $args);
         if (!RolePersistence::isAssignedRole($GLOBALS['user']->id, "Pluginbeauftragter")) {
-            throw new AcessDeniedException("Kein Zutritt");
+            throw new AccessDeniedException("Kein Zutritt");
         }
 
         Navigation::activateItem("/pluginmarket/approving");
