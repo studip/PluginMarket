@@ -170,4 +170,5 @@ class MarketPlugin extends SimpleORMap {
 
         return $rating;
     }
+
 }

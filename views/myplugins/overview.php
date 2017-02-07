@@ -66,7 +66,13 @@
 
     </tbody>
 </table>
-
+<? if ($edit_plugin_id = Request::option('edit_plugin_id')): ?>
+    <script>
+        jQuery(function ($) {
+            STUDIP.Dialog.fromURL('<?= $controller->url_for('myplugins/edit/' . $edit_plugin_id) ?>');
+        });
+    </script>
+<? endif; ?>
 <?
 $sidebar = Sidebar::Get();
 $sidebar->setImage(Assets::image_path("sidebar/plugin-sidebar.png"));
@@ -74,5 +80,14 @@ $actions = new ActionsWidget();
 $actions->addLink(_("Neues Plugin eintragen"),
     $controller->url_for('myplugins/add'),
     Icon::create('add'))->asDialog();
+$actions->addElement(new WidgetElement(
+        '<form action="' . $controller->url_for('myplugins/addfromzip') .'"
+      method="post" enctype="multipart/form-data" class="drag-and-drop">
+      <input type="hidden" name="release[type]" value="zipfile">
+    '. CSRFProtection::tokenTag() .'
+    '._('Plugin via Drag and Drop eintragen') .'
+    <input type="file" name="release_file">
+    </form>'
+));
 $sidebar->addWidget($actions);
 

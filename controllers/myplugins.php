@@ -16,11 +16,28 @@ class MypluginsController extends MarketController
         $this->plugins = MarketPlugin::findBySQL("user_id = ? ORDER BY mkdate DESC", array($GLOBALS['user']->id));
     }
 
+    public function addfromzip_action()
+    {
+        CSRFProtection::verifyUnsafeRequest();
+        if (isset($_FILES['release_file']['tmp_name'])) {
+            $plugin = new MarketPlugin();
+            $plugin->setId($plugin->getNewId());
+            $plugin->user_id = $GLOBALS['user']->id;
+            $release = new MarketRelease();
+            $release->plugin = $plugin;
+            $release['user_id'] = $GLOBALS['user']->id;
+            //throws Exception on error
+            $release->installFile();
+            $this->redirect($this->url_for('/overview', ['edit_plugin_id' => $plugin->id]));
+        }
+    }
+
     public function add_action() {
         $this->marketplugin = new MarketPlugin();
         if (Request::isXhr()) {
             $this->set_layout(null);
         }
+
         $this->render_action("edit");
     }
 
@@ -80,6 +97,10 @@ class MypluginsController extends MarketController
                 $data['donationsaccepted'] = 0;
             }
             $this->marketplugin->setData($data);
+            if ($this->marketplugin->isNew() && (MarketPlugin::findOneByPluginname($this->marketplugin->pluginname) || !strlen(trim($this->marketplugin->pluginname)))) {
+                PageLayout::postError(_("Ein Plugin mit diesem Namen ist schon im Marktplatz vorhanden!"));
+                return $this->redirect($this->url_for('/overview'));
+            }
             if ($this->marketplugin->isNew()) {
                 $this->marketplugin['user_id'] = $GLOBALS['user']->id;
             }
@@ -129,9 +150,15 @@ class MypluginsController extends MarketController
                 $release->setData($release_data);
                 $release['plugin_id'] = $this->marketplugin->getId();
                 $release['user_id'] = $GLOBALS['user']->id;
-                $release->installFile();
-                $release->store();
+                try {
+                    $release->installFile();
+                } catch (PluginInstallationException $e) {
+                    PageLayout::postError($e->getMessage());
+
+                    return $this->redirect($this->url_for('/overview'));
+                }
             }
+
         }
         PageLayout::postMessage(MessageBox::success(_("Plugin wurde gespeichert.")));
         $this->redirect('presenting/details/' . $this->marketplugin->getId());

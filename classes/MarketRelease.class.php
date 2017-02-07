@@ -30,7 +30,7 @@ class MarketRelease extends SimpleORMap {
 
     public function delete() {
         parent::delete();
-        unlink($this->getFilePath());
+        @unlink($this->getFilePath());
     }
 
     public function installFile() {
@@ -56,7 +56,13 @@ class MarketRelease extends SimpleORMap {
         } else {
             $plugin_dir = $tmp_folder;
         }
-        $this->installFromDirectory($plugin_dir, $file);
+        try {
+            $this->installFromDirectory($plugin_dir, $file);
+        } catch (PluginInstallationException $e) {
+            rmdirr($tmp_folder);
+            unlink($file);
+            throw $e;
+        }
 
         rmdirr($tmp_folder);
         unlink($file);
@@ -80,7 +86,7 @@ class MarketRelease extends SimpleORMap {
         header('Content-Type: ' . $this->getMimeType());
         header('Content-Disposition: attachment; filename="' . $this->getFilename() . '"');
 
-        readfile($this->getFilePath());
+        @readfile($this->getFilePath());
     }
 
     public function getMimeType()
@@ -90,7 +96,7 @@ class MarketRelease extends SimpleORMap {
 
     public function getFilename()
     {
-        return $this->plugin['name'] . '.zip';
+        return $this->plugin['pluginname'] . '.zip';
     }
 
     public function getContentLength()
@@ -113,9 +119,26 @@ class MarketRelease extends SimpleORMap {
 
     protected function installFromDirectory($dir, $originalfile = null) {
         $manifest = PluginManager::getInstance()->getPluginManifest($dir);
-        if ($manifest['pluginclassname']) {
-            $this->plugin['pluginclassname'] = $manifest['pluginclassname'];
-            $this->plugin->store();
+        if ($manifest['pluginname']) {
+            if ($this->plugin->isNew()) {
+                $this->plugin['pluginname'] = $manifest['pluginname'];
+                $this->plugin['name'] = @$manifest['displayname'] ?: $manifest['pluginname'];
+                $this->plugin['short_description'] = @$manifest['description'] ?: '';
+                $this->plugin['description'] = @$manifest['descriptionlong'] ?: '';
+                if (!$this->plugin['description']) {
+                    $this['repository_overwrites_descriptionfrom'] = 1;
+                }
+                if (MarketPlugin::findOneByPluginname($this->plugin->pluginname)) {
+                    throw new PluginInstallationException(_("Ein Plugin mit diesem Namen ist schon im Marktplatz vorhanden!"));
+                }
+                $this->plugin->store();
+            } else {
+                if ($this->plugin['pluginname'] != $manifest['pluginname']) {
+                    throw new PluginInstallationException(sprintf(_("Release hat falschen Pluginnamen, erwartet:%s gefunden:%s"), $this->plugin['pluginname'], $manifest['pluginname']));
+                }
+            }
+        } else {
+            throw new PluginInstallationException(_("Im Manifest fehlt der Pluginname"));
         }
         $this['studip_min_version'] = $manifest['studipMinVersion'];
         $this['studip_max_version'] = $manifest['studipMaxVersion'];
@@ -196,6 +219,20 @@ class MarketRelease extends SimpleORMap {
             }
         }
         return implode("\n", $arr);
+    }
+
+    public function getPluginName()
+    {
+        $zip = new ZipArchive();
+        if ($zip->open($this->getFilePath())) {
+            $manifest = $zip->getFromIndex($zip->locateName('plugin.manifest', ZipArchive::FL_NOCASE|ZipArchive::FL_NODIR));
+            foreach (array_map('trim',explode("\n", $manifest)) as $line) {
+                list($key, $value) = explode('=', $line);
+                if ($key === 'pluginname') {
+                    return trim($value);
+                }
+            }
+        }
     }
 
 }

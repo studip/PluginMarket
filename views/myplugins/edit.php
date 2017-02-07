@@ -5,10 +5,13 @@
             <?= _("Informationen") ?>
         </legend>
         <label>
-            <?= _("Name des Plugins") ?>
-            <input type="text" name="data[name]" value="<?= htmlReady($marketplugin['name']) ?>">
+            <?= _("Angezeigter Name des Plugins") ?>
+            <input required type="text" name="data[name]" value="<?= htmlReady($marketplugin['name']) ?>">
         </label>
-
+        <label>
+            <?= _("Interner Name des Plugins (aus dem Manifest)") ?>
+            <input required type="text" name="data[pluginname]" value="<?= htmlReady($marketplugin['pluginname']) ?>" <?=!$marketplugin->isNew() ? 'disabled' : ''?>>
+        </label>
         <label>
             <?= _("Kurzbeschreibung") ?>
             <input type="text" name="data[short_description]" value="<?= htmlReady($marketplugin['short_description']) ?>" maxlength="160">
@@ -25,7 +28,7 @@
 
         <label>
             <?= _("Lange Beschreibung") ?>
-            <textarea class="add_toolbar" name="data[description]"><?= htmlReady($marketplugin['description']) ?></textarea>
+            <textarea class="wysiwyg" name="data[description]"><?= htmlReady($marketplugin['description']) ?></textarea>
         </label>
 
         <label>

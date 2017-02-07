@@ -20,7 +20,8 @@ class ExternController extends MarketController
         $plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
         foreach ($plugins as $plugin) {
             $xml_plugin = $xml_plugins->appendChild($this->create_xml_element($doc, 'plugin', null, array(
-                'name'              => $plugin->name,
+                'displayname'       => $plugin->name,
+                'name'              => $plugin->pluginname,
                 'homepage'          => $plugin->url,
                 'short_description' => $plugin->short_description,
                 'description'       => $plugin->description,
