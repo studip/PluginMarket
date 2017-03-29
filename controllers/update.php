@@ -5,6 +5,9 @@ class UpdateController extends MarketController
 {
     public function release_action($release_id)
     {
+        if (!Request::isPost()) {
+            throw new Exception("Only via POST-request.");
+        }
         $release = new MarketRelease($release_id);
         if ($release->isNew()) {
             throw new Exception("Unknown release.");

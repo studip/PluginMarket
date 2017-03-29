@@ -182,6 +182,7 @@ class MypluginsController extends MarketController
         }
         if (!Request::get("use_secret")) {
             $this->release['repository_secret'] = null;
+            $this->release['chdate'] = time();
         } elseif(!$this->release['repository_secret']) {
             $this->release['repository_secret'] = md5(uniqid());
         }
