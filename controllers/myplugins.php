@@ -181,6 +181,7 @@ class MypluginsController extends MarketController
             $this->release['repository_download_url'] = null;
         }
         if (!Request::get("use_secret")) {
+            var_dump("what?"); die();
             $this->release['repository_secret'] = null;
             $this->release['chdate'] = time();
         } elseif(!$this->release['repository_secret']) {
