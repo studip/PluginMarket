@@ -40,7 +40,7 @@
             <input type="text" name="release[repository_download_url]" value="<?= htmlReady($release['repository_download_url']) ?>">
         </label>
         <label>
-            <input type="checkbox" name="use_secret"<? $release->isNew() || $release['repository_secret'] ? " checked" : "" ?> value="1">
+            <input type="checkbox" name="use_secret" <?= $release->isNew() || $release['repository_secret'] ? " checked" : "" ?> value="1">
             <?= _("Automatisches Update absichern über Sicherheitstoken (optional)") ?>
         </label>
         <p class="info">

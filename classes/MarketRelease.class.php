@@ -25,6 +25,7 @@ class MarketRelease extends SimpleORMap {
             'on_delete' => 'delete',
             'on_store' => 'store',
         );
+        $config['additional_fields']['last_upload_time']['get'] = 'getFileMTime';
         parent::configure($config);
     }
 
@@ -101,16 +102,21 @@ class MarketRelease extends SimpleORMap {
 
     public function getContentLength()
     {
-        return filesize($this->getFilePath());
+        return @filesize($this->getFilePath());
+    }
+
+    public function getFileMtime()
+    {
+        return @filemtime($this->getFilePath());
     }
 
     public function getContent()
     {
-        return file_get_contents($this->getFilePath());
+        return @file_get_contents($this->getFilePath());
     }
 
     public function getChecksum() {
-        return md5_file($this->getFilePath());
+        return @md5_file($this->getFilePath());
     }
 
     public function getSecurityHash() {

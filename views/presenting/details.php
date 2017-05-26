@@ -134,7 +134,7 @@ if ($image) {
             </td>
             <td><?= $release['studip_min_version'] ? htmlReady($release['studip_min_version']) : " - " ?></td>
             <td><?= $release['studip_max_version'] ? htmlReady($release['studip_max_version']) : " - " ?></td>
-            <td><?= strftime("%x", $release['mkdate']) ?></td>
+            <td><?= strftime("%x %R", $release['last_upload_time']) ?></td>
             <td><?= htmlReady($release->getChecksum()) ?></td>
             <td><?= htmlReady($release['downloads']) ?></td>
             <td class="actions">
