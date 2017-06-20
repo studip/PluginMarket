@@ -87,9 +87,9 @@ class PresentingController extends MarketController
             }
         }
 
-        $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY RAND() LIMIT 3");
+        $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 AND deprecated = 0 ORDER BY RAND() LIMIT 3");
 
-        $this->latest_plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY mkdate DESC LIMIT 5");
+        $this->latest_plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 AND deprecated = 0 ORDER BY mkdate DESC LIMIT 5");
 
         $best = DBManager::get()->prepare("
             SELECT pluginmarket_plugins.*
@@ -97,6 +97,7 @@ class PresentingController extends MarketController
                 LEFT JOIN pluginmarket_reviews ON (pluginmarket_plugins.plugin_id = pluginmarket_reviews.plugin_id)
             WHERE publiclyvisible = 1
                 AND approved = 1
+                AND deprecated = 0
             GROUP BY pluginmarket_plugins.plugin_id
             ORDER BY pluginmarket_plugins.rating DESC, MAX(pluginmarket_reviews.chdate) DESC
             LIMIT 6
@@ -123,7 +124,7 @@ class PresentingController extends MarketController
                     )
                     AND publiclyvisible = 1
                     AND approved = 1
-                ORDER BY (IF(name LIKE :likesearch, 6, 0) + MATCH (short_description, description) AGAINST (:search)),name ", array(
+                ORDER BY deprecated ASC, (IF(name LIKE :likesearch, 6, 0) + MATCH (short_description, description) AGAINST (:search)), name ", array(
                     'likesearch' => "%".Request::get("search")."%",
                     'search' => Request::get("search")
                 )
@@ -136,7 +137,7 @@ class PresentingController extends MarketController
                 WHERE pluginmarket_tags.tag = :tag
                     AND pluginmarket_plugins.approved = 1
                     AND pluginmarket_plugins.publiclyvisible = 1
-                ORDER BY name
+                ORDER BY deprecated ASC, name ASC
             ");
             $statement->execute(array('tag' => Request::get("tag")));
             $plugin_data = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -148,7 +149,7 @@ class PresentingController extends MarketController
                 $this->plugins[] = $plugin;
             }
         } else {
-            $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
+            $this->plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 AND deprecated = 0 ORDER BY name ASC");
         }
 
         // Filter version
@@ -178,6 +179,10 @@ class PresentingController extends MarketController
 
         $this->marketplugin['rating'] = $this->marketplugin->calculateRating();
         $this->marketplugin->store();
+
+        if ($this->marketplugin['deprecated']) {
+            PageLayout::postInfo(_("Dieses Plugin gilt als veraltet."));
+        }
 
         // Add actions widget
         $sidebar = Sidebar::Get();

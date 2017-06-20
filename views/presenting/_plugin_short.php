@@ -1,4 +1,4 @@
-<article class="contentbox">
+<article class="contentbox<?= $marketplugin['deprecated'] ? " deprecated" : "" ?>">
     <a href="<?= $controller->url_for('presenting/details/' . $marketplugin->getId()) ?>">
         <header>
             <h1><?= htmlReady($marketplugin['name']) ?></h1>

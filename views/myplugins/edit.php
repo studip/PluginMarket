@@ -59,6 +59,13 @@
             <input type="checkbox" name="data[donationsaccepted]" value="1"<?= $marketplugin->isNew() || $marketplugin['donationsaccepted'] ? " checked" : "" ?>>
         </label>
 
+        <? if ($marketplugin->isRootable()) : ?>
+            <label>
+                <?= _("Plugin veraltet") ?>
+                <input type="checkbox" name="data[deprecated]" value="1"<?= $marketplugin['deprecated'] ? " checked" : "" ?>>
+            </label>
+        <? endif ?>
+
 
     </fieldset>
 

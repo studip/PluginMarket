@@ -96,6 +96,12 @@ class MypluginsController extends MarketController
             if (!isset($data["donationsaccepted"])) {
                 $data['donationsaccepted'] = 0;
             }
+            if (!$this->marketplugin->isRootable() && isset($data['deprecated'])) {
+                unset($data['deprecated']);
+            }
+            if ($this->marketplugin->isRootable() && !isset($data['deprecated'])) {
+                $data['deprecated'] = 0;
+            }
             $this->marketplugin->setData($data);
             if ($this->marketplugin->isNew() && (MarketPlugin::findOneByPluginname($this->marketplugin->pluginname) || !strlen(trim($this->marketplugin->pluginname)))) {
                 PageLayout::postError(_("Ein Plugin mit diesem Namen ist schon im Marktplatz vorhanden!"));
