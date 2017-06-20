@@ -44,7 +44,7 @@ class MarketPlugin extends SimpleORMap {
     }
 
     public function requestReview() {
-        if ($this->content['publiclyvisible'] && !$this->content_db['publiclyvisible'] && !$this['approved']) {
+        if ($this['publiclyvisible'] && ($this->isNew() || $this->isFieldDirty("publiclyvisible")) && !$this['approved']) {
             $messaging = new messaging();
             $statement = DBManager::get()->prepare("
                 SELECT roles_user.userid
