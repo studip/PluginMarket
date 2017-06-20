@@ -16,6 +16,7 @@ class MypluginsController extends MarketController
         $this->plugins = MarketPlugin::findBySQL("LEFT JOIN pluginmarket_user_plugins USING (plugin_id) 
             WHERE pluginmarket_plugins.user_id = :user_id 
                 OR pluginmarket_user_plugins.user_id = :user_id
+            GROUP BY pluginmarket_plugins.plugin_id
             ORDER BY mkdate DESC", array('user_id' => $GLOBALS['user']->id)
         );
     }
