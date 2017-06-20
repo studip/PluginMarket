@@ -66,7 +66,9 @@ class MarketPlugin extends SimpleORMap {
 
     public function isWritable($user_id = null) {
         $user_id || $user_id = $GLOBALS['user']->id;
-        return ($this['user_id'] === $user_id) || $this->isRootable($user_id);
+        return ($this['user_id'] === $user_id)
+            || $this->isRootable($user_id)
+            || in_array($user_id, $this->more_users->pluck("user_id"));
     }
 
     public function isRootable($user_id = null) {
@@ -166,5 +168,4 @@ class MarketPlugin extends SimpleORMap {
 
         return $rating;
     }
-
 }

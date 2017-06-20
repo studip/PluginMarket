@@ -8,3 +8,18 @@ $(document).ready(function () {
         });
     });
 });
+
+STUDIP.PluginMarket = {
+    addCollaborator: function (user_id, name) {
+        jQuery.ajax({
+            url: STUDIP.ABSOLUTE_URI_STUDIP + "plugins.php/pluginmarket/myplugins/add_user",
+            data: {
+                "user_id": user_id
+            },
+            success: function (html) {
+                jQuery(html).hide().appendTo("#plugincollaborators").fadeIn();
+            }
+        });
+        return false;
+    }
+};

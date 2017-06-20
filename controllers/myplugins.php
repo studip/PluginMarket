@@ -13,7 +13,11 @@ class MypluginsController extends MarketController
 
     public function overview_action()
     {
-        $this->plugins = MarketPlugin::findBySQL("user_id = ? ORDER BY mkdate DESC", array($GLOBALS['user']->id));
+        $this->plugins = MarketPlugin::findBySQL("LEFT JOIN pluginmarket_user_plugins USING (plugin_id) 
+            WHERE pluginmarket_plugins.user_id = :user_id 
+                OR pluginmarket_user_plugins.user_id = :user_id
+            ORDER BY mkdate DESC", array('user_id' => $GLOBALS['user']->id)
+        );
     }
 
     public function addfromzip_action()
@@ -166,6 +170,51 @@ class MypluginsController extends MarketController
             }
 
         }
+
+        foreach (Request::getArray("collaborator") as $user_id) {
+            if ($this->marketplugin['user_id'] !== $user_id) {
+                $statement = DBManager::get()->prepare("
+                    INSERT IGNORE INTO pluginmarket_user_plugins
+                    SET user_id = :user_id,
+                        plugin_id = :plugin_id
+                ");
+                $statement->execute(array(
+                    'user_id' => $user_id,
+                    'plugin_id' => $this->marketplugin->getId()
+                ));
+            }
+        }
+        $this->marketplugin->store();
+        foreach (Request::getArray("drop_collaborator") as $user_id) {
+            if ($this->marketplugin['user_id'] === $user_id) {
+                if (count($this->marketplugin->more_users)) {
+                    $new_boss = $this->marketplugin->more_users[0];
+                    $this->marketplugin['user_id'] = $new_boss->getId();
+                    $this->marketplugin->store();
+                    $statement = DBManager::get()->prepare("
+                        DELETE FROM pluginmarket_user_plugins
+                        WHERE user_id = :user_id
+                            AND plugin_id = :plugin_id
+                    ");
+                    $statement->execute(array(
+                        'user_id' => $new_boss->getId(),
+                        'plugin_id' => $this->marketplugin->getId()
+                    ));
+                }
+            } else {
+                $statement = DBManager::get()->prepare("
+                    DELETE FROM pluginmarket_user_plugins
+                    WHERE user_id = :user_id
+                        AND plugin_id = :plugin_id
+                ");
+                $statement->execute(array(
+                    'user_id' => $user_id,
+                    'plugin_id' => $this->marketplugin->getId()
+                ));
+            }
+        }
+
+
         PageLayout::postMessage(MessageBox::success(_("Plugin wurde gespeichert.")));
         $this->redirect('presenting/details/' . $this->marketplugin->getId());
     }
@@ -207,6 +256,12 @@ class MypluginsController extends MarketController
             $this->marketplugin->delete();
             $this->redirect('myplugins/overview');
         }
+    }
+
+    public function add_user_action()
+    {
+        $this->user = User::find(Request::option("user_id"));
+        $this->render_template("myplugins/_collaborator.php");
     }
 
 

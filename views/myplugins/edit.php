@@ -46,6 +46,17 @@
             <input type="text" name="tags" value="<?= htmlReady(ucwords(implode(", ", $marketplugin->getTags()))) ?>">
         </label>
 
+        <div style="margin-bottom: 10px; margin-top: 10px;">
+            <?= _("Mitarbeiter") ?>
+            <ul class="clean" style="margin-bottom: 5px;" id="plugincollaborators">
+                <?= $this->render_partial("myplugins/_collaborator.php", array('user' => $marketplugin->user)) ?>
+                <? foreach ($marketplugin->more_users as $user) : ?>
+                    <?= $this->render_partial("myplugins/_collaborator.php", array('user' => $user)) ?>
+                <? endforeach ?>
+            </ul>
+            <?= QuickSearch::get("user_id", new StandardSearch("user_id"))->fireJSFunctionOnSelect("STUDIP.PluginMarket.addCollaborator")->render() ?>
+        </div>
+
         <div>
             <?= _("Lizenz") ?>
             <input type="hidden" name="data[license]" value="GPL 2 or later">
