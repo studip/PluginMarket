@@ -267,7 +267,7 @@ class PresentingController extends MarketController
             $this->marketplugin['user_id'],
             PluginEngine::getURL($this->plugin, array(), "presenting/details/".$plugin_id),
             sprintf(_("Ihr Plugin %s wurde von %s bewertet."), $this->marketplugin['name'], get_fullname($GLOBALS['user']->id)),
-            null,
+            "",
             Assets::image_path("icons/blue/star.svg")
         );
 
