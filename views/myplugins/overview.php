@@ -15,7 +15,7 @@
             <td>
             <? if ($marketplugin['publiclyvisible'] && !$marketplugin['approved']) : ?>
                 <?= Icon::create('exclaim-circle', 'status-red', ['title' => _("Plugin wurde noch nicht von einem Administrator freigeschaltet."),
-                    'class' => "text-bottom"]) ?>
+                    'class' => "text-bottom"])->asImg(20) ?>
             <? endif; ?>
                 <a href="<?= $controller->url_for('presenting/details/' . $marketplugin->getId()) ?>">
                     <?= htmlReady($marketplugin['name']) ?>
@@ -48,10 +48,10 @@
             </td>
             <td class="actions">
                 <a href="<?= $controller->url_for('myplugins/edit/' . $marketplugin->getId()) ?>" data-dialog title="<?= _("Plugin-Info bearbeiten") ?>">
-                    <?= Icon::create('edit') ?>
+                    <?= Icon::create('edit', 'clickable')->asImg(20) ?>
                 </a>
                 <a href="<?= $controller->url_for('myplugins/add_release/' . $marketplugin->getId()) ?>" data-dialog title="<?= _("Neues Release hinzufügen") ?>">
-                    <?= Icon::create('add') ?>
+                    <?= Icon::create('add', 'clickable')->asImg(20) ?>
                 </a>
             </td>
         </tr>

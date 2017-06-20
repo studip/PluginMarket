@@ -39,25 +39,21 @@ class MarketPlugin extends SimpleORMap {
             'on_delete' => 'delete',
             'on_store' => 'store'
         );
+        $config['registered_callbacks']['before_store'][] = 'requestReview';
         parent::configure($config);
-    }
-
-    public function __construct($id = null)
-    {
-        $this->registerCallback('before_store', 'requestReview');
-        parent::__construct($id);
     }
 
     public function requestReview() {
         if ($this->content['publiclyvisible'] && !$this->content_db['publiclyvisible'] && !$this['approved']) {
             $messaging = new messaging();
             $statement = DBManager::get()->prepare("
-                SELECT roles_user.user_id
+                SELECT roles_user.userid
                 FROM roles
                     INNER JOIN roles_user ON (roles.roleid = roles_user.roleid)
                 WHERE roles.rolename = 'Pluginbeauftragter'
             ");
             $statement->execute();
+
             foreach ($statement->fetchAll(PDO::FETCH_COLUMN, 0) as $beauftragter) {
                 $messaging->sendSystemMessage(
                     $beauftragter,
