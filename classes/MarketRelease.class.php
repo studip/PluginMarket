@@ -1,6 +1,5 @@
 <?php
 
-require_once 'lib/datei.inc.php';
 require_once __DIR__."/../vendor/Parsedown.php";
 
 class MarketRelease extends SimpleORMap {
@@ -46,7 +45,7 @@ class MarketRelease extends SimpleORMap {
         } else {
             return false;
         }
-        unzip_file($file, $tmp_folder);
+        Studip\ZipArchive::extractToPath($file, $tmp_folder);
         $objects = scandir($tmp_folder);
         if (count($objects) === 3) {
             foreach ($objects as $object) {
@@ -179,8 +178,9 @@ class MarketRelease extends SimpleORMap {
         file_put_contents($dir."/plugin.manifest", $this->createManifest($manifest));
         $hash = md5(uniqid());
         $plugin_raw = $GLOBALS['TMP_PATH']."/plugin_$hash.zip";
-        create_zip_from_directory($dir, $plugin_raw);
-
+        $zip = Studip\ZipArchive::create($plugin_raw);
+        $zip->addFromPath($dir);
+        $zip->close();
         if ($manifest['studipMaxVersion'] !== $this['studip_max_version']) {
             copy($plugin_raw, $this->getFilePath());
         } else {
