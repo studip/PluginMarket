@@ -11,7 +11,7 @@ if ($image) {
 ?>
 
 <? if (!$marketplugin['publiclyvisible']) : ?>
-    <?= PageLayout::postMessage(MessageBox::info(_("Dieses Plugin ist nicht öffentlich."))) ?>
+    <?= PageLayout::postMessage(MessageBox::info(_("Dieses Plugin ist nicht Ã¶ffentlich."))) ?>
 <? endif ?>
 
 <h1><?= htmlReady($marketplugin['name']) ?></h1>
@@ -37,7 +37,7 @@ if ($image) {
     <? endforeach ?>
     <? if ($marketplugin->isWritable()) : ?>
     <div>
-        <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit_images/". $marketplugin->getId())  ?>" data-dialog title="<?= _("Galerie bearbeiten / neue Bilder hinzufügen") ?>">
+        <a href="<?= PluginEngine::getLink($plugin, array(), "myplugins/edit_images/". $marketplugin->getId())  ?>" data-dialog title="<?= _("Galerie bearbeiten / neue Bilder hinzufÃ¼gen") ?>">
             <?= Icon::create("add", "clickable")->asImg("20px") ?>
         </a>
     </div>
@@ -118,7 +118,7 @@ if ($image) {
             <th><?= _("Min. Stud.IP Version") ?></th>
             <th><?= _("Max. Stud.IP Version") ?></th>
             <th><?= _("Hochgeladen am") ?></th>
-            <th><?= _("MD5-Prüfsumme") ?></th>
+            <th><?= _("MD5-PrÃ¼fsumme") ?></th>
             <th><?= _("Downloads") ?></th>
             <th></th>
         </tr>
@@ -143,11 +143,11 @@ if ($image) {
                         <?= Icon::create("edit", "clickable")->asImg("20px", array('class' => "text-bottom")) ?>
                     </a>
                     <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/delete_release/" . $release->getId())  ?>">
-                        <?= Icon::create("trash", "clickable")->asImg("20px", array('class' => "text-bottom", 'onclick' => "return window.confirm('"._("Pluginrelease wirklich unwiderrufbar löschen?")."');")) ?>
+                        <?= Icon::create("trash", "clickable")->asImg("20px", array('class' => "text-bottom", 'onclick' => "return window.confirm('"._("Pluginrelease wirklich unwiderrufbar lÃ¶schen?")."');")) ?>
                     </a>
                 <? endif ?>
                 <? if ($GLOBALS['perm']->have_perm("autor")) : ?>
-                    <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/follow_release/" . $release->getId()) ?>" title="<?= _("Für automatische Updates registrieren.") ?>" data-dialog>
+                    <a href="<?= PluginEngine::getLink($plugin, array(), "presenting/follow_release/" . $release->getId()) ?>" title="<?= _("FÃ¼r automatische Updates registrieren.") ?>" data-dialog>
                         <?= Icon::create("rss", "clickable")->asImg("20px", array('class' => "text-bottom")) ?>
                     </a>
                 <? endif ?>
@@ -184,13 +184,13 @@ if ($image) {
     <? if ($flattr_username || $bitcoin_wallet || $paypal_datafield) : ?>
         <h2><?= _("Spenden") ?></h2>
         <p class="info">
-            <?= _("Der Download ist kostenlos, aber man kann dem Autor mit einer Spende danken und zukünftige Entwicklungen anregen.") ?>
+            <?= _("Der Download ist kostenlos, aber man kann dem Autor mit einer Spende danken und zukÃ¼nftige Entwicklungen anregen.") ?>
         </p>
     <? endif ?>
 
     <div style="text-align: center;">
         <? if ($flattr_username) : ?>
-            <script id='fbowlml'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=<?= urlencode(studip_utf8encode($flattr_username)) ?>&url='+encodeURIComponent(document.URL)+'&title=<?= urlencode(studip_utf8encode($marketplugin['name']." "._("für Stud.IP"))) ?>';f.title='Flattr';f.height=62;f.width=55;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbowlml');</script>
+            <script id='fbowlml'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=<?= urlencode($flattr_username) ?>&url='+encodeURIComponent(document.URL)+'&title=<?= urlencode(studip_utf8encode($marketplugin['name']." "._("fÃ¼r Stud.IP"))) ?>';f.title='Flattr';f.height=62;f.width=55;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbowlml');</script>
         <? endif ?>
 
         <? if ($bitcoin_wallet) : ?>
@@ -220,7 +220,7 @@ if ($image) {
                 <input type="hidden" name="no_note" value="0">
                 <input type="hidden" name="currency_code" value="EUR">
                 <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">
-                <input type="image" src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
+                <input type="image" src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="Jetzt einfach, schnell und sicher online bezahlen â€“ mit PayPal.">
                 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
             </form>
         <? endif ?>
@@ -300,9 +300,9 @@ if ($image) {
 
 <div style="text-align: center">
 <? if ($marketplugin->isWritable()) : ?>
-    <?= \Studip\LinkButton::create(_("Plugin löschen"), PluginEngine::getURL($plugin, array(), 'myplugins/delete/' . $marketplugin->getId()), array('data-dialog' => 1)) ?>
+    <?= \Studip\LinkButton::create(_("Plugin lÃ¶schen"), PluginEngine::getURL($plugin, array(), 'myplugins/delete/' . $marketplugin->getId()), array('data-dialog' => 1)) ?>
     <?= \Studip\LinkButton::create(_("Bearbeiten"), PluginEngine::getURL($plugin, array(), "myplugins/edit/" . $marketplugin->getId()), array('data-dialog' => 1)) ?>
-    <?= \Studip\LinkButton::create(_("Release hinzufügen"), PluginEngine::getURL($plugin, array(), "myplugins/add_release/" . $marketplugin->getId()), array('data-dialog' => 1)) ?>
+    <?= \Studip\LinkButton::create(_("Release hinzufÃ¼gen"), PluginEngine::getURL($plugin, array(), "myplugins/add_release/" . $marketplugin->getId()), array('data-dialog' => 1)) ?>
 <? endif ?>
 <? if (!$marketplugin->isWritable()) : ?>
     <?= \Studip\LinkButton::create(_("Bewertung schreiben"), $controller->url_for('presenting/review/' . $marketplugin->getId()), array('data-dialog' => 1)) ?>

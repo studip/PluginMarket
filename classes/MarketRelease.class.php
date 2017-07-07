@@ -170,7 +170,7 @@ class MarketRelease extends SimpleORMap {
             }
             if ($readme) {
                 $html = Parsedown::instance()->text($readme);
-                $this->plugin['description'] = "<div>".studip_utf8decode($html)."</div>";
+                $this->plugin['description'] = "<div>".$html."</div>";
                 $this->plugin->store();
             }
         }

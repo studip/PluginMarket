@@ -32,7 +32,7 @@
         </label>
 
         <label>
-            <?= _("Sichtbar für alle") ?>
+            <?= _("Sichtbar fÃ¼r alle") ?>
             <input type="checkbox" name="data[publiclyvisible]" value="1"<?= $marketplugin->isNew() || $marketplugin['publiclyvisible'] ? " checked" : "" ?>>
         </label>
 
@@ -61,12 +61,12 @@
             <?= _("Lizenz") ?>
             <input type="hidden" name="data[license]" value="GPL 2 or later">
             <p class="info">
-                <?= _("Stud.IP-Plugins müssen immer mindestens GPL 2 lizensiert sein. Durch das Hochladen erklären Sie, dass auch Ihr Plugin unter der GPL liegt und liegen darf. Wenn Sie nicht das Recht haben, das zu entscheiden, laden Sie jetzt bitte nichts hoch.") ?>
+                <?= _("Stud.IP-Plugins mÃ¼ssen immer mindestens GPL 2 lizensiert sein. Durch das Hochladen erklÃ¤ren Sie, dass auch Ihr Plugin unter der GPL liegt und liegen darf. Wenn Sie nicht das Recht haben, das zu entscheiden, laden Sie jetzt bitte nichts hoch.") ?>
             </p>
         </div>
 
         <label>
-            <?= _("Möglichkeit zum Spenden einblenden") ?>
+            <?= _("MÃ¶glichkeit zum Spenden einblenden") ?>
             <input type="checkbox" name="data[donationsaccepted]" value="1"<?= $marketplugin->isNew() || $marketplugin['donationsaccepted'] ? " checked" : "" ?>>
         </label>
 

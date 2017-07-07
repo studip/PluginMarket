@@ -4,6 +4,6 @@
     <?= $this->render_partial("myplugins/_edit_release.php", array('release' => $release)) ?>
 
     <div data-dialog-button>
-        <?= \Studip\Button::create(_("speichern")) ?>
+        <?= \Studip\Button::create(_("Speichern")) ?>
     </div>
 </form>

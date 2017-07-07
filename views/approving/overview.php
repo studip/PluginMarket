@@ -34,7 +34,7 @@
 <? else: ?>
         <tr>
             <td colspan="2" style="text-align: center;">
-                <?= _("Keine Plugins warten auf eine Qualitätssicherung") ?>
+                <?= _("Keine Plugins warten auf eine QualitÃ¤tssicherung") ?>
             </td>
         </tr>
 <? endif; ?>

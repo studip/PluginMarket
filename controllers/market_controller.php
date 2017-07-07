@@ -38,7 +38,7 @@ class MarketController extends PluginController
             $markdown->set_option('strip_tags', true);
         }
 
-        $string = studip_utf8encode($string);
+        $string = $string;
 
         $string = $purifier->purify($string);
         if ($convert_to_markdown) {

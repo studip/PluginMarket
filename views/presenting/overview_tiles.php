@@ -22,7 +22,7 @@
         <? endforeach ?>
     </div>
 
-    <h2><?= _("Zufällige Plugins") ?></h2>
+    <h2><?= _("ZufÃ¤llige Plugins") ?></h2>
     <div class="plugins_shortview">
         <? foreach ($plugins as $marketplugin) : ?>
             <?= $this->render_partial("presenting/_plugin_short.php", compact("marketplugin", "plugin")) ?>

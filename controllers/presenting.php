@@ -172,7 +172,7 @@ class PresentingController extends MarketController
 
         if (Request::isPost() && Request::submitted("delete_plugin") && $this->marketplugin->isRootable()) {
             $this->marketplugin->delete();
-            PageLayout::postMessage(MessageBox::success(_("Plugin wurde gelöscht.")));
+            PageLayout::postMessage(MessageBox::success(_("Plugin wurde gelÃ¶scht.")));
             $this->redirect('presenting/overview');
             return;
         }
@@ -314,7 +314,7 @@ class PresentingController extends MarketController
         }
 
         if (Request::isXhr()) {
-            $this->response->add_header('X-Title', sprintf(_('Automatisches Update für "%s" einrichten'), $this->release->plugin['name']." ".$this->release['version']));
+            $this->response->add_header('X-Title', sprintf(_('Automatisches Update fÃ¼r "%s" einrichten'), $this->release->plugin['name']." ".$this->release['version']));
             $this->set_layout(null);
             $this->set_content_type('text/html;charset=windows-1252');
         }
@@ -332,7 +332,7 @@ class PresentingController extends MarketController
             } elseif(Request::submitted("unfollow")) {
                 $following = MarketPluginFollower::findByUserAndPlugin($GLOBALS['user']->id, $plugin_id);
                 $following->delete();
-                PageLayout::postMessage(MessageBox::success(_("Sie werden jetzt keine weiteren Neuigkeiten über dieses Plugin als Stud.IP Nachricht bekommen.")));
+                PageLayout::postMessage(MessageBox::success(_("Sie werden jetzt keine weiteren Neuigkeiten Ã¼ber dieses Plugin als Stud.IP Nachricht bekommen.")));
             }
         }
 
@@ -350,7 +350,7 @@ class PresentingController extends MarketController
             $version = $release->version;
             $plugin = $release->plugin;
             $release->delete();
-            PageLayout::postMessage(MessageBox::success(sprintf(_("Das Pluginrelease %s wurde gelöscht."), $version)));
+            PageLayout::postMessage(MessageBox::success(sprintf(_("Das Pluginrelease %s wurde gelÃ¶scht."), $version)));
             $this->redirect($this->url_for('presenting/details/' . $plugin->id));
             return;
         }

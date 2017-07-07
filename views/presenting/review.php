@@ -21,6 +21,6 @@
         </label>
     </fieldset>
     <div data-dialog-button>
-        <?= \Studip\Button::create(_("speichern")) ?>
+        <?= \Studip\Button::create(_("Speichern")) ?>
     </div>
 </form>

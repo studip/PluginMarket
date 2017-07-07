@@ -13,7 +13,7 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
             '2.0', '2.1', '2.2', '2.3', '2.4',
             '2.5',
             '3.0', '3.1', '3.2', "3.3", "3.4", "3.5",
-            "4.0"
+            "4.0", "4.1"
         );
     }
 
@@ -25,7 +25,7 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
 
         $overview = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview"));
         $top->addSubNavigation("presenting", $overview);
-        $overview->addSubNavigation("overview", new AutoNavigation(_('Übersicht'), PluginEngine::getURL($this, array(), "presenting/overview")));
+        $overview->addSubNavigation("overview", new AutoNavigation(_('Ãœbersicht'), PluginEngine::getURL($this, array(), "presenting/overview")));
         $overview->addSubNavigation("all", new AutoNavigation(_('Alle Plugins'), PluginEngine::getURL($this, array(), "presenting/all")));
         $overview->addSubNavigation("tools", new AutoNavigation(_('Tools'), PluginEngine::getURL($this, array(), "tools/sidebar_graphics_generator")));
 
@@ -42,13 +42,13 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
             }
         }
         if (RolePersistence::isAssignedRole($GLOBALS['user']->id, "Pluginbeauftragter")) {
-            $approving = new Navigation(_("Qualitätssicherung"), PluginEngine::getURL($this, array(), "approving/overview"));
+            $approving = new Navigation(_("QualitÃ¤tssicherung"), PluginEngine::getURL($this, array(), "approving/overview"));
             $top->addSubNavigation("approving", $approving);
         }
         Navigation::addItem("/pluginmarket", $top);
 
         $loginlink = new Navigation($this->getDisplayTitle(), PluginEngine::getURL($this, array(), "presenting/overview"));
-        $loginlink->setDescription(_("Laden Sie hier Plugins für Ihr Stud.IP herunter"));
+        $loginlink->setDescription(_("Laden Sie hier Plugins fÃ¼r Ihr Stud.IP herunter"));
         Navigation::addItem("/login/pluginmarket",$loginlink);
 
         NotificationCenter::addObserver($this, "triggerFollowingStudips", "PluginReleaseDidUpdateCode");
@@ -90,7 +90,7 @@ class PluginMarket extends StudIPPlugin implements SystemPlugin, HomepagePlugin
     static public function triggerFollowingStudips($eventname, $release)
     {
         $output = array();
-        $payload = json_encode(studip_utf8encode($output));
+        $payload = json_encode($output);
 
         foreach ($release->followers as $follower) {
             $header = array();

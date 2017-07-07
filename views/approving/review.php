@@ -8,7 +8,7 @@
             <input type="checkbox" name="approved" value="1">
         </label>
         <label>
-            <?= _("Begründung") ?>
+            <?= _("BegrÃ¼ndung") ?>
             <textarea name="review"></textarea>
         </label>
     </fieldset>

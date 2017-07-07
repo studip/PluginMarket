@@ -1,7 +1,7 @@
 <fieldset>
     <legend>
         <? if ($release->isNew()) : ?>
-            <?= _("Release hinzufügen") ?>
+            <?= _("Release hinzufÃ¼gen") ?>
         <? else : ?>
             <?= sprintf(_("Release %s bearbeiten"), htmlReady($release['version'])) ?>
         <? endif ?>
@@ -20,7 +20,7 @@
 
     <fieldset class="release_zip_upload"<?= $release['repository_download_url'] ? ' style="display: none;"' : "" ?>>
         <legend>
-            <?= _("ZIP auswählen") ?>
+            <?= _("ZIP auswÃ¤hlen") ?>
         </legend>
         <label>
             <a style="cursor: pointer">
@@ -41,10 +41,10 @@
         </label>
         <label>
             <input type="checkbox" name="use_secret" <?= $release->isNew() || $release['repository_secret'] ? " checked" : "" ?> value="1">
-            <?= _("Automatisches Update absichern über Sicherheitstoken (optional)") ?>
+            <?= _("Automatisches Update absichern Ã¼ber Sicherheitstoken (optional)") ?>
         </label>
         <p class="info">
-            <?= _("Github.com und gitlab bieten zu jedem Branch und Tag den Download als ZIP-Datei an. Klicken Sie dort mit rechter Maustaste auf den Downloadbutton und kopieren Sie die URL, um sie hier einzufügen. Nach dem Speichern hier können Sie auf github bzw. gitlab Webhooks einrichten, damit der Marktplatz sich automatisch die neuste Version des Plugins vom Repository holt. Damit ist das Plugin auf dem Pluginmarktplatz immer brandaktuell.") ?>
+            <?= _("Github.com und gitlab bieten zu jedem Branch und Tag den Download als ZIP-Datei an. Klicken Sie dort mit rechter Maustaste auf den Downloadbutton und kopieren Sie die URL, um sie hier einzufÃ¼gen. Nach dem Speichern hier kÃ¶nnen Sie auf github bzw. gitlab Webhooks einrichten, damit der Marktplatz sich automatisch die neuste Version des Plugins vom Repository holt. Damit ist das Plugin auf dem Pluginmarktplatz immer brandaktuell.") ?>
         </p>
 
         <label>
@@ -54,7 +54,7 @@
 
         <? if (!$release->isNew()) : ?>
         <p class="info">
-            <?= _("Webhook-URL zum Einfügen in github oder gitlab:") ?>
+            <?= _("Webhook-URL zum EinfÃ¼gen in github oder gitlab:") ?>
             <input type="text" readonly style="border: thin solid #cccccc; background-color: #eeeeee; width:100%;" value="<?= $controller->absolute_url_for('update/release/' . $release->getId(), array('s' => $release->getSecurityHash())) ?>">
         </p>
         <? if ($release['repository_secret']) : ?>

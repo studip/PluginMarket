@@ -3,6 +3,6 @@
     <?= $this->render_partial("myplugins/_edit_images.php", compact("marketplugin")) ?>
 
     <div data-dialog-button>
-        <?= \Studip\Button::create(_("speichern")) ?>
+        <?= \Studip\Button::create(_("Speichern")) ?>
     </div>
 </form>

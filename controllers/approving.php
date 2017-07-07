@@ -51,7 +51,7 @@ class ApprovingController extends MarketController
                 ."\n\n"
                 .($this->marketplugin['approved'] ? _("Es ist in den Marktplatz aufgenommen worden!") : _("Es ist leider noch nicht in den Marktplatz aufgenommen."))
                 ."\n\n"
-                .(Request::get("review") ? _("Begründung:")."\n\n".Request::get("review") : _("Ein ausführliches Review wurde nicht angegeben und muss bei Bedarf direkt angefragt werden.")),
+                .(Request::get("review") ? _("BegrÃ¼ndung:")."\n\n".Request::get("review") : _("Ein ausfÃ¼hrliches Review wurde nicht angegeben und muss bei Bedarf direkt angefragt werden.")),
             get_username($this->marketplugin['user_id']),
             '',
             '',

@@ -58,7 +58,7 @@ class MypluginsController extends MarketController
         $this->marketplugin = new MarketPlugin($plugin_id);
         $this->release = new MarketRelease();
         if (Request::isXhr()) {
-            $this->response->add_header('X-Title', _("Release hinzufügen"));
+            $this->response->add_header('X-Title', _("Release hinzufÃ¼gen"));
             $this->set_layout(null);
         }
         $this->render_action("edit_release");

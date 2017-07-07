@@ -43,14 +43,14 @@
             </td>
             <td>
             <? if (!$marketplugin['publiclyvisible']) :  ?>
-                <?= Icon::create('lock-locked', 'inactive', ['title' => _("Plugin ist nicht öffentlich")]) ?>
+                <?= Icon::create('lock-locked', 'inactive', ['title' => _("Plugin ist nicht Ã¶ffentlich")]) ?>
             <? endif ?>
             </td>
             <td class="actions">
                 <a href="<?= $controller->url_for('myplugins/edit/' . $marketplugin->getId()) ?>" data-dialog title="<?= _("Plugin-Info bearbeiten") ?>">
                     <?= Icon::create('edit', 'clickable')->asImg(20) ?>
                 </a>
-                <a href="<?= $controller->url_for('myplugins/add_release/' . $marketplugin->getId()) ?>" data-dialog title="<?= _("Neues Release hinzufügen") ?>">
+                <a href="<?= $controller->url_for('myplugins/add_release/' . $marketplugin->getId()) ?>" data-dialog title="<?= _("Neues Release hinzufÃ¼gen") ?>">
                     <?= Icon::create('add', 'clickable')->asImg(20) ?>
                 </a>
             </td>
