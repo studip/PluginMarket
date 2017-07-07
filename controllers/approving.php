@@ -12,7 +12,6 @@ class ApprovingController extends MarketController
         }
 
         Navigation::activateItem("/pluginmarket/approving");
-        $this->set_content_type('text/html;charset=windows-1252');
     }
 
     public function overview_action()

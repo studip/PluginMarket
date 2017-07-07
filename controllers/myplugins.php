@@ -6,9 +6,7 @@ class MypluginsController extends MarketController
     function before_filter(&$action, &$args)
     {
         parent::before_filter($action, $args);
-
         Navigation::activateItem("/pluginmarket/myplugins");
-        $this->set_content_type('text/html;charset=windows-1252');
     }
 
     public function overview_action()

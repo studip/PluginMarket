@@ -234,7 +234,6 @@ class PresentingController extends MarketController
         if (Request::isXhr()) {
             $this->response->add_header('X-Title', $this->review->isNew() ? _("Plugin reviewen") : _("Review bearbeiten"));
             $this->set_layout(null);
-            $this->set_content_type('text/html;charset=windows-1252');
         }
     }
 
@@ -316,7 +315,6 @@ class PresentingController extends MarketController
         if (Request::isXhr()) {
             $this->response->add_header('X-Title', sprintf(_('Automatisches Update für "%s" einrichten'), $this->release->plugin['name']." ".$this->release['version']));
             $this->set_layout(null);
-            $this->set_content_type('text/html;charset=windows-1252');
         }
     }
 
@@ -339,7 +337,6 @@ class PresentingController extends MarketController
         if (Request::isXhr()) {
             $this->response->add_header('X-Title', _("Plugin abonnieren"));
             $this->set_layout(null);
-            $this->set_content_type('text/html;charset=windows-1252');
         }
     }
 
