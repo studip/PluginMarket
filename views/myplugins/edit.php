@@ -49,7 +49,7 @@
         <div style="margin-bottom: 10px; margin-top: 10px;">
             <?= _("Mitarbeiter") ?>
             <ul class="clean" style="margin-bottom: 5px;" id="plugincollaborators">
-                <?= $this->render_partial("myplugins/_collaborator.php", array('user' => $marketplugin->user)) ?>
+                <?= $this->render_partial("myplugins/_collaborator.php", array('user' => $marketplugin->user ?: User::findCurrent())) ?>
                 <? foreach ($marketplugin->more_users as $user) : ?>
                     <?= $this->render_partial("myplugins/_collaborator.php", array('user' => $user)) ?>
                 <? endforeach ?>
