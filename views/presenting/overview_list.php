@@ -11,7 +11,7 @@
                 <?= _('Standorte') ?>
             </th>
             <th data-sort-type="sorter">
-                <?= _('Letzte Änderung') ?>
+                <?= _('Letzte Ã„nderung') ?>
             </th>
             <th data-sort-type="int">
                 <?= _('Downloads') ?>
