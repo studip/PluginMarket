@@ -1,7 +1,7 @@
 <form class="default" method="post" action="<?= $controller->url_for('presenting/propose_usage/' . $plugin->id) ?>">
     <fieldset>
         <?= CSRFProtection::tokenTag(); ?>
-        <legend><?= sprintf(_('Pluginnutzung mitteilen für %s'), htmlReady($plugin->name)) ?></legend>
+        <legend><?= sprintf(_('Pluginnutzung mitteilen fÃ¼r %s'), htmlReady($plugin->name)) ?></legend>
         <h3><?= _('Eingetragene Standorte') ?></h3>
         <p class="plugin-usages"><?= join(', ', $plugin->uses->pluck('name')) ?></p>
         <input type="hidden" name="plugin_id" value="<?= $plugin->id ?>">
@@ -11,7 +11,7 @@
         </label>
         <?= Studip\Button::create(_('Eintragen'), 'propose'); ?>
         <? if ($most_used): ?>
-            <h3><?= _('Vorschläge') ?></h3>
+            <h3><?= _('VorschlÃ¤ge') ?></h3>
             <p class="usage-proposes">
                 <? foreach ($most_used as $used): ?>
                     <a class="usage-proposal" href="<?= $controller->url_for('presenting/propose_usage/' . $plugin->id, array('usage' => $used)) ?>">
