@@ -58,7 +58,7 @@ class MarketPlugin extends SimpleORMap {
                 $messaging->sendSystemMessage(
                     $beauftragter,
                     sprintf(_("Plugin %s braucht ein Review"), $this['name']),
-                    _("Auf dem Marktplatz wurde ein neues Plugin öffentlich geschaltet. Es kann allerdings erst öffentlich auf dem Marktplatz erscheinen, wenn Sie das Plugin einmal reviewt haben und freischalten. Gehen Sie auf den Pluginmarktplatz und den Reiter 'Qualitätssicherung'.")
+                    _("Auf dem Marktplatz wurde ein neues Plugin Ã¶ffentlich geschaltet. Es kann allerdings erst Ã¶ffentlich auf dem Marktplatz erscheinen, wenn Sie das Plugin einmal reviewt haben und freischalten. Gehen Sie auf den Pluginmarktplatz und den Reiter 'QualitÃ¤tssicherung'.")
                 );
             }
         }
