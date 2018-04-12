@@ -3,7 +3,7 @@ require_once 'market_controller.php';
 
 class MypluginsController extends MarketController
 {
-    function before_filter(&$action, &$args)
+    public function before_filter(&$action, &$args)
     {
         parent::before_filter($action, $args);
         Navigation::activateItem("/pluginmarket/myplugins");
@@ -11,8 +11,8 @@ class MypluginsController extends MarketController
 
     public function overview_action()
     {
-        $this->plugins = MarketPlugin::findBySQL("LEFT JOIN pluginmarket_user_plugins USING (plugin_id) 
-            WHERE pluginmarket_plugins.user_id = :user_id 
+        $this->plugins = MarketPlugin::findBySQL("LEFT JOIN pluginmarket_user_plugins USING (plugin_id)
+            WHERE pluginmarket_plugins.user_id = :user_id
                 OR pluginmarket_user_plugins.user_id = :user_id
             GROUP BY pluginmarket_plugins.plugin_id
             ORDER BY mkdate DESC", array('user_id' => $GLOBALS['user']->id)
@@ -35,54 +35,49 @@ class MypluginsController extends MarketController
         }
     }
 
-    public function add_action() {
+    public function add_action()
+    {
         $this->marketplugin = new MarketPlugin();
-        if (Request::isXhr()) {
-            $this->set_layout(null);
-        }
 
         $this->render_action("edit");
     }
 
-    public function edit_action($plugin_id) {
+    public function edit_action($plugin_id)
+    {
+        PageLayout::setTitle(_("Plugin bearbeiten"));
+
         $this->marketplugin = new MarketPlugin($plugin_id);
-        if (Request::isXhr()) {
-            $this->response->add_header('X-Title', _("Plugin bearbeiten"));
-            $this->set_layout(null);
-        }
     }
 
-    public function add_release_action($plugin_id) {
+    public function add_release_action($plugin_id)
+    {
+        PageLayout::setTitle(_('Release hinzufügen'));
+
         $this->marketplugin = new MarketPlugin($plugin_id);
         $this->release = new MarketRelease();
-        if (Request::isXhr()) {
-            $this->response->add_header('X-Title', _("Release hinzufügen"));
-            $this->set_layout(null);
-        }
         $this->render_action("edit_release");
     }
 
-    public function edit_release_action($release_id) {
+    public function edit_release_action($release_id)
+    {
+        PageLayout::setTitle(_('Release bearbeiten'));
+
         $this->release = new MarketRelease($release_id);
         $this->marketplugin = $this->release->plugin;
         if (!$this->marketplugin->isNew() && !$this->marketplugin->isWritable()) {
             throw new AccessDeniedException("Kein Zugriff");
         }
-        if (Request::isXhr()) {
-            $this->response->add_header('X-Title', _("Release bearbeiten"));
-            $this->set_layout(null);
-        }
     }
 
-    public function edit_images_action($plugin_id) {
+    public function edit_images_action($plugin_id)
+    {
+        PageLayout::setTitle(_('Galerie bearbeiten'));
+
         $this->marketplugin = new MarketPlugin($plugin_id);
-        if (Request::isXhr()) {
-            $this->response->add_header('X-Title', _("Galerie bearbeiten"));
-            $this->set_layout(null);
-        }
     }
 
-    public function save_action() {
+    public function save_action()
+    {
         if (!Request::isPost()) {
             throw new Exception("Method not allowed. Try a POST request.");
         }
@@ -214,11 +209,12 @@ class MypluginsController extends MarketController
         }
 
 
-        PageLayout::postMessage(MessageBox::success(_("Plugin wurde gespeichert.")));
+        PageLayout::postSuccess(_("Plugin wurde gespeichert."));
         $this->redirect('presenting/details/' . $this->marketplugin->getId());
     }
 
-    public function save_release_action() {
+    public function save_release_action()
+    {
         if (!Request::isPost()) {
             throw new Exception("Method not allowed. Try a POST request.");
         }
@@ -243,12 +239,13 @@ class MypluginsController extends MarketController
 
         $this->release->store();
 
-        PageLayout::postMessage(MessageBox::success(_("Release wurde gespeichert.")));
+        PageLayout::postSuccess(_("Release wurde gespeichert."));
         $this->redirect('presenting/details/' . $this->release->plugin->getId());
     }
 
 
-    public function delete_action($plugin_id) {
+    public function delete_action($plugin_id)
+    {
         $this->marketplugin = MarketPlugin::find($plugin_id);
         if (Request::submitted('delete') && $this->marketplugin->isWritable()) {
             CSRFProtection::verifyUnsafeRequest();
@@ -262,6 +259,4 @@ class MypluginsController extends MarketController
         $this->user = User::find(Request::option("user_id"));
         $this->render_template("myplugins/_collaborator.php");
     }
-
-
 }
