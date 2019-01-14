@@ -176,9 +176,11 @@ if ($image) {
     <?
     //Donations, wenn die Datenfelder "Flattr", "Bitcoin-Wallet" gesetzt sind
     $author = User::find($marketplugin['user_id']);
-    $flattr_username = $author['datafields']->findBy("name", "Flattr")->val("content");
-    $bitcoin_datafield = $author['datafields']->findBy("name", "Bitcoin-Wallet")->val("content");
-    $paypal_datafield = $author['datafields']->findBy("name", "Paypal-Account (Email)")->val("content");
+    if ($author) {
+        $flattr_username = $author['datafields']->findBy("name", "Flattr")->val("content");
+        $bitcoin_datafield = $author['datafields']->findBy("name", "Bitcoin-Wallet")->val("content");
+        $paypal_datafield = $author['datafields']->findBy("name", "Paypal-Account (Email)")->val("content");
+    }
     ?>
 
     <? if ($flattr_username || $bitcoin_wallet || $paypal_datafield) : ?>
