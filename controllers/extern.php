@@ -19,7 +19,7 @@ class ExternController extends MarketController
 
         $plugins = MarketPlugin::findBySQL("publiclyvisible = 1 AND approved = 1 ORDER BY name ASC");
         foreach ($plugins as $plugin) {
-            $xml_plugin = $xml_plugins->appendChild($this->create_xml_element($doc, 'plugin', null, array(
+            $xml_plugin = $xml_plugins->appendChild($this->create_xml_element($doc, 'plugin', null, [
                 'displayname'       => $plugin->name,
                 'name'              => $plugin->pluginname,
                 'homepage'          => $plugin->url,
@@ -27,14 +27,15 @@ class ExternController extends MarketController
                 'description'       => $plugin->description,
                 'image'             => $plugin->getLogoURL(true),
                 'score'             => $plugin['rating'],
-            )));
+                'marketplace_url'   => $this->absolute_url_for("presenting/details/{$plugin->id}"),
+            ]));
             foreach ($plugin->releases as $release) {
-                $xml_plugin->appendChild($this->create_xml_element($doc, 'release', null, array(
+                $xml_plugin->appendChild($this->create_xml_element($doc, 'release', null, [
                     'version'          => $release->version,
                     'studipMinVersion' => $release->studip_min_version,
                     'studipMaxVersion' => $release->studip_max_version,
                     'url'              => $this->absolute_url_for('presenting/download/' . $release->id),
-                )));
+                ]));
             }
         }
 
