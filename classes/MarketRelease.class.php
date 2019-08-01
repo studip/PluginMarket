@@ -149,9 +149,10 @@ class MarketRelease extends SimpleORMap {
         $this['studip_max_version'] = $manifest['studipMaxVersion'];
         if (!$this['studip_max_version']) {
             $versions = PluginMarket::getStudipReleases();
+            preg_match("/^(\d+\.\d+)/", StudipVersion::getStudipVersion(false), $matches);
             $manifest['studipMaxVersion']
                 = $this['studip_max_version']
-                = array_pop($versions).".99";
+                = $matches[1].".99";
             if (!$this['studip_max_version']) {
                 PageLayout::postMessage(MessageBox::info(sprintf(_("Die studipMaxVersion wurde auf %s gesetzt, da keine andere angegeben wurde."), $manifest['studipMaxVersion'])));
             }
