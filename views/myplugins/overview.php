@@ -75,7 +75,6 @@
 <? endif; ?>
 <?
 $sidebar = Sidebar::Get();
-$sidebar->setImage(Assets::image_path("sidebar/plugin-sidebar.png"));
 $actions = new ActionsWidget();
 $actions->addLink(_("Neues Plugin eintragen"),
     $controller->url_for('myplugins/add'),
@@ -90,4 +89,3 @@ $actions->addElement(new WidgetElement(
     </form>'
 ));
 $sidebar->addWidget($actions);
-
