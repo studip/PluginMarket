@@ -192,7 +192,7 @@ if ($image) {
 
     <div style="text-align: center;">
         <? if ($flattr_username) : ?>
-            <script id='fbowlml'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=<?= urlencode($flattr_username) ?>&url='+encodeURIComponent(document.URL)+'&title=<?= urlencode(studip_utf8encode($marketplugin['name']." "._("für Stud.IP"))) ?>';f.title='Flattr';f.height=62;f.width=55;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbowlml');</script>
+            <script id='fbowlml'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=<?= urlencode($flattr_username) ?>&url='+encodeURIComponent(document.URL)+'&title=<?= urlencode($marketplugin['name']." "._("für Stud.IP")) ?>';f.title='Flattr';f.height=62;f.width=55;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbowlml');</script>
         <? endif ?>
 
         <? if ($bitcoin_wallet) : ?>
